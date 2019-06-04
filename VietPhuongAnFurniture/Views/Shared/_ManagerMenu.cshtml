@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@if (SignInManager.IsSignedIn(User))
+{
+    <nav>
+        <ul class="nav navbar-nav">
+            <li><a href="#">Quản lý thông tin</a></li>
+            <li><a href="#">Quản lý sản phẩm</a></li>
+            <li><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+        </ul>
+    </nav>
+}
+else
+{
+    <nav>
+        <ul class="nav navbar-nav">
+            @*<li><a href="#">Quản lý thông tin</a></li>
+                <li><a href="#">Quản lý sản phẩm</a></li>*@
+            <li><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+        </ul>
+    </nav>
+}
