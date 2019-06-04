@@ -13079,11 +13079,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Free\\VietPhuongAn\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
+      "projectUniqueName": "D:\\Free\\VietAnPhuongGit\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
       "projectName": "VietPhuongAnFurniture",
-      "projectPath": "D:\\Free\\VietPhuongAn\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
+      "projectPath": "D:\\Free\\VietAnPhuongGit\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
       "packagesPath": "C:\\Users\\anhqu\\.nuget\\packages\\",
-      "outputPath": "D:\\Free\\VietPhuongAn\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\obj\\",
+      "outputPath": "D:\\Free\\VietAnPhuongGit\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
