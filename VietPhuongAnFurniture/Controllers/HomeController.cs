@@ -32,7 +32,12 @@ namespace VietPhuongAnFurniture.Controllers
 
             return View(productlst);
         }
+        public IActionResult Banner()
+        {
+            var productlst = _context.Products.ToList();
 
+            return View(productlst);
+        }
         public IActionResult Privacy()
         {
             return View();

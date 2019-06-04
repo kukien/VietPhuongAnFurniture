@@ -44,3 +44,4 @@ D:\Free\VietPhuongAn\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netco
 D:\Free\VietPhuongAn\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ManageNavLayout.g.cshtml.cs
 D:\Free\VietPhuongAn\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_AdminMenu.g.cshtml.cs
 D:\Free\VietPhuongAn\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ManagerMenu.g.cshtml.cs
+D:\Free\VietPhuongAn\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Home\Banner.g.cshtml.cs
