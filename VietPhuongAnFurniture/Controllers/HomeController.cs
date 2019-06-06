@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VietPhuongAnFurniture.Data;
@@ -10,6 +11,9 @@ using VietPhuongAnFurniture.Models;
 
 namespace VietPhuongAnFurniture.Controllers
 {
+    //[Authorize(Roles ="Admin")]
+    //[AllowAnonymous]
+
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,20 +31,51 @@ namespace VietPhuongAnFurniture.Controllers
         }
         public IActionResult Index()
         {
-            var productlst = _context.Products.ToList();
-
-
-            return View(productlst);
+            var viewModel = new ViewModel();
+            var lstAllProduct = _context.Products.OrderBy(n=>n.CRUDDate).ToList();
+            viewModel.allProducts = lstAllProduct.Take(100).ToList();
+            viewModel.allBanners = lstAllProduct.Where(n=>n.IsBestSelling == true).Take(10).ToList();
+            viewModel.allCategorizes = _context.Categorizes.ToList();
+            viewModel.allSpecial = lstAllProduct.Take(5).ToList();
+            //CreateRole();
+            return View(viewModel);
         }
-        public IActionResult Banner()
-        {
-            var productlst = _context.Products.ToList();
+        //public IActionResult Banner()
+        //{
+        //    var productlst = _context.Products.ToList();
 
-            return View(productlst);
-        }
+        //    return View(productlst);
+        //}
+
+        //public IActionResult Categories()
+        //{
+        //    var categorizes = _context.Categorizes.ToList();
+
+        //    return View(categorizes);
+        //}
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public void CreateRole()
+        {
+            //var apiResponse = new ApiResponseBase();
+
+            try
+            {
+                var newRole = new IdentityRole();
+                newRole.Name = "Admin";
+                var roleresult = _roleManager.CreateAsync(new IdentityRole(newRole.Name));
+                //apiResponse.MakeTrue("Create Success");
+
+            }
+            catch (Exception ex)
+            {
+                //apiResponse.MakeException(ex.Message);
+            }
+
+            //return apiResponse;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

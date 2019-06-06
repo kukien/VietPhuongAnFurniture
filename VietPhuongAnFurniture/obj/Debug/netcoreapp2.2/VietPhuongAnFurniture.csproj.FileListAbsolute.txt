@@ -92,3 +92,16 @@ D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\ne
 D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\VietPhuongAnFurniture.dll
 D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\VietPhuongAnFurniture.pdb
 D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\VietPhuongAnFurniture.csproj.CopyComplete
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Detail\Create.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Detail\Delete.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Detail\Details.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Detail\Edit.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Detail\Index.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Home\Categories.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Home\Special.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Create.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Delete.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Details.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Edit.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Index.g.cshtml.cs
+D:\Free\VietAnPhuongGit\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Register.g.cshtml.cs

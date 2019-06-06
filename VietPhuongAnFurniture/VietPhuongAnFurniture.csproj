@@ -6,13 +6,30 @@
     <UserSecretsId>2d810547-9def-4c97-b845-55fdd7b29206</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="Areas\Identity\IdentityHostingStartup.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ForgotPassword.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Login.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Logout.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Manage\ManageNavPages.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ResetPassword.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ResetPasswordConfirmation.cshtml.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\Util\" />
   </ItemGroup>
 
 </Project>

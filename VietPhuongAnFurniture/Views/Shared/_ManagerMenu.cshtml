@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @if (SignInManager.IsSignedIn(User))
@@ -7,7 +8,14 @@
         <ul class="nav navbar-nav">
             <li><a href="#">Quản lý thông tin</a></li>
             <li><a href="#">Quản lý sản phẩm</a></li>
-            <li><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+            <li>
+                @*<a asp-area="Identity" asp-page="Pages/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"> Log out</a>*@
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class=" btn btn-sm">
+                        Log out
+                    </button>
+                </form>
+            </li>
         </ul>
     </nav>
 }
