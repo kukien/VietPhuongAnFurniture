@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace VietPhuongAnFurniture.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles ="Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
