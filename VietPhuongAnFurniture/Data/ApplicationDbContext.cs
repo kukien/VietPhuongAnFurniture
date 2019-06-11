@@ -18,7 +18,7 @@ namespace VietPhuongAnFurniture.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
-        public DbSet<Categorize> Categorizes { get; set; }
+        public DbSet<ProductSubType> ProductSubTypes { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Telephone> Telephones { get; set; }
         public DbSet<Website> Websites { get; set; }

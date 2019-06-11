@@ -133,11 +133,6 @@ D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\R
 D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.g.cshtml.cs
 D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewImports.g.cshtml.cs
 D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Areas\Identity\Pages\_ViewStart.g.cshtml.cs
-D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Create.g.cshtml.cs
-D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Delete.g.cshtml.cs
-D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Details.g.cshtml.cs
-D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Edit.g.cshtml.cs
-D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Categorizes\Index.g.cshtml.cs
 D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Detail\Create.g.cshtml.cs
 D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Detail\Delete.g.cshtml.cs
 D:\Project\VietPhuongAnFurniture\VietPhuongAnFurniture\obj\Debug\netcoreapp2.2\Razor\Views\Detail\Details.g.cshtml.cs

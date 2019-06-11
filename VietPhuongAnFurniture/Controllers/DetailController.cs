@@ -213,7 +213,8 @@ namespace VietPhuongAnFurniture.Controllers
                     ProductId = n.ProductId,
                     Index = n.Index,
                     Base64 = ConvertImageToBase64(n.Path)
-                }).ToList();
+                }).OrderBy(o => o.Index).ToList();
+            
             return View(view);
         }
 

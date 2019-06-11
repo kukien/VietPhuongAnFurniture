@@ -35,7 +35,7 @@ namespace VietPhuongAnFurniture.Controllers
             var lstAllProduct = _context.Products.OrderBy(n=>n.CRUDDate).ToList();
             viewModel.allProducts = lstAllProduct.Take(100).ToList();
             viewModel.allBanners = lstAllProduct.Where(n=>n.IsBestSelling == true).Take(10).ToList();
-            viewModel.allCategorizes = _context.Categorizes.ToList();
+            viewModel.allProductTypes = _context.ProductTypes.ToList();
             viewModel.allSpecial = lstAllProduct.Take(5).ToList();
             //CreateRole();
             return View(viewModel);

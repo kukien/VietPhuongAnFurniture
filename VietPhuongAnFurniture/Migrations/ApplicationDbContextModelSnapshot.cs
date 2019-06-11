@@ -188,24 +188,6 @@ namespace VietPhuongAnFurniture.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("VietPhuongAnFurniture.Models.Categorize", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CRUDDate");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categorizes");
-                });
-
             modelBuilder.Entity("VietPhuongAnFurniture.Models.Product", b =>
                 {
                     b.Property<string>("Id")
@@ -231,6 +213,8 @@ namespace VietPhuongAnFurniture.Migrations
                         .HasMaxLength(100);
 
                     b.Property<double>("Price");
+
+                    b.Property<int>("ProductSubTypeId");
 
                     b.Property<string>("Size")
                         .HasMaxLength(50);
@@ -269,14 +253,36 @@ namespace VietPhuongAnFurniture.Migrations
                     b.ToTable("ProductImages");
                 });
 
+            modelBuilder.Entity("VietPhuongAnFurniture.Models.ProductSubType", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CRUDDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("ProductTypeId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductSubTypes");
+                });
+
             modelBuilder.Entity("VietPhuongAnFurniture.Models.ProductType", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ProductId");
+                    b.Property<DateTime>("CRUDDate");
 
-                    b.Property<int>("TypeId");
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200);
 
                     b.HasKey("Id");
 

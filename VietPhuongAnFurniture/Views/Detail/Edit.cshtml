@@ -116,6 +116,42 @@
                         <div class="value-content" hidden></div>
                         <div class="html-editor">
                         </div>
+                        <table id="shopping-cart-table" class="shopping-cart-table table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Ảnh</th>
+                                    <th class="td-name">Tên ảnh</th>
+                                    <th class="td-edit">Vị trí</th>
+                                    <th class="td-remove"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @for (int i = 0; i < Model.ProductImage.Count; i = i + 1)
+                            {
+                                <tr>
+                                    <td class="td-images">
+                                        <a href="product-view.html" class="product-image">
+                                            <img src="../../@Url.Content(Model.ProductImage[i].Path)" alt="" width="70" height="70">
+                                        </a>
+                                    </td>
+                                    <td class="td-name">
+                                        <h2 class="product-name">
+                                            <a href="product-view.html">@Model.ProductImage[i].ImageName</a>
+                                        </h2>
+                                    </td>
+                                    <td class="td-edit">
+                                        <span>@Model.ProductImage[i].Index</span>
+                                    </td>
+                                    <td class="td-remove" style="cursor:pointer;">
+                                        <p style="display:block">@Model.ProductImage[i].Index</p>
+                                        <a class="product-remove">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a><!-- .product-remove -->
+                                    </td>
+                                </tr>   
+                            }
+                            </tbody>
+                        </table><!-- .shopping-cart-table -->
                         <div id="file-uploader"></div>
                         <div id="galleryContainer" style="width: 100%; height: 500px; display: none">
                         </div>
@@ -133,24 +169,11 @@
             </div>
         </div>
     </div><!-- .container -->
-    @for (int i = 0; i < Model.ProductImage.Count; i = i + 1)
-    {
-        <p>@Model.ProductImage[i].ImageName</p>
-    }
 </section><!-- #main -->
 <div id="desHide" style="display: none">@Model.Product.Description</div>
-<a href="#" id="nav1">Link</a>
-<div id="target">&nbsp;</div>
 <script>
     $(document).ready(function () {
-        $("#nav1").click(function() {
-            //var image = $("#target").load("../../text.txt");
-            $.get('../../text.txt',
-                function(data) {
-                    var a = data;
-                    var file = base64toBlob(a, '');
-                });
-        });
+        
     });
     $(".html-editor").html($("#desHide").text());
     // Html Code Editor
@@ -196,32 +219,17 @@
     var imgSrcs = [];
     var imgFilesUploaded = [];
     var imgIndex = "";
-    var lstFileLoadFromSv;
+    var lstFileLoadFromSv = [];
     $(function () {
-        //var file = new File(["foo"], "60888744_2208437242527105_5655052072773484544_n.jpg", {
-        //    name: "60888744_2208437242527105_5655052072773484544_n.jpg",
-        //    size: 115765,
-        //    type: "image/jpeg"
-        //});
-        //$.get('../../text.txt',
-        //    function (data) {
-        //        var a = data;
-        //        var file = base64toBlob(a, 'image/jpeg');
-        //        lstFileLoadFromSv = file;
-        //    });
-        var productImage = '@Model.ProductImage';
-        console.log('productImage: ', productImage);
-        @for (var i = 0; i < Model.ProductImage.Count; i++) {
-            console.log(Model.ProductImage[i]);
-        }
-        var a = "";
-        var file = base64toBlob(a, 'image/jpeg');
-        lstFileLoadFromSv = file;
+        @*var productImage = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ProductImage));
+        for (var i = 0; i < productImage.length; i++) {
+            lstFileLoadFromSv.push(base64toBlob(productImage[i].ImageName, productImage[i].Base64, 'image/jpeg'));
+        }*@
         if (lstFileLoadFromSv) {
             $("#file-uploader").dxFileUploader({
                 multiple: true,
                 accept: "*",
-                value: [lstFileLoadFromSv],
+                value: [],
                 uploadMode: "useButtons",
                 onValueChanged: function(e) {
                     var indexDefault = 1;
@@ -283,7 +291,19 @@
             });
         });
     });
-    function base64toBlob(base64Data, contentType) {
+    var removeStt = false;
+    // Change Icon
+    $('.td-remove').click(function (e) {
+        removeStt = !removeStt;
+        if (removeStt) {
+            $("i", this).css("color", "red");
+        } else {
+            $("i", this).css("color", "black");
+        }
+        $("i", this).toggleClass("fa-trash-o fa-times");
+        var abc = $(this).find('p.value').text();
+    });
+    function base64toBlob(name, base64Data, contentType) {
         contentType = contentType || '';
         var sliceSize = 1024;
         var byteCharacters = atob(base64Data);
@@ -301,6 +321,6 @@
             }
             byteArrays[sliceIndex] = new Uint8Array(bytes);
         }
-        return new File([new Blob(byteArrays, { type: contentType })], "abc.jpg", { type: contentType });
+        return new File([new Blob(byteArrays, { type: contentType })], name, { type: contentType });
     }
 </script>
