@@ -292,7 +292,7 @@
         });
     });
     var removeStt = false;
-    // Change Icon
+    // Change Icon 
     $('.td-remove').click(function (e) {
         removeStt = !removeStt;
         if (removeStt) {
@@ -301,7 +301,8 @@
             $("i", this).css("color", "black");
         }
         $("i", this).toggleClass("fa-trash-o fa-times");
-        var abc = $(this).find('p.value').text();
+        var text = $("p", this);
+        console.log('text: ', text[0]).innerHTML; 
     });
     function base64toBlob(name, base64Data, contentType) {
         contentType = contentType || '';
