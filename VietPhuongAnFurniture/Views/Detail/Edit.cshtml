@@ -136,14 +136,14 @@
                                     </td>
                                     <td class="td-name">
                                         <h2 class="product-name">
-                                            <a href="product-view.html">@Model.ProductImage[i].ImageName</a>
+                                            <a href="product-view.html">@Model.ProductImage[i].Id</a>
                                         </h2>
                                     </td>
                                     <td class="td-edit">
                                         <span>@Model.ProductImage[i].Index</span>
                                     </td>
                                     <td class="td-remove" style="cursor:pointer;">
-                                        <p style="display:block">@Model.ProductImage[i].Index</p>
+                                        <p style="display:block">@Model.ProductImage[i].Id</p>
                                         <a class="product-remove">
                                             <i class="fa fa-trash-o"></i>
                                         </a><!-- .product-remove -->
@@ -302,7 +302,7 @@
         }
         $("i", this).toggleClass("fa-trash-o fa-times");
         var text = $("p", this);
-        console.log('text: ', text[0]).innerHTML; 
+        console.log('text: ', text[0].innerHTML); 
     });
     function base64toBlob(name, base64Data, contentType) {
         contentType = contentType || '';

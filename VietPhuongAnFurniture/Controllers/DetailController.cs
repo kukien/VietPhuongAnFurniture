@@ -207,6 +207,7 @@ namespace VietPhuongAnFurniture.Controllers
             view.ProductImage = _context.ProductImages.Where(n => n.ProductId == id)
                 .Select(n => new ProductImageModel
                 {
+                    Id = n.Id,
                     ImageName = n.ImageName,
                     Extension = n.Extension,
                     Path = n.Path,
