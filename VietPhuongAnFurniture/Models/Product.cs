@@ -21,6 +21,7 @@ namespace VietPhuongAnFurniture.Models
         public string Stuff { get; set; }
         [MaxLength(50)]
         public string Size { get; set; }
+        [DataType(DataType.Currency)]
         public double Price { get; set; }
         public bool Status { get; set; }
         public bool IsBestSelling { get; set; }

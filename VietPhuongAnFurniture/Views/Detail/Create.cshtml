@@ -4,83 +4,280 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .btn-margin-left-10 {
+        margin-left: 10px;
+    }
 
-<h1>Create</h1>
+    .dx-htmleditor-content img {
+        vertical-align: middle;
+        padding-right: 10px;
+    }
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Origin" class="control-label"></label>
-                <input asp-for="Origin" class="form-control" />
-                <span asp-validation-for="Origin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Color" class="control-label"></label>
-                <input asp-for="Color" class="form-control" />
-                <span asp-validation-for="Color" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stuff" class="control-label"></label>
-                <input asp-for="Stuff" class="form-control" />
-                <span asp-validation-for="Stuff" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Size" class="control-label"></label>
-                <input asp-for="Size" class="form-control" />
-                <span asp-validation-for="Size" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsBestSelling" /> @Html.DisplayNameFor(model => model.IsBestSelling)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="View" class="control-label"></label>
-                <input asp-for="View" class="form-control" />
-                <span asp-validation-for="View" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CRUDDate" class="control-label"></label>
-                <input asp-for="CRUDDate" class="form-control" />
-                <span asp-validation-for="CRUDDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    .value-content {
+        margin-top: 20px;
+        overflow: auto;
+        height: 110px;
+        width: 100%;
+        white-space: pre-wrap;
+    }
+
+    .html-editor {
+        margin-bottom: 10px;
+        background: white !important;
+    }
+
+    .checkbox {
+        margin-top: 10px !important;
+    }
+    /*.register-form {
+        background: none !important;
+    }*/
+    .widget-container {
+        margin-right: 320px;
+    }
+
+    .content h4 {
+        margin-bottom: 10px;
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+    .content {
+        margin-top: 50px;
+        margin-left: 10px;
+    }
+
+    .selected-item {
+        margin-bottom: 20px;
+    }
+
+    #selected-files {
+        display: none;
+    }
+    .dx-gallery-item-content > img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .highlight {
+        border: 1px solid red !important;
+    }
+</style>
+<div class="breadcrumb-box">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="index.html">Trang chủ</a> </li>
+            <li class="active">Tạo sản phẩm</li>
+        </ul>
     </div>
-</div>
+</div><!-- .breadcrumb-box -->
+<section id="main">
+    <header class="page-header">
+        <div class="container">
+            <h1 class="title">Tạo sản phẩm mới</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="content login col-sm-12 col-md-12">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="alert alert-error fade in alert-warning alert-dismissable" style="display: none">
+                            <i class="fa fa-warning alert-icon"></i>
+                            Không được để trống tên sản phẩm.
+                        </div>
+                        <label>Tên sản phẩm: <span class="required">*</span></label>
+                        <input class="form-control" type="text" id="pName"/>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+                        <label>Mã sản phẩm:</label>
+                        <input class="form-control" type="text" id="pCode"/>
 
+                        <label>Xuất xứ:</label>
+                        <input class="form-control" type="text" id="pOrigin"/>
+
+                        <label>Màu sắc:</label>
+                        <input class="form-control" type="text" id="pColor"/>
+
+                        <label>Chất liệu:</label>
+                        <input class="form-control" type="text" id="pStuff"/>
+
+                        <label>Kích thước:</label>
+                        <input class="form-control" type="text" id="pSize"/>
+
+                        <label>Giá: (VNĐ)</label>
+                        <input class="form-control" type="text" id="pPrice"/>
+
+                        <label>Thông tin:</label>
+                        <input class="form-control value-description" type="hidden" id="pDes">
+                        <div class="value-content" hidden></div>
+                        <div class="html-editor">
+                        </div>
+                        <div id="file-uploader"></div>
+                        <div id="galleryContainer" style="width: 100%; height: 500px; display: none">
+                        </div>
+                        <div class="checkbox">
+                            <label class="">
+                                <input type="checkbox" id="pBes"> Sản phẩm bán chạy?
+                            </label>
+                        </div>
+                        <div class="buttons-box clearfix">
+                            <button class="btn pull-left btn-success" id="btnSubmit">Tạo sản phẩm</button>
+                            <button id="btnCancel" class="btn pull-left btn-danger btn-margin-left-10">Hủy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- .container -->
+</section><!-- #main -->
+<script>
+    $(document).ready(function() {
+        $("#btnCancel").click(function() {
+            alert($(".value-content").text());
+        });
+    });
+    // Html Code Editor
+    $(function() {
+        $(".html-editor").dxHtmlEditor({
+            height: 300,
+            toolbar: {
+                items: [
+                    "undo", "redo", "separator",
+                    {
+                        formatName: "size",
+                        formatValues: ["8pt", "10pt", "12pt", "14pt", "18pt", "24pt", "36pt"]
+                    },
+                    {
+                        formatName: "font",
+                        formatValues: [
+                            "Arial", "Courier New", "Georgia", "Impact", "Lucida Console", "Tahoma", "Times New Roman",
+                            "Verdana"
+                        ]
+                    },
+                    "separator", "bold", "italic", "strike", "underline", "separator",
+                    "alignLeft", "alignCenter", "alignRight", "alignJustify", "separator",
+                    {
+                        formatName: "header",
+                        formatValues: [false, 1, 2, 3, 4, 5]
+                    }, "separator",
+                    "orderedList", "bulletList", "separator",
+                    "color", "background", "separator",
+                    "link", "image", "separator",
+                    "clear", "codeBlock", "blockquote"
+                ]
+            },
+            mediaResizing: {
+                enabled: true
+            },
+            onValueChanged: function(e) {
+                $(".value-content").text(e.component.option("value"));
+                $(".value-description").val($(".value-content").text());
+            }
+        }).dxHtmlEditor("instance");
+    });
+    // Upload Image
+    var imgSrcs = [];
+    var imgFilesUploaded = [];
+    var imgIndex = "";
+    $(function() {
+        $("#file-uploader").dxFileUploader({
+            multiple: true,
+            accept: "*",
+            value: [],
+            uploadMode: "useButtons",
+            onValueChanged: function(e) {
+                var indexDefault = 1;
+                imgIndex = "";
+                imgSrcs = [];
+                var files = e.value;
+                if (files.length > 0) {
+                    console.log('files: ', files);
+                    $("#galleryContainer").css("display", "block");
+                    $.each(files,
+                        function(i, file) {
+                            var fileURL = URL.createObjectURL(file);
+                            imgSrcs.push({ imageSrc: fileURL, name: file.name });
+                            imgIndex += file.name + ";" + indexDefault + ",";
+                            indexDefault++;
+                        });
+
+                    $("#galleryContainer").dxGallery({
+                        dataSource: imgSrcs
+                    });
+                } else {
+                    $("#galleryContainer").css("display", "none");
+                    $("#galleryContainer").dxGallery({
+                        dataSource: []
+                    });
+                }
+                console.log('imgIndex: ', imgIndex);
+            },
+            onUploaded: function(e) {
+                var file = e.file;
+                imgFilesUploaded.push(file);
+            }
+        }).dxFileUploader("instance");
+    });
+    // Submit
+    $(function() {
+        $("#btnSubmit").click(function(evt) {
+            evt.preventDefault();
+            var files = imgFilesUploaded;
+            var data = new FormData();
+            var name = $("#pName").val().trim();
+            if (name.length > 0) {
+                $(".alert").css("display", "none");
+                data.append('pName', name);
+                data.append('pCode', $("#pCode").val().trim().toUpperCase());
+                data.append('pOrigin', $("#pOrigin").val().trim());
+                data.append('pColor', $("#pColor").val().trim());
+                data.append('pStuff', $("#pStuff").val().trim());
+                data.append('pSize', $("#pSize").val().trim());
+                data.append('pPrice', $("#pPrice").val().trim().replace(/,/g, ""));
+                data.append('pDes', $("#pDes").val().trim());
+                var bestIsChecked = $('#pBes:checked');
+                data.append('pBes', bestIsChecked.length);
+                if (files.length > 0) {
+                    imgIndex = imgIndex.substring(0, imgIndex.length - 1);
+                    for (var i = 0; i < files.length; i++) {
+                        data.append('files', files[i]);
+                    }
+                }
+                data.append('imgIndex', imgIndex);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CreateProduct", "Detail")",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function(message) {
+                        alert(message);
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }
+                });
+            } else {
+                $(".alert").css("display", "block");
+            }
+        });
+    });
+    // Format currency
+    $('#pPrice').simpleMoneyFormat();
+    // Validate ProductName
+    $('#pName').on("focus", function () {
+        if ($("#pName").val().length == 0) {
+            $('#pName').addClass("highlight");
+        } else {
+            $('#pName').removeClass("highlight");
+        }
+    });
+    $("#pName").on('paste keyup', function () {
+        if ($("#pName").val().length == 0) {
+            $('#pName').addClass("highlight");
+        } else {
+            $('#pName').removeClass("highlight");
+        }
+    });
+</script>

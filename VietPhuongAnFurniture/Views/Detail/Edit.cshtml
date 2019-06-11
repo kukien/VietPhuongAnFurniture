@@ -1,87 +1,306 @@
-﻿@model VietPhuongAnFurniture.Models.Product
+﻿@*@model VietPhuongAnFurniture.Models.Product*@
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<style>
+    .btn-margin-left-10 {
+        margin-left: 10px;
+    }
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Origin" class="control-label"></label>
-                <input asp-for="Origin" class="form-control" />
-                <span asp-validation-for="Origin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Color" class="control-label"></label>
-                <input asp-for="Color" class="form-control" />
-                <span asp-validation-for="Color" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stuff" class="control-label"></label>
-                <input asp-for="Stuff" class="form-control" />
-                <span asp-validation-for="Stuff" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Size" class="control-label"></label>
-                <input asp-for="Size" class="form-control" />
-                <span asp-validation-for="Size" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsBestSelling" /> @Html.DisplayNameFor(model => model.IsBestSelling)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="View" class="control-label"></label>
-                <input asp-for="View" class="form-control" />
-                <span asp-validation-for="View" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CRUDDate" class="control-label"></label>
-                <input asp-for="CRUDDate" class="form-control" />
-                <span asp-validation-for="CRUDDate" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    .dx-htmleditor-content img {
+        vertical-align: middle;
+        padding-right: 10px;
+    }
+
+    .value-content {
+        margin-top: 20px;
+        overflow: auto;
+        height: 110px;
+        width: 100%;
+        white-space: pre-wrap;
+    }
+
+    .html-editor {
+        margin-bottom: 10px;
+        background: white !important;
+    }
+
+    .checkbox {
+        margin-top: 10px !important;
+    }
+    /*.register-form {
+        background: none !important;
+    }*/
+    .widget-container {
+        margin-right: 320px;
+    }
+
+    .content h4 {
+        margin-bottom: 10px;
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+    .content {
+        margin-top: 50px;
+        margin-left: 10px;
+    }
+
+    .selected-item {
+        margin-bottom: 20px;
+    }
+
+    #selected-files {
+        display: none;
+    }
+
+    .dx-gallery-item-content > img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .highlight {
+        border: 1px solid red !important;
+    }
+</style>
+<div class="breadcrumb-box">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="index.html">Trang chủ</a> </li>
+            <li class="active">Cập nhật sản phẩm</li>
+        </ul>
     </div>
-</div>
+</div><!-- .breadcrumb-box -->
+<section id="main">
+    <header class="page-header">
+        <div class="container">
+            <h1 class="title">Cập nhật sản phẩm</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="content login col-sm-12 col-md-12">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="alert alert-error fade in alert-warning alert-dismissable" style="display: none">
+                            <i class="fa fa-warning alert-icon"></i>
+                            Không được để trống tên sản phẩm.
+                        </div>
+                        <label>Tên sản phẩm: <span class="required">*</span></label>
+                        <input class="form-control" type="text" id="pName" value="@Model.Product.Name" />
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+                        <label>Mã sản phẩm:</label>
+                        <input class="form-control" type="text" id="pCode" value="@Model.Product.Code" />
 
+                        <label>Xuất xứ:</label>
+                        <input class="form-control" type="text" id="pOrigin" value="@Model.Product.Origin" />
+
+                        <label>Màu sắc:</label>
+                        <input class="form-control" type="text" id="pColor" value="@Model.Product.Color" />
+
+                        <label>Chất liệu:</label>
+                        <input class="form-control" type="text" id="pStuff" value="@Model.Product.Stuff" />
+
+                        <label>Kích thước:</label>
+                        <input class="form-control" type="text" id="pSize" value="@Model.Product.Size" />
+
+                        <label>Giá: (VNĐ)</label>
+                        <input class="form-control" type="text" id="pPrice" value="@Model.Product.Price" />
+
+                        <label>Thông tin:</label>
+                        <input class="form-control value-description" type="hidden" id="pDes">
+                        <div class="value-content" hidden></div>
+                        <div class="html-editor">
+                        </div>
+                        <div id="file-uploader"></div>
+                        <div id="galleryContainer" style="width: 100%; height: 500px; display: none">
+                        </div>
+                        <div class="checkbox">
+                            <label class="">
+                                <input type="checkbox" id="pBes"> Sản phẩm bán chạy?
+                            </label>
+                        </div>
+                        <div class="buttons-box clearfix">
+                            <button class="btn pull-left btn-success" id="btnSubmit">Tạo sản phẩm</button>
+                            <button id="btnCancel" class="btn pull-left btn-danger btn-margin-left-10">Hủy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- .container -->
+    @for (int i = 0; i < Model.ProductImage.Count; i = i + 1)
+    {
+        <p>@Model.ProductImage[i].ImageName</p>
+    }
+</section><!-- #main -->
+<div id="desHide" style="display: none">@Model.Product.Description</div>
+<a href="#" id="nav1">Link</a>
+<div id="target">&nbsp;</div>
+<script>
+    $(document).ready(function () {
+        $("#nav1").click(function() {
+            //var image = $("#target").load("../../text.txt");
+            $.get('../../text.txt',
+                function(data) {
+                    var a = data;
+                    var file = base64toBlob(a, '');
+                });
+        });
+    });
+    $(".html-editor").html($("#desHide").text());
+    // Html Code Editor
+    $(function () {
+        $(".html-editor").dxHtmlEditor({
+            height: 300,
+            toolbar: {
+                items: [
+                    "undo", "redo", "separator",
+                    {
+                        formatName: "size",
+                        formatValues: ["8pt", "10pt", "12pt", "14pt", "18pt", "24pt", "36pt"]
+                    },
+                    {
+                        formatName: "font",
+                        formatValues: [
+                            "Arial", "Courier New", "Georgia", "Impact", "Lucida Console", "Tahoma", "Times New Roman",
+                            "Verdana"
+                        ]
+                    },
+                    "separator", "bold", "italic", "strike", "underline", "separator",
+                    "alignLeft", "alignCenter", "alignRight", "alignJustify", "separator",
+                    {
+                        formatName: "header",
+                        formatValues: [false, 1, 2, 3, 4, 5]
+                    }, "separator",
+                    "orderedList", "bulletList", "separator",
+                    "color", "background", "separator",
+                    "link", "image", "separator",
+                    "clear", "codeBlock", "blockquote"
+                ]
+            },
+            mediaResizing: {
+                enabled: true
+            },
+            onValueChanged: function (e) {
+                $(".value-content").text(e.component.option("value"));
+                $(".value-description").val($(".value-content").text());
+            }
+        }).dxHtmlEditor("instance");
+    });
+    // Upload Image
+    var imgSrcs = [];
+    var imgFilesUploaded = [];
+    var imgIndex = "";
+    var lstFileLoadFromSv;
+    $(function () {
+        //var file = new File(["foo"], "60888744_2208437242527105_5655052072773484544_n.jpg", {
+        //    name: "60888744_2208437242527105_5655052072773484544_n.jpg",
+        //    size: 115765,
+        //    type: "image/jpeg"
+        //});
+        //$.get('../../text.txt',
+        //    function (data) {
+        //        var a = data;
+        //        var file = base64toBlob(a, 'image/jpeg');
+        //        lstFileLoadFromSv = file;
+        //    });
+        var productImage = '@Model.ProductImage';
+        console.log('productImage: ', productImage);
+        @for (var i = 0; i < Model.ProductImage.Count; i++) {
+            console.log(Model.ProductImage[i]);
+        }
+        var a = "";
+        var file = base64toBlob(a, 'image/jpeg');
+        lstFileLoadFromSv = file;
+        if (lstFileLoadFromSv) {
+            $("#file-uploader").dxFileUploader({
+                multiple: true,
+                accept: "*",
+                value: [lstFileLoadFromSv],
+                uploadMode: "useButtons",
+                onValueChanged: function(e) {
+                    var indexDefault = 1;
+                    imgIndex = "";
+                    imgSrcs = [];
+                    var files = e.value;
+                    if (files.length > 0) {
+                        $("#galleryContainer").css("display", "block");
+                        $.each(files,
+                            function(i, file) {
+                                var fileURL = URL.createObjectURL(file);
+                                imgSrcs.push({ imageSrc: fileURL, name: file.name });
+                                imgIndex += file.name + ";" + indexDefault + ",";
+                                indexDefault++;
+                            });
+
+                        $("#galleryContainer").dxGallery({
+                            dataSource: imgSrcs
+                        });
+                    } else {
+                        $("#galleryContainer").css("display", "none");
+                        $("#galleryContainer").dxGallery({
+                            dataSource: []
+                        });
+                    }
+                },
+                onUploaded: function(e) {
+                    var file = e.file;
+                    imgFilesUploaded.push(file);
+                }
+            }).dxFileUploader("instance");
+        } else {
+            console.log("undefined");
+        }
+    });
+    // Submit
+    $(function() {
+        $("#btnSubmit").click(function(evt) {
+            var files = imgFilesUploaded;
+            var data = new FormData();
+            if (files.length > 0) {
+                imgIndex = imgIndex.substring(0, imgIndex.length - 1);
+                for (var i = 0; i < files.length; i++) {
+                    data.append('files', files[i]);
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("EditProduct", "Detail")",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function(message) {
+                    alert(message);
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+        });
+    });
+    function base64toBlob(base64Data, contentType) {
+        contentType = contentType || '';
+        var sliceSize = 1024;
+        var byteCharacters = atob(base64Data);
+        var bytesLength = byteCharacters.length;
+        var slicesCount = Math.ceil(bytesLength / sliceSize);
+        var byteArrays = new Array(slicesCount);
+
+        for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+            var begin = sliceIndex * sliceSize;
+            var end = Math.min(begin + sliceSize, bytesLength);
+
+            var bytes = new Array(end - begin);
+            for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+                bytes[i] = byteCharacters[offset].charCodeAt(0);
+            }
+            byteArrays[sliceIndex] = new Uint8Array(bytes);
+        }
+        return new File([new Blob(byteArrays, { type: contentType })], "abc.jpg", { type: contentType });
+    }
+</script>

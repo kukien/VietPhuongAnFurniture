@@ -247,6 +247,28 @@ namespace VietPhuongAnFurniture.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("VietPhuongAnFurniture.Models.ProductImage", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CRUDDate");
+
+                    b.Property<string>("Extension");
+
+                    b.Property<string>("ImageName");
+
+                    b.Property<int>("Index");
+
+                    b.Property<string>("Path");
+
+                    b.Property<string>("ProductId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductImages");
+                });
+
             modelBuilder.Entity("VietPhuongAnFurniture.Models.ProductType", b =>
                 {
                     b.Property<string>("Id")
