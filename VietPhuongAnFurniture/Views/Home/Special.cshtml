@@ -6,29 +6,25 @@
         <h3 class="title">Sản phẩm mới</h3>
     </header>
     <ul>
-        <li class="clearfix">
-            <a href="product-view.html" class="product-image">
-                <img src="~/img/content/product-7.png" width="64" height="64" alt="" title="">
-            </a>
-            <h3 class="product-name">
-                <a href="product-view.html">Xperia miro</a>
-            </h3>
-            <div class="price-box">
-                <span class="price-old">$1500</span>
-                <span class="price">$1199.00</span>
-            </div>
-        </li>
-        <li class="clearfix">
-            <a href="product-view.html" class="product-image">
-                <img src="~/img/content/product-2.png" width="64" height="64" alt="" title="">
-            </a>
-            <h3 class="product-name">
-                <a href="/product-view.html">Projector VPL-VW95ES</a>
-                <a href="/product-view.html">Projector VPL-VW95ES</a>
-            </h3>
-            <div class="price-box">
-                <div class="price">$3599.00</div>
-            </div>
-        </li>
+
+        @for (int i = 0; i < Model.allSpecial.Count; i++)
+        {
+            @*<li><a href="#">@Model.allCategorizes[i].Name</a></li>*@
+            <li class="clearfix">
+                <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image">
+                    <img src="~/img/content/product-04.jpg" width="64" height="64" alt="" title="">
+                </a>
+                @*<a href="product-view.html" class="product-image">
+                    <img src="~/img/content/product-7.png" width="64" height="64" alt="" title="">
+                </a>*@
+                <h3 class="product-name">
+                    <a href="product-view.html">@Model.allSpecial[i].Name</a>
+                </h3>
+                <div class="price-box">
+                    @*<span class="price-old">@String.Format("{0:n0}", Model.allProducts[i].Price) - VND</span>*@
+                    <span class="price">@String.Format("{0:n0}", Model.allProducts[i].Price) - VND</span>
+                </div>
+            </li>
+        }
     </ul>
 </aside><!-- .specials-->
