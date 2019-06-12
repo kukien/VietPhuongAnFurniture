@@ -120,9 +120,9 @@
                                     <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id">@Model.allProducts[i].Name - @Model.allProducts[i].Code</a>
                                 </h3>
                                 <div class="price">@String.Format("{0:n0}", Model.allProducts[i].Price) - VND</div>
-                                <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="Model.allProducts[i].GImage.Path" class="product-image">
+                                <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image">
                                     @*<img src="~/img/content/product-04.jpg" alt="" title="" width="70" height="70" class="image-sm-custom">*@
-                                    ="product-image">
+                                   
                                     <img alt="Image" src="../../@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="70" height="70">
                                    
                                 </a>
