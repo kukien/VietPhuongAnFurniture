@@ -33,26 +33,29 @@ namespace VietPhuongAnFurniture.Controllers
         {
             var viewModel = new ViewModel();
             var lstAllProduct = _context.Products.OrderBy(n=>n.CRUDDate).ToList();
+            foreach (var item in lstAllProduct)
+            {
+                var imageObj = _context.ProductImages.FirstOrDefault(i => i.ProductId == item.Id && i.Index == 1);
+                if (imageObj == null)
+                {
+                    imageObj = new ProductImage
+                    {
+                        Path = "img/content/product-04.jpg",
+                    };
+                }
+                item.GImage = imageObj;
+
+            }
             viewModel.allProducts = lstAllProduct.Take(100).ToList();
+           
             viewModel.allBanners = lstAllProduct.Where(n=>n.IsBestSelling == true).Take(10).ToList();
             viewModel.allProductTypes = _context.ProductTypes.ToList();
+            viewModel.allProductTypes = _context.ProductTypes.ToList();
             viewModel.allSpecial = lstAllProduct.Take(5).ToList();
-            //CreateRole();
+            viewModel.allProductSubTypes = _context.ProductSubTypes.ToList();
             return View(viewModel);
         }
-        //public IActionResult Banner()
-        //{
-        //    var productlst = _context.Products.ToList();
-
-        //    return View(productlst);
-        //}
-
-        //public IActionResult Categories()
-        //{
-        //    var categorizes = _context.Categorizes.ToList();
-
-        //    return View(categorizes);
-        //}
+       
         public IActionResult Privacy()
         {
             return View();

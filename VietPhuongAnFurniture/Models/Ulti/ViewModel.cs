@@ -13,6 +13,9 @@ namespace VietPhuongAnFurniture.Models
         public List<Product> allBanners { get; set; }
         public List<Product> allSpecial { get; set; }
         public List<ProductType> allProductTypes { get; set; }
-       
+        public List<ProductSubType> allProductSubTypes { get; set; }
+
+        public ProductImage GImage { get; set; }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,6 +29,10 @@ namespace VietPhuongAnFurniture.Models
         public int View { get; set; }
         public string Description { get; set; }
         public DateTime CRUDDate { get; set; }
-        public int ProductSubTypeId { get; set; }
+        public string ProductSubTypeId { get; set; }
+
+        [NotMapped]
+        public ProductImage GImage { get; set; }
+
     }
 }

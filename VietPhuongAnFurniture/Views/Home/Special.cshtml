@@ -12,16 +12,13 @@
             @*<li><a href="#">@Model.allCategorizes[i].Name</a></li>*@
             <li class="clearfix">
                 <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image">
-                    <img src="~/img/content/product-04.jpg" width="64" height="64" alt="" title="">
+                    <img alt="Image" src="../../@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="64" height="64">
+
                 </a>
-                @*<a href="product-view.html" class="product-image">
-                    <img src="~/img/content/product-7.png" width="64" height="64" alt="" title="">
-                </a>*@
                 <h3 class="product-name">
                     <a href="product-view.html">@Model.allSpecial[i].Name</a>
                 </h3>
                 <div class="price-box">
-                    @*<span class="price-old">@String.Format("{0:n0}", Model.allProducts[i].Price) - VND</span>*@
                     <span class="price">@String.Format("{0:n0}", Model.allProducts[i].Price) - VND</span>
                 </div>
             </li>

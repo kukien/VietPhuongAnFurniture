@@ -98,10 +98,9 @@
                                     <span class="sale new"></span>
 
                                 }
-                                <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id= "@Model.allProducts[i].Id" class="product-image">
-                                    <img src="~/img/content/product-04.jpg" alt="" title="" width="270" height="270">
-
-                                </a>
+                                    <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image">
+                                        <img alt="Image" src="../../@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="270" height="270">
+                                    </a>
 
                                 @*<a href="product-view.html" class="product-image">
                                 <img src="~/img/content/product-04.jpg" alt="" title="" width="270" height="270">
@@ -121,7 +120,12 @@
                                     <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id">@Model.allProducts[i].Name - @Model.allProducts[i].Code</a>
                                 </h3>
                                 <div class="price">@String.Format("{0:n0}", Model.allProducts[i].Price) - VND</div>
-                                <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image"> <img src="~/img/content/product-04.jpg" alt="" title="" width="70" height="70"></a>
+                                <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="Model.allProducts[i].GImage.Path" class="product-image">
+                                    @*<img src="~/img/content/product-04.jpg" alt="" title="" width="70" height="70" class="image-sm-custom">*@
+                                    ="product-image">
+                                    <img alt="Image" src="../../@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="70" height="70">
+                                   
+                                </a>
                               
                                 <ul>
                                     <li>@Model.allProducts[i].Size</li>
@@ -151,7 +155,7 @@
 					s2-2,3.334-2c1.47,0,2.666,1.196,2.666,2.667C14.001,9.321,9.867,12.49,8,13.684z"></path>
 				  </svg>
                                     </a>
-                                    <a asp-area="" asp-controller="Detail" asp-action="index" class="add-compare">
+                                    <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="add-compare">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
                                         <path fill="#1e1e1e" d="M16,3.063L13,0v2H1C0.447,2,0,2.447,0,3s0.447,1,1,1h12v2L16,3.063z"></path>
                                         <path fill="#1e1e1e" d="M16,13.063L13,10v2H1c-0.553,0-1,0.447-1,1s0.447,1,1,1h12v2L16,13.063z"></path>

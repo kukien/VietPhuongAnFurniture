@@ -213,7 +213,7 @@ namespace VietPhuongAnFurniture.Controllers
                     Path = n.Path,
                     ProductId = n.ProductId,
                     Index = n.Index,
-                    Base64 = ConvertImageToBase64(n.Path)
+                    //Base64 = ConvertImageToBase64(n.Path)
                 }).OrderBy(o => o.Index).ToList();
             
             return View(view);
@@ -264,31 +264,31 @@ namespace VietPhuongAnFurniture.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProduct(List<IFormFile> files)
+        public async Task<IActionResult> EditProduct(List<IFormFile> fileUploads, string fileDeletes)
         {
             var lstImg = new List<ProductImage>();
             var folderName = "test";
             var webRootPath = _hostingEnvironment.WebRootPath;
             var tempPath = Path.Combine(webRootPath, _folderImages);
             var finalPath = Path.Combine(tempPath, folderName);
-            Directory.CreateDirectory(finalPath);
-            if (files.Count > 0)
-            {
-                var index = 1;
-                foreach (var file in files)
-                {
-                    var extension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')
-                        .Split('.');
-                    var fileExtension = extension[1];
-                    var fileName = extension[0] + "_" + Guid.NewGuid() + "." + fileExtension;
-                    var fullPath = Path.Combine(finalPath, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    index++;
-                }
-            }
+            //Directory.CreateDirectory(finalPath);
+            //if (fileUploads.Count > 0)
+            //{
+            //    var index = 1;
+            //    foreach (var file in fileUploads)
+            //    {
+            //        var extension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')
+            //            .Split('.');
+            //        var fileExtension = extension[1];
+            //        var fileName = extension[0] + "_" + Guid.NewGuid() + "." + fileExtension;
+            //        var fullPath = Path.Combine(finalPath, fileName);
+            //        using (var stream = new FileStream(fullPath, FileMode.Create))
+            //        {
+            //            file.CopyTo(stream);
+            //        }
+            //        index++;
+            //    }
+            //}
             return RedirectToAction("Files");
         }
 

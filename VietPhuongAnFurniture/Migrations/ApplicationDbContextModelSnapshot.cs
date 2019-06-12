@@ -264,7 +264,7 @@ namespace VietPhuongAnFurniture.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ProductTypeId");
+                    b.Property<string>("ProductTypeId");
 
                     b.HasKey("Id");
 

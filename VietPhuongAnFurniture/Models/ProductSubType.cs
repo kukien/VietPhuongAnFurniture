@@ -10,6 +10,6 @@ namespace VietPhuongAnFurniture.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CRUDDate { get; set; }
-        public int ProductTypeId { get; set; }
+        public string ProductTypeId { get; set; }
     }
 }

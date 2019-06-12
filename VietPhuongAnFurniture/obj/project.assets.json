@@ -13080,11 +13080,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Free\\VPAGit\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
+      "projectUniqueName": "C:\\Users\\anhqu\\OneDrive\\Máy tính\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
       "projectName": "VietPhuongAnFurniture",
-      "projectPath": "D:\\Free\\VPAGit\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
+      "projectPath": "C:\\Users\\anhqu\\OneDrive\\Máy tính\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
       "packagesPath": "C:\\Users\\anhqu\\.nuget\\packages\\",
-      "outputPath": "D:\\Free\\VPAGit\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\obj\\",
+      "outputPath": "C:\\Users\\anhqu\\OneDrive\\Máy tính\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
