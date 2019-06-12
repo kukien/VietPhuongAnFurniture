@@ -29,8 +29,8 @@ namespace VietPhuongAnFurniture.Models
         public int View { get; set; }
         public string Description { get; set; }
         public DateTime CRUDDate { get; set; }
+        public string ProductTypeId { get; set; }
         public string ProductSubTypeId { get; set; }
-
         [NotMapped]
         public ProductImage GImage { get; set; }
 
