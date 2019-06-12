@@ -222,7 +222,7 @@ namespace VietPhuongAnFurniture.Controllers
                     Id = n.Id,
                     ImageName = n.ImageName,
                     Extension = n.Extension,
-                    Path = n.Path,
+                    Path = "~/" + n.Path,
                     ProductId = n.ProductId,
                     Index = n.Index,
                     //Base64 = ConvertImageToBase64(n.Path)
