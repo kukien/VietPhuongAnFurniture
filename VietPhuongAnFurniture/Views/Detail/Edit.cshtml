@@ -141,11 +141,11 @@
                                         </td>
                                         <td class="td-name">
                                             <h2 class="product-name">
-                                                <a href="product-view.html">@Model.ProductImage[i].Id</a>
+                                                <span>@Model.ProductImage[i].ImageName</span>
                                             </h2>
                                         </td>
                                         <td class="td-edit">
-                                            <span>@Model.ProductImage[i].Index</span>
+                                            <span class="imgIndex">@Model.ProductImage[i].Index</span>
                                         </td>
                                         <td class="td-remove" style="cursor:pointer;">
                                             <p class="imgTextId" style="display:none">@Model.ProductImage[i].Id</p>
@@ -177,10 +177,21 @@
         </div>
     </div><!-- .container -->
 </section><!-- #main -->
-<div id="desHide" style="display: none">@Model.Product.Description</div>
+<p id="desHide" style="display: none">@Model.Product.Description</p>
+<p id="idHide" style="display: none">@Model.Product.Id</p>
 <script>
     $(document).ready(function () {
 
+    });
+    $('tbody').sortable({
+        start: function (event, ui) {
+            var currPos1 = ui.item.index();
+            console.log('start: ', currPos1);
+        },
+        change: function (event, ui) {
+            var currPos2 = ui.item.index();
+            console.log('change: ', currPos2);
+        }
     });
     $(".html-editor").html($("#desHide").text());
     // Html Code Editor
@@ -226,83 +237,103 @@
     var imgSrcs = [];
     var imgFilesUploaded = [];
     var imgIndex = "";
-    var lstFileLoadFromSv = [];
     $(function () {
         @*var productImage = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ProductImage));
         for (var i = 0; i < productImage.length; i++) {
             lstFileLoadFromSv.push(base64toBlob(productImage[i].ImageName, productImage[i].Base64, 'image/jpeg'));
         }*@
-        if (lstFileLoadFromSv) {
-            $("#file-uploader").dxFileUploader({
-                multiple: true,
-                accept: "*",
-                value: [],
-                uploadMode: "useButtons",
-                selectButtonText: "Chọn ảnh",
-                labelText: "hoặc thả ảnh vào đây",
-                onValueChanged: function(e) {
-                    var indexDefault = 1;
-                    imgIndex = "";
-                    imgSrcs = [];
-                    var files = e.value;
-                    if (files.length > 0) {
-                        $("#galleryContainer").css("display", "block");
-                        $.each(files,
-                            function(i, file) {
-                                var fileURL = URL.createObjectURL(file);
-                                imgSrcs.push({ imageSrc: fileURL, name: file.name });
-                                imgIndex += file.name + ";" + indexDefault + ",";
-                                indexDefault++;
-                            });
+        $("#file-uploader").dxFileUploader({
+            multiple: true,
+            accept: "*",
+            value: [],
+            uploadMode: "useButtons",
+            selectButtonText: "Chọn ảnh",
+            labelText: "hoặc thả ảnh vào đây",
+            onValueChanged: function (e) {
+                console.log('Image Change');
+                var indexDefault = 1;
+                imgIndex = "";
+                imgSrcs = [];
+                imgFilesUploaded = [];
+                var files = e.value;
+                if (files.length > 0) {
+                    $("#galleryContainer").css("display", "block");
+                    $.each(files,
+                        function (i, file) {
+                            imgFilesUploaded.push(file);
+                            var fileURL = URL.createObjectURL(file);
+                            imgSrcs.push({ imageSrc: fileURL, name: file.name });
+                            imgIndex += file.name + ";" + indexDefault + ",";
+                            indexDefault++;
+                        });
 
-                        $("#galleryContainer").dxGallery({
-                            dataSource: imgSrcs
-                        });
-                    } else {
-                        $("#galleryContainer").css("display", "none");
-                        $("#galleryContainer").dxGallery({
-                            dataSource: []
-                        });
-                    }
-                },
-                onUploaded: function(e) {
-                    var file = e.file;
-                    imgFilesUploaded.push(file);
+                    $("#galleryContainer").dxGallery({
+                        dataSource: imgSrcs
+                    });
+                } else {
+                    $("#galleryContainer").css("display", "none");
+                    $("#galleryContainer").dxGallery({
+                        dataSource: []
+                    });
                 }
-            }).dxFileUploader("instance");
-        } else {
-            console.log("undefined");
-        }
+            }
+        }).dxFileUploader("instance");
     });
     // Submit
     $(function() {
-        $("#btnSubmit").click(function(evt) {
+        $("#btnSubmit").click(function (evt) {
+            var lstImgOrder = "";
+            var indexOrder = 1;
+            $('#shopping-cart-table > tbody  > tr').each(function() {
+                //console.log($(".td-edit > .imgIndex", this)[0].innerHTML + " - " + $(".td-remove > .imgTextId", this)[0].innerHTML);
+                lstImgOrder += indexOrder +
+                    ";" +
+                    $(".td-remove > .imgTextId", this)[0].innerHTML + ",";
+                indexOrder++;
+            });
             var files = imgFilesUploaded;
             var data = new FormData();
-            if (files.length > 0) {
-                imgIndex = imgIndex.substring(0, imgIndex.length - 1);
-                for (var i = 0; i < files.length; i++) {
-                    data.append('fileUploads', files[i]);
+            var name = $("#pName").val().trim();
+            if (name.length > 0) {
+                data.append('productId', $("#idHide").text());
+                data.append('pName', name);
+                data.append('pCode', $("#pCode").val().trim().toUpperCase());
+                data.append('pOrigin', $("#pOrigin").val().trim());
+                data.append('pColor', $("#pColor").val().trim());
+                data.append('pStuff', $("#pStuff").val().trim());
+                data.append('pSize', $("#pSize").val().trim());
+                data.append('pPrice', $("#pPrice").val().trim().replace(/,/g, ""));
+                data.append('pDes', $("#pDes").val().trim());
+                var bestIsChecked = $('#pBes:checked');
+                data.append('pBes', bestIsChecked.length);
+                if (files.length > 0) {
+                    imgIndex = imgIndex.substring(0, imgIndex.length - 1);
+                    for (var i = 0; i < files.length; i++) {
+                        data.append('fileUploads', files[i]);
+                    }
                 }
-            }
-            console.log('lstRemove.length ', lstRemove.length);
-            for (var i = 0; i < lstRemove.length; i++) {
-                console.log('remove: ', lstRemove[i]);
-                data.append('fileDeletes', lstRemove[i]);
-            }
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("EditProduct", "Detail")",
-                contentType: false,
-                processData: false,
-                data: data,
-                success: function(message) {
-                    alert(message);
-                },
-                error: function(e) {
-                    console.log(e);
+                data.append('imgIndex', imgIndex);
+                for (var i = 0; i < lstRemove.length; i++) {
+                    console.log('remove: ', lstRemove[i]);
+                    data.append('fileDeletes', lstRemove[i]);
                 }
-            });
+                lstImgOrder = lstImgOrder.substring(0, lstImgOrder.length - 1);
+                console.log('lstImgOrder ', lstImgOrder);
+                data.append('imgOrders', lstImgOrder);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EditProduct", "Detail")",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function(message) {
+                        alert(message);
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }
+                });
+            }
         });
     });
     // Remove Image

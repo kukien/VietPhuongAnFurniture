@@ -47,16 +47,28 @@ namespace VietPhuongAnFurniture.Controllers
             if (view.GImage == null)
             {
                 view.GImage = new ProductImage();
-                view.GImage.Path = "ProductImages/700x700.png";
+                view.GImage.Path = "~/ProductImages/700x700.png";
+            }
+            else
+            {
+                view.GImage.Path = "~/" + view.GImage.Path;
             }
             // Thumblist Image
             view.TImage = _context.ProductImages.Where(n => n.ProductId == id).OrderBy(o => o.Index).ToList();
             if (view.TImage.Count == 0)
             {
-                view.TImage.Add(new ProductImage() { Path = "ProductImages/700x700.png" });
-                view.TImage.Add(new ProductImage() { Path = "ProductImages/700x700.png" });
-                view.TImage.Add(new ProductImage() { Path = "ProductImages/700x700.png" });
-                view.TImage.Add(new ProductImage() { Path = "ProductImages/700x700.png" });
+                view.TImage.Add(new ProductImage() { Path = "~/ProductImages/700x700.png" });
+                view.TImage.Add(new ProductImage() { Path = "~/ProductImages/700x700.png" });
+                view.TImage.Add(new ProductImage() { Path = "~/ProductImages/700x700.png" });
+                view.TImage.Add(new ProductImage() { Path = "~/ProductImages/700x700.png" });
+            }
+            else
+            {
+                view.TImage = view.TImage.Select(c =>
+                {
+                    c.Path = "~/" + c.Path;
+                    return c;
+                }).ToList();
             }
             // Product Information
             view.Product = _context.Products.FirstOrDefault(n => n.Id == id);
@@ -264,32 +276,132 @@ namespace VietPhuongAnFurniture.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProduct(List<IFormFile> fileUploads, List<string> fileDeletes)
+        public IActionResult EditProduct(string productId, string pName, string pCode, string pOrigin, string pColor, string pStuff, string pSize, string pPrice, string pDes, string pBes, List<IFormFile> fileUploads, List<string> fileDeletes, string imgIndex, string imgOrders)
         {
+            var product = _context.Products.FirstOrDefault(n => n.Id == productId);
             var lstImg = new List<ProductImage>();
-            var folderName = "test";
-            var webRootPath = _hostingEnvironment.WebRootPath;
-            var tempPath = Path.Combine(webRootPath, _folderImages);
-            var finalPath = Path.Combine(tempPath, folderName);
-            //Directory.CreateDirectory(finalPath);
-            //if (fileUploads.Count > 0)
-            //{
-            //    var index = 1;
-            //    foreach (var file in fileUploads)
-            //    {
-            //        var extension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')
-            //            .Split('.');
-            //        var fileExtension = extension[1];
-            //        var fileName = extension[0] + "_" + Guid.NewGuid() + "." + fileExtension;
-            //        var fullPath = Path.Combine(finalPath, fileName);
-            //        using (var stream = new FileStream(fullPath, FileMode.Create))
-            //        {
-            //            file.CopyTo(stream);
-            //        }
-            //        index++;
-            //    }
-            //}
-            return RedirectToAction("Files");
+            if (product != null)
+            {
+                int price = int.TryParse(pPrice, out price) ? price : 0;
+                int b = int.TryParse(pBes, out b) ? b : 0;
+                bool bestSell = Convert.ToBoolean(b);
+                // Update Product
+                product.Name = pName;
+                product.Code = pCode;
+                product.Origin = pOrigin;
+                product.Code = pCode;
+                product.Stuff = pStuff;
+                product.Size = pSize;
+                product.Price = price;
+                product.Description = pDes;
+                product.IsBestSelling = bestSell;
+                _context.SaveChanges();
+                // Update order image
+                var orderArr = imgOrders.Split(',');
+                var orderLst = new List<CommonModel.KeyPairStr>();
+                orderLst = orderArr.Select(n => new CommonModel.KeyPairStr
+                {
+                    Num = ParseInt32(n.Split(';')[0]),
+                    Str = n.Split(';')[1],
+                }).ToList();
+                var lstImgOrder = _context.ProductImages.Where(n => n.ProductId == product.Id).ToList();
+                lstImgOrder = lstImgOrder.Select(c =>
+                {
+                    var num = orderLst.FirstOrDefault(n => n.Str == c.Id)?.Num ?? 0;
+                    c.Index = num;
+                    return c;
+                }).ToList();
+                _context.SaveChanges();
+                // Delete image
+                if (fileDeletes.Count > 0)
+                {
+                    var lstImgRemove = new List<ProductImage>();
+                    foreach (var idImgDelete in fileDeletes)
+                    {
+                        var imgDeleteObj = _context.ProductImages.FirstOrDefault(n => n.Id == idImgDelete);
+                        if (imgDeleteObj != null)
+                        {
+                            DeleteFile(imgDeleteObj.Path);
+                            lstImgRemove.Add(imgDeleteObj);
+
+                        }
+                    }
+                    _context.ProductImages.RemoveRange(lstImgRemove);
+                    _context.SaveChanges();
+                    // Order image
+                    var lstImgAvailable = _context.ProductImages.Where(p => p.ProductId == product.Id).OrderBy(o => o.Index).ToList();
+                    var indexUpdate = 1;
+                    lstImgAvailable = lstImgAvailable.Select(c =>
+                    {
+                        c.Index = indexUpdate;
+                        indexUpdate++;
+                        return c;
+                    }).ToList();
+                    _context.SaveChanges();
+                }
+                // Add image
+                //Directory.CreateDirectory(finalPath);
+                if (fileUploads.Count > 0)
+                {
+                    // Get root path
+                    var folderName = product.Id;
+                    var webRootPath = _hostingEnvironment.WebRootPath;
+                    var tempPath = Path.Combine(webRootPath, _folderImages);
+                    var finalPath = Path.Combine(tempPath, folderName);
+                    // Handle index image
+                    var indexArr = imgIndex.Split(',');
+                    var lstPair = new List<CommonModel.KeyPairStr>();
+                    foreach (var item in indexArr)
+                    {
+                        var str = item.Split(';')[0];
+                        int num = int.TryParse(item.Split(';')[1] + "", out num) ? num : 0;
+                        if (num > 0)
+                        {
+                            if (lstPair.FirstOrDefault(n => n.Str == str) != null)
+                                str = str + num;
+                            lstPair.Add(new CommonModel.KeyPairStr() { Str = str, Num = num });
+                        }
+                    }
+                    // Number image available in project
+                    var imgCount = lstImgOrder.Count();
+                    foreach (var file in fileUploads)
+                    {
+                        var i = (lstPair.FirstOrDefault(n => n.Str == file.FileName)?.Num ?? 0) + imgCount;
+                        var extension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')
+                            .Split('.');
+                        var fileExtension = extension[1];
+                        var fileName = extension[0] + "_" + Guid.NewGuid() + "." + fileExtension;
+                        var fullPath = Path.Combine(finalPath, fileName);
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                        lstImg.Add(new ProductImage
+                        {
+                            ImageName = fileName,
+                            Path = _folderImages + "/" + folderName + "/" + fileName,
+                            Extension = fileExtension,
+                            ProductId = product.Id,
+                            CRUDDate = DateTime.Now,
+                            Index = i
+                        });
+                    }
+                }
+            }
+            if (lstImg.Count > 0)
+            {
+                try
+                {
+                    _context.ProductImages.AddRange(lstImg);
+                    _context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+            return RedirectToAction("Details", "Detail", new { @id = productId });
         }
 
         // GET: Detail/Delete/5
@@ -324,6 +436,27 @@ namespace VietPhuongAnFurniture.Controllers
         private bool ProductExists(string id)
         {
             return _context.Products.Any(e => e.Id == id);
+        }
+
+        private void DeleteFile(string path)
+        {
+            path = path.Replace('/', '\\');
+            try
+            {
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                string finalPath = Path.Combine(webRootPath, path);
+                System.IO.File.Delete(finalPath);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static Int32 ParseInt32(string str)
+        {
+            int result;
+            return Int32.TryParse(str, out result) ? result : 0;
         }
     }
 }
