@@ -214,7 +214,9 @@ namespace VietPhuongAnFurniture.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<int>("ProductSubTypeId");
+                    b.Property<string>("ProductSubTypeId");
+
+                    b.Property<string>("ProductTypeId");
 
                     b.Property<string>("Size")
                         .HasMaxLength(50);

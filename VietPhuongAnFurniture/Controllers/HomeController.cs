@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VietPhuongAnFurniture.Data;
 using VietPhuongAnFurniture.Models;
+using VietPhuongAnFurniture.Models.Ulti;
 
 namespace VietPhuongAnFurniture.Controllers
 {
@@ -29,7 +30,7 @@ namespace VietPhuongAnFurniture.Controllers
             _roleManager = roleManager;
 
         }
-        public IActionResult Index()
+        public IActionResult Index(string stuff, string subType, string productType, string price)
         {
             var viewModel = new ViewModel();
             var lstAllProduct = _context.Products.OrderBy(n=>n.CRUDDate).ToList();
@@ -40,22 +41,29 @@ namespace VietPhuongAnFurniture.Controllers
                 {
                     imageObj = new ProductImage
                     {
+                        // path default.
                         Path = "img/content/product-04.jpg",
                     };
                 }
                 item.GImage = imageObj;
 
             }
-            viewModel.allProducts = lstAllProduct.Take(100).ToList();
-           
+            var filter = new FilterObj
+            {
+                Stuff = stuff,
+                Subtype = subType,
+                ProductType = productType,
+                Price = price,
+            };
+            viewModel.allProducts = GetLstProduct(filter, lstAllProduct);
             viewModel.allBanners = lstAllProduct.Where(n=>n.IsBestSelling == true).Take(10).ToList();
             viewModel.allProductTypes = _context.ProductTypes.ToList();
             viewModel.allProductTypes = _context.ProductTypes.ToList();
             viewModel.allSpecial = lstAllProduct.Take(5).ToList();
             viewModel.allProductSubTypes = _context.ProductSubTypes.ToList();
+            viewModel.allStuff = _context.Products.GroupBy(n => n.Stuff).Select(n => n.Key).ToList();
             return View(viewModel);
         }
-       
         public IActionResult Privacy()
         {
             return View();
@@ -86,5 +94,21 @@ namespace VietPhuongAnFurniture.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public List<Product> GetLstProduct(FilterObj filter, List<Product> lstDefault)
+        {
+            var lstProduct = new List<Product>();
+            lstProduct = lstDefault.Take(100).ToList();
+            if (filter.Stuff != null)
+                lstProduct = lstDefault.Where(n => n.Stuff.Contains(filter.Stuff)).Take(100).ToList();          
+
+            if (filter.Subtype != null)
+                lstProduct = lstDefault.Where(n => n.ProductSubTypeId == filter.Subtype).Take(100).ToList();    
+
+            if (filter.ProductType != null)
+                lstProduct = lstDefault.Where(n => n.ProductTypeId == filter.ProductType).Take(100).ToList();
+          
+            return lstProduct;
+        } 
     }
 }
