@@ -215,7 +215,7 @@ namespace VietPhuongAnFurniture.Controllers
                     Index = n.Index,
                     //Base64 = ConvertImageToBase64(n.Path)
                 }).OrderBy(o => o.Index).ToList();
-            
+
             return View(view);
         }
 
@@ -264,7 +264,7 @@ namespace VietPhuongAnFurniture.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProduct(List<IFormFile> fileUploads, string fileDeletes)
+        public async Task<IActionResult> EditProduct(List<IFormFile> fileUploads, List<string> fileDeletes)
         {
             var lstImg = new List<ProductImage>();
             var folderName = "test";

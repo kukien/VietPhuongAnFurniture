@@ -63,6 +63,10 @@
         object-fit: contain;
     }
 
+    .dx-fileuploader-upload-button {
+        display: none !important;
+    }
+
     .highlight {
         border: 1px solid red !important;
     }
@@ -164,7 +168,7 @@
                             </label>
                         </div>
                         <div class="buttons-box clearfix">
-                            <button class="btn pull-left btn-success" id="btnSubmit">Tạo sản phẩm</button>
+                            <button class="btn pull-left btn-success" id="btnSubmit">Cập nhật</button>
                             <button id="btnCancel" class="btn pull-left btn-danger btn-margin-left-10">Hủy</button>
                         </div>
                     </div>
@@ -234,6 +238,8 @@
                 accept: "*",
                 value: [],
                 uploadMode: "useButtons",
+                selectButtonText: "Chọn ảnh",
+                labelText: "hoặc thả ảnh vào đây",
                 onValueChanged: function(e) {
                     var indexDefault = 1;
                     imgIndex = "";
@@ -278,9 +284,11 @@
                 for (var i = 0; i < files.length; i++) {
                     data.append('fileUploads', files[i]);
                 }
-                for (var i = 0; i < lstRemove.length; i++) {
-                    data.append('fileDeletes', lstRemove[i]);
-                }
+            }
+            console.log('lstRemove.length ', lstRemove.length);
+            for (var i = 0; i < lstRemove.length; i++) {
+                console.log('remove: ', lstRemove[i]);
+                data.append('fileDeletes', lstRemove[i]);
             }
             $.ajax({
                 type: "POST",
@@ -302,7 +310,6 @@
     $('.td-remove').click(function (e) {
         $("i", this).toggleClass("fa-trash-o fa-times");
         var imgId = $(".imgTextId", this)[0].innerHTML;
-        console.log('text: ', imgId);
         if ($(".imgStt", this)[0].innerHTML == "1") {
             $(".imgStt", this)[0].innerHTML = "0";
             $("i", this).css("color", "red");
@@ -312,7 +319,6 @@
             $("i", this).css("color", "black");
             lstRemove.splice($.inArray(imgId, lstRemove), 1);
         }
-        console.log('lstRemove: ', lstRemove);
     });
     function base64toBlob(name, base64Data, contentType) {
         contentType = contentType || '';
