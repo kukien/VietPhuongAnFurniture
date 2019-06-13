@@ -42,6 +42,13 @@ namespace VietPhuongAnFurniture.Controllers
         public IActionResult Details(string id)
         {
             var view = new ViewDetailModel();
+            // Product Information
+            view.Product = _context.Products.FirstOrDefault(n => n.Id == id);
+            //if (view.Product != null)
+            //{
+            //    view.Product.View++;
+            //    _context.SaveChanges();
+            //}
             // General Image
             view.GImage = _context.ProductImages.FirstOrDefault(i => i.ProductId == id && i.Index == 1);
             if (view.GImage == null)
@@ -51,7 +58,7 @@ namespace VietPhuongAnFurniture.Controllers
             }
             else
             {
-                view.GImage.Path = "~/" + view.GImage.Path;
+                view.GImage.Path = view.GImage.Path;
             }
             // Thumblist Image
             view.TImage = _context.ProductImages.Where(n => n.ProductId == id).OrderBy(o => o.Index).ToList();
@@ -66,16 +73,9 @@ namespace VietPhuongAnFurniture.Controllers
             {
                 view.TImage = view.TImage.Select(c =>
                 {
-                    c.Path = "~/" + c.Path;
+                    c.Path = c.Path;
                     return c;
                 }).ToList();
-            }
-            // Product Information
-            view.Product = _context.Products.FirstOrDefault(n => n.Id == id);
-            if (view.Product != null)
-            {
-                view.Product.View++;
-                _context.SaveChanges();
             }
             return View(view);
         }
@@ -186,7 +186,7 @@ namespace VietPhuongAnFurniture.Controllers
                     lstImg.Add(new ProductImage
                     {
                         ImageName = fileName,
-                        Path = _folderImages + "/" + folderName + "/" + fileName,
+                        Path = "~/" + _folderImages + "/" + folderName + "/" + fileName,
                         Extension = fileExtension,
                         ProductId = product.Id,
                         CRUDDate = DateTime.Now,
@@ -379,7 +379,7 @@ namespace VietPhuongAnFurniture.Controllers
                         lstImg.Add(new ProductImage
                         {
                             ImageName = fileName,
-                            Path = _folderImages + "/" + folderName + "/" + fileName,
+                            Path = "~/" + _folderImages + "/" + folderName + "/" + fileName,
                             Extension = fileExtension,
                             ProductId = product.Id,
                             CRUDDate = DateTime.Now,
@@ -401,7 +401,7 @@ namespace VietPhuongAnFurniture.Controllers
                     throw;
                 }
             }
-            return RedirectToAction("Details", "Detail", new { @id = productId });
+            return RedirectToAction("Success");
         }
 
         // GET: Detail/Delete/5
@@ -440,6 +440,7 @@ namespace VietPhuongAnFurniture.Controllers
 
         private void DeleteFile(string path)
         {
+            path = path.Substring(2, path.Length - 2);
             path = path.Replace('/', '\\');
             try
             {

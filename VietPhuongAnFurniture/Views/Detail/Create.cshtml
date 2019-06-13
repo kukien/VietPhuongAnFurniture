@@ -60,6 +60,11 @@
         height: 100%;
         object-fit: contain;
     }
+
+    .dx-fileuploader-upload-button {
+        display: none !important;
+    }
+
     .highlight {
         border: 1px solid red !important;
     }
@@ -186,16 +191,20 @@
             accept: "*",
             value: [],
             uploadMode: "useButtons",
+            selectButtonText: "Chọn ảnh",
+            labelText: "hoặc thả ảnh vào đây",
             onValueChanged: function(e) {
                 var indexDefault = 1;
                 imgIndex = "";
                 imgSrcs = [];
+                imgFilesUploaded = [];
                 var files = e.value;
                 if (files.length > 0) {
                     console.log('files: ', files);
                     $("#galleryContainer").css("display", "block");
                     $.each(files,
-                        function(i, file) {
+                        function (i, file) {
+                            imgFilesUploaded.push(file);
                             var fileURL = URL.createObjectURL(file);
                             imgSrcs.push({ imageSrc: fileURL, name: file.name });
                             imgIndex += file.name + ";" + indexDefault + ",";
@@ -213,10 +222,10 @@
                 }
                 console.log('imgIndex: ', imgIndex);
             },
-            onUploaded: function(e) {
-                var file = e.file;
-                imgFilesUploaded.push(file);
-            }
+            //onUploaded: function(e) {
+            //    var file = e.file;
+            //    imgFilesUploaded.push(file);
+            //}
         }).dxFileUploader("instance");
     });
     // Submit
