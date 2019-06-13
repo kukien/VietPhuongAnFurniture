@@ -1,102 +1,150 @@
-﻿@model IEnumerable<VietPhuongAnFurniture.Models.Product>
-
+﻿
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="breadcrumb-box">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="active">Quản lý sản phẩm</li>
+        </ul>
+    </div>
+</div><!-- .breadcrumb-box -->
 
-<h1>Index</h1>
+<section id="main">
+    <header class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="demo-container" style="margin-bottom:40px">
+                    <div id="gridContainer"></div>
+                </div>
+            </div>
+        </div>        
+    </header>
+</section>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Code)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Origin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stuff)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Size)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsBestSelling)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.View)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CRUDDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Origin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stuff)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Size)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsBestSelling)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.View)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CRUDDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<script type="text/javascript">
+    $(function () {
+        $("#gridContainer").dxDataGrid({
+            dataSource: {
+                store: {
+                    type: "odata",
+                    url: "API/LoadProductData",
+                    //beforeSend: function (request) {
+                    //    request.params.startDate = "2018-05-10";
+                    //    request.params.endDate = "2018-05-15";
+                    //}
+                }
+            },
+            paging: {
+                pageSize: 10
+            },
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [10, 25, 50, 100]
+            },
+            remoteOperations: false,
+            searchPanel: {
+                visible: true,
+                highlightCaseSensitive: true
+            },
+            groupPanel: { visible: true },
+            grouping: {
+                autoExpandAll: true
+            },
+            allowColumnReordering: true,
+            rowAlternationEnabled: true,
+            showBorders: true,
+            allowColumnResizing: true,
+
+            columns: [
+                {
+                    caption: "Loại sản phẩm",
+                    dataField: "TypeName",
+                    groupIndex: 0
+                },
+                {
+                    caption: "Loại sản phẩm",
+                    dataField: "SubTypeName",
+                    groupIndex: 1
+                },
+                {
+                    dataField: "GImage",
+                    cellTemplate: function (element, info) {
+                        console.log("vào dây");
+                        console.log(info.value.Path);
+                        element.append("<div>  <img alt='Image' src='" + info.value.Path + "' title='' width='70' height='70'></div>");
+                    },
+                    with:70
+                },
+                {
+                    dataField: "Name",
+                    caption: "Tên sản phẩm",
+                    dataType: "string",
+                    //format: "currency",
+                    //alignment: "right",
+                },
+               
+                {
+                    dataField: "Price",
+                    caption: "Giá",
+                    //dataType: "number",
+                    format: "currency",
+                    //displayFormat: "VND {0}",
+                    alignment: "right",
+                },
+                {
+                    dataField: "CRUDDate",
+                    caption: "Ngày tạo",
+                    dataType: "date"
+                },
+                {
+                    dataField: "Code",
+                    caption: "Mã",
+                    dataType: "string",
+                    width: 100
+                },
+                //{
+                //    caption: "Xuất xứ",
+                //    dataField: "Origin",
+                //    dataType: "string",
+                //},
+                {
+                    caption: "Màu",
+                    dataField: "Color",
+                    dataType: "string",
+                    width: 100
+                },
+                {
+                    caption: "Chất liệu",
+                    dataField: "Stuff",
+                    dataType: "string",
+                    width: 100
+                },
+                //{
+                //    dataField: "Size",
+                //    dataType: "string",
+                //    width: 150
+                //},
+                {
+                    caption: "Bán chạy",
+                    dataField: "IsBestSelling",
+                    dataType: "boolean",
+                    width: 70
+                }
+
+            ],
+            //onContentReady: function (e) {
+            //    if (!collapsed) {
+            //        collapsed = true;
+            //        e.component.expandRow(["EnviroCare"]);
+            //    }
+            //}
+        });
+    });
+    
+    var collapsed = false;
+</script>

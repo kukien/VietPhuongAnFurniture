@@ -34,5 +34,11 @@ namespace VietPhuongAnFurniture.Models
         [NotMapped]
         public ProductImage GImage { get; set; }
 
+        [NotMapped]
+        public string TypeName { get; set; }
+
+        [NotMapped]
+        public string SubTypeName { get; set; }
+
     }
 }
