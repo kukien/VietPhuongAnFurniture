@@ -9,12 +9,7 @@
             @for (int i = 0; i < Model.allBanners.Count; i = i + 1)
             {
                 <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allBanners[i].Id" class="banner">
-<<<<<<< HEAD
                     <img alt="Image" src="@Url.Content(Model.allBanners[i].GImage.Path)" title="" width="253" height="158">
-=======
-                    <img alt="Image" src="~/@Url.Content(Model.allBanners[i].GImage.Path)" title="" width="253" height="158">
->>>>>>> d9b18f5aa1ec71370a4db96ece88c5c13f3ca32d
-
                     <h2 class="title">@Model.allBanners[i].Name</h2>
                 </a>
             }

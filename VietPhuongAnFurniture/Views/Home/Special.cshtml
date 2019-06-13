@@ -12,7 +12,7 @@
             @*<li><a href="#">@Model.allCategorizes[i].Name</a></li>*@
             <li class="clearfix">
                 <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allSpecial[i].Id"  class="product-image">
-                    <img alt="Image" src="~/@Url.Content(Model.allSpecial[i].GImage.Path)" title="" width="64" height="64">
+                    <img alt="Image" src="@Url.Content(Model.allSpecial[i].GImage.Path)" title="" width="64" height="64">
 
                 </a>
                 <h3 class="product-name">
