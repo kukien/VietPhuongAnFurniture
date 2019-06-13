@@ -8,11 +8,11 @@
         <div class="banners">
             @for (int i = 0; i < Model.allBanners.Count; i = i + 1)
             {
-            <a href="#" class="banner">
-                <img alt="Image" src="../../@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="253" height="158">
+                <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allBanners[i].Id" class="banner">
+                    <img alt="Image" src="@Url.Content(Model.allBanners[i].GImage.Path)" title="" width="253" height="158">
 
-                <h2 class="title">@Model.allBanners[i].Name</h2>
-            </a>
+                    <h2 class="title">@Model.allBanners[i].Name</h2>
+                </a>
             }
 
         </div><!-- .banners -->
