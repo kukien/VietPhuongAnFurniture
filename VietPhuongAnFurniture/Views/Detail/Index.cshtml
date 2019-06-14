@@ -3,6 +3,17 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    /*td > div{
+        width: 100px;
+        height: 100px;
+    }*/
+    td > div > img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+</style>
 <div class="breadcrumb-box">
     <div class="container">
         <ul class="breadcrumb">
@@ -25,7 +36,7 @@
         </div>        
     </header>
 </section>
-
+<button id="btnSweel">Click Me</button>
 <script type="text/javascript">
     $(function () {
         $("#gridContainer").dxDataGrid({
@@ -59,7 +70,13 @@
             rowAlternationEnabled: true,
             showBorders: true,
             allowColumnResizing: true,
-
+            editing: {
+                mode: "popup",
+                allowUpdating: false,
+                allowDeleting: true,
+                allowAdding: false,
+                useIcons: true
+            },
             columns: [
                 {
                     caption: "Loại sản phẩm",
@@ -72,11 +89,10 @@
                     groupIndex: 1
                 },
                 {
+                    caption: "Ảnh",
                     dataField: "GImage",
                     cellTemplate: function (element, info) {
-                        console.log("vào dây");
-                        console.log(info.value.Path);
-                        element.append("<div>  <img alt='Image' src='" + info.value.Path + "' title='' width='70' height='70'></div>");
+                        element.append("<div>  <img alt='Image' src='" + info.value.Path.substring(2, info.value.Path.length) + "' title=''></div>");
                     },
                     with:70
                 },
@@ -84,22 +100,20 @@
                     dataField: "Name",
                     caption: "Tên sản phẩm",
                     dataType: "string",
-                    //format: "currency",
-                    //alignment: "right",
                 },
                
                 {
                     dataField: "Price",
                     caption: "Giá",
-                    //dataType: "number",
-                    format: "currency",
-                    //displayFormat: "VND {0}",
+                    format: "#,##0 đ",
                     alignment: "right",
                 },
                 {
                     dataField: "CRUDDate",
                     caption: "Ngày tạo",
-                    dataType: "date"
+                    dataType: "date",
+                    format: "d/M/yyyy",
+                    alignment: 'center'
                 },
                 {
                     dataField: "Code",
@@ -107,11 +121,11 @@
                     dataType: "string",
                     width: 100
                 },
-                //{
-                //    caption: "Xuất xứ",
-                //    dataField: "Origin",
-                //    dataType: "string",
-                //},
+                {
+                    caption: "Xuất xứ",
+                    dataField: "Origin",
+                    dataType: "string",
+                },
                 {
                     caption: "Màu",
                     dataField: "Color",
@@ -134,9 +148,47 @@
                     dataField: "IsBestSelling",
                     dataType: "boolean",
                     width: 70
+                },
+                {
+                    dataField: 'Id',
+                    width: 100,
+                    alignment: 'center',
+                    cellTemplate: function (container, options) {
+                        $('<a/>').addClass('dx-link')
+                            .text('Edit')
+                            .on('dxclick', function () {
+                                AddToCart(options.value);
+                            })
+                            .appendTo(container);
+                        //$('<a/>').addClass('dx-link')
+                        //    .text('Delete')
+                        //    .on('dxclick', function () {
+                        //        Delete(options.value);
+                        //    })
+                        //    .appendTo(container);
+                    }
                 }
-
             ],
+            onRowRemoved: function (e) {
+                var productId = 2;
+                console.log(e.data);
+                //var editObj = {
+                //    editType: 2,
+                //    key: e.key,
+                //    data: e.data
+                //};
+                //$.ajax({
+                //    url: '/API/DeleteProduct',
+                //    type: "POST",
+                //    dataType: "JSON",
+                //    data: JSON.stringify(editObj),
+                //    contentType: 'application/json',
+                //    success: function (obj) {
+                //        DevExpress.ui.notify(obj.Msg, obj.StatusStr, 1200);
+                //    }
+                //});
+                //APIPost('/API/DeleteProduct', productId);
+            },
             //onContentReady: function (e) {
             //    if (!collapsed) {
             //        collapsed = true;
@@ -145,6 +197,68 @@
             //}
         });
     });
+    $("#btnSweel").click(function (e) {
+        Swal.fire({
+            title: 'Gõ delete và ấn Đồng ý để xóa sản phẩm này',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Đồng ý',
+            showLoaderOnConfirm: true,
+            preConfirm: (param) => {
+                Delete(param);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    });
+    function AddToCart(param)
+    {
+        var url = '@Url.Action("Edit", "Detail", new { id = "__id__" })';
+        window.location.href = url.replace('__id__', param);
+        @*$.ajax({
+            url: "@Url.Action("Edit", "Detail")",
+            data: { id: id }
+        }).done(function() {
+            console.log('Edit');
+        });*@
+    }
     
+    function Delete(id) {
+        var data = new FormData();
+        data.append('productId', 0);
+        Swal.fire({
+            title: 'Gõ delete và ấn Đồng ý để xóa sản phẩm này',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Đồng ý',
+            showLoaderOnConfirm: true,
+            preConfirm: (param) => {
+                if (param == "delete") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteProduct", "Detail")",
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: function(message) {
+                            var url = '@Url.Action("Index", "Detail")';
+                            window.location.href = url;
+                        },
+                        error: function(e) {
+                            alert(e);
+                        }
+                    });
+                } else {
+                    alert('Sai cú pháp');
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    }
     var collapsed = false;
 </script>

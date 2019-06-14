@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,6 +44,13 @@ namespace VietPhuongAnFurniture.Controllers
         public IActionResult Details(string id)
         {
             var view = new ViewDetailModel();
+            // Product Information
+            view.Product = _context.Products.FirstOrDefault(n => n.Id == id);
+            //if (view.Product != null)
+            //{
+            //    view.Product.View++;
+            //    _context.SaveChanges();
+            //}
             // General Image
             view.GImage = _context.ProductImages.FirstOrDefault(i => i.ProductId == id && i.Index == 1);
             if (view.GImage == null)
@@ -51,7 +60,7 @@ namespace VietPhuongAnFurniture.Controllers
             }
             else
             {
-                view.GImage.Path = "~/" + view.GImage.Path;
+                view.GImage.Path = view.GImage.Path;
             }
             // Thumblist Image
             view.TImage = _context.ProductImages.Where(n => n.ProductId == id).OrderBy(o => o.Index).ToList();
@@ -66,16 +75,9 @@ namespace VietPhuongAnFurniture.Controllers
             {
                 view.TImage = view.TImage.Select(c =>
                 {
-                    c.Path = "~/" + c.Path;
+                    c.Path = c.Path;
                     return c;
                 }).ToList();
-            }
-            // Product Information
-            view.Product = _context.Products.FirstOrDefault(n => n.Id == id);
-            if (view.Product != null)
-            {
-                view.Product.View++;
-                _context.SaveChanges();
             }
             return View(view);
         }
@@ -186,7 +188,7 @@ namespace VietPhuongAnFurniture.Controllers
                     lstImg.Add(new ProductImage
                     {
                         ImageName = fileName,
-                        Path = _folderImages + "/" + folderName + "/" + fileName,
+                        Path = "~/" + _folderImages + "/" + folderName + "/" + fileName,
                         Extension = fileExtension,
                         ProductId = product.Id,
                         CRUDDate = DateTime.Now,
@@ -321,7 +323,7 @@ namespace VietPhuongAnFurniture.Controllers
                         var imgDeleteObj = _context.ProductImages.FirstOrDefault(n => n.Id == idImgDelete);
                         if (imgDeleteObj != null)
                         {
-                            DeleteFile(imgDeleteObj.Path);
+                            DeleteFile(imgDeleteObj.Path, "img");
                             lstImgRemove.Add(imgDeleteObj);
 
                         }
@@ -379,7 +381,7 @@ namespace VietPhuongAnFurniture.Controllers
                         lstImg.Add(new ProductImage
                         {
                             ImageName = fileName,
-                            Path = _folderImages + "/" + folderName + "/" + fileName,
+                            Path = "~/" + _folderImages + "/" + folderName + "/" + fileName,
                             Extension = fileExtension,
                             ProductId = product.Id,
                             CRUDDate = DateTime.Now,
@@ -401,7 +403,7 @@ namespace VietPhuongAnFurniture.Controllers
                     throw;
                 }
             }
-            return RedirectToAction("Details", "Detail", new { @id = productId });
+            return RedirectToAction("Success");
         }
 
         // GET: Detail/Delete/5
@@ -433,19 +435,53 @@ namespace VietPhuongAnFurniture.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public IActionResult DeleteProduct(string productId)
+        {
+            //var product = _context.Products.FirstOrDefault(n => n.Id == productId);
+            //if (product != null)
+            //{
+            //    var imgLst = _context.ProductImages.Where(n => n.ProductId == productId).ToList();
+            //    if (imgLst.Count > 0)
+            //    {
+            //        _context.ProductImages.RemoveRange(imgLst);
+            //        _context.SaveChanges();
+            //    }
+            //    var path = _folderImages + "/" + product.Id;
+            //    DeleteFile(path, "folder");
+            //    _context.Products.Remove(product);
+            //    _context.SaveChanges();
+            //}
+            if (productId == "1")
+            {
+                //  Error
+                return BadRequest("delete error");
+            }
+            else
+            {
+                //  Success
+                return Json("delete success");
+            }
+        }
+
         private bool ProductExists(string id)
         {
             return _context.Products.Any(e => e.Id == id);
         }
 
-        private void DeleteFile(string path)
+        private void DeleteFile(string path, string type)
         {
+            if (path.Contains("~/"))
+                path = path.Substring(2, path.Length - 2);
             path = path.Replace('/', '\\');
             try
             {
                 string webRootPath = _hostingEnvironment.WebRootPath;
                 string finalPath = Path.Combine(webRootPath, path);
-                System.IO.File.Delete(finalPath);
+                if (type == "img")
+                    System.IO.File.Delete(finalPath);
+                else if (type == "folder")
+                    Directory.Delete(finalPath, true);
             }
             catch (Exception ex)
             {

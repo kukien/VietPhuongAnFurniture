@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VietPhuongAnFurniture.Data;
 using VietPhuongAnFurniture.Models;
+using VietPhuongAnFurniture.Models.Ulti;
 
 namespace VietPhuongAnFurniture.Controllers
 {
@@ -39,7 +40,7 @@ namespace VietPhuongAnFurniture.Controllers
                     imageObj = new ProductImage
                     {
                         // path default.
-                        Path = "img/content/product-04.jpg",
+                        Path = "~/ProductImages/70x70.png",
                     };
                 }
                 item.GImage = imageObj;
@@ -47,6 +48,15 @@ namespace VietPhuongAnFurniture.Controllers
                 item.TypeName = _context.ProductTypes.FirstOrDefault(n=>n.Id ==item.ProductTypeId)?.Name ??"";
             }
             return lstObj;
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("[controller]/[action]")]
+        public ActionResult DeleteProduct([FromBody]string productId)
+        {
+            var abc = "Abc";
+            return Ok();
         }
     }
 }
