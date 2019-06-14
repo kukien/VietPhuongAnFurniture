@@ -14,5 +14,8 @@ namespace VietPhuongAnFurniture.Models.Ulti
         public string Subtype { get; set; }
         public string ProductType { get; set; }
         public string Price { get; set; }
+        public string Search { get; set; }
+        public double PriceFrom { get; set; }
+        public double PriceTo { get; set; }
     }
 }
