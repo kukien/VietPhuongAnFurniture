@@ -74,13 +74,6 @@
                         <span class="per-page">per page</span>
                     </div><!-- .sort-catalog -->
 
-                    @*<div class="price-regulator pull-right">
-                        <b>Price:</b>
-                        <div class="layout-slider">
-                            <input id="Slider2" type="text" name="price" value="20000;120000" class="form-control" onvolumechange="volumnChange(this.value)">
-                        </div>
-                    </div>*@
-                    <!-- .price-regulator -->
                 </div>
 
                 <div class="clearfix"></div>
@@ -103,9 +96,6 @@
                                         <img alt="Image" src="~/@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="270" height="270">
                                     </a>
 
-                                @*<a href="product-view.html" class="product-image">
-                                <img src="~/img/content/product-04.jpg" alt="" title="" width="270" height="270">
-                            </a>*@
                                 <div class="product-description">
                                     <div class="vertical">
                                         <h3 class="product-name">
@@ -132,8 +122,6 @@
                                     <li>@Model.allProducts[i].Size</li>
                                     <li>@Model.allProducts[i].Color</li>
                                     <li>@Model.allProducts[i].Stuff</li>
-                                    @*<li>Dynamic Edge LED</li>
-                                    <li>1X-Reality PRO</li>D*@
                                 </ul>
                                 <div class="actions">                                  
                                     <a href="#" class="add-cart">
@@ -178,10 +166,10 @@
         </div>
     </div><!-- .container -->
 
-    <script type="text/javascript">
+    @*<script type="text/javascript">
         function volumnChange(value) {
             //var value = document.getElementById("Slider2").value;
             console.log(value);
         }
-    </script>
+    </script>*@
 </section><!-- #main -->

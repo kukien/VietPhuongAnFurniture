@@ -39,226 +39,173 @@
 <button id="btnSweel">Click Me</button>
 <script type="text/javascript">
     $(function () {
-        $("#gridContainer").dxDataGrid({
-            dataSource: {
-                store: {
-                    type: "odata",
-                    url: "API/LoadProductData",
-                    //beforeSend: function (request) {
-                    //    request.params.startDate = "2018-05-10";
-                    //    request.params.endDate = "2018-05-15";
-                    //}
-                }
-            },
-            paging: {
-                pageSize: 10
-            },
-            pager: {
-                showPageSizeSelector: true,
-                allowedPageSizes: [10, 25, 50, 100]
-            },
-            remoteOperations: false,
-            searchPanel: {
-                visible: true,
-                highlightCaseSensitive: true
-            },
-            groupPanel: { visible: true },
-            grouping: {
-                autoExpandAll: true
-            },
-            allowColumnReordering: true,
-            rowAlternationEnabled: true,
-            showBorders: true,
-            allowColumnResizing: true,
-            editing: {
-                mode: "popup",
-                allowUpdating: false,
-                allowDeleting: true,
-                allowAdding: false,
-                useIcons: true
-            },
-            columns: [
-                {
-                    caption: "Loại sản phẩm",
-                    dataField: "TypeName",
-                    groupIndex: 0
-                },
-                {
-                    caption: "Loại sản phẩm",
-                    dataField: "SubTypeName",
-                    groupIndex: 1
-                },
-                {
-                    caption: "Ảnh",
-                    dataField: "GImage",
-                    cellTemplate: function (element, info) {
-                        element.append("<div>  <img alt='Image' src='" + info.value.Path.substring(2, info.value.Path.length) + "' title=''></div>");
+
+        $.ajax({
+            url: 'API/LoadProductData',
+            type: "GET",
+            dataType: "json",
+            success: function (d) {
+                $("#gridContainer").dxDataGrid({
+
+                    dataSource: d,
+                    keyExpr: "Id",
+                    paging: {
+                        pageSize: 10
                     },
-                    with:70
-                },
-                {
-                    dataField: "Name",
-                    caption: "Tên sản phẩm",
-                    dataType: "string",
-                },
-               
-                {
-                    dataField: "Price",
-                    caption: "Giá",
-                    format: "#,##0 đ",
-                    alignment: "right",
-                },
-                {
-                    dataField: "CRUDDate",
-                    caption: "Ngày tạo",
-                    dataType: "date",
-                    format: "d/M/yyyy",
-                    alignment: 'center'
-                },
-                {
-                    dataField: "Code",
-                    caption: "Mã",
-                    dataType: "string",
-                    width: 100
-                },
-                {
-                    caption: "Xuất xứ",
-                    dataField: "Origin",
-                    dataType: "string",
-                },
-                {
-                    caption: "Màu",
-                    dataField: "Color",
-                    dataType: "string",
-                    width: 100
-                },
-                {
-                    caption: "Chất liệu",
-                    dataField: "Stuff",
-                    dataType: "string",
-                    width: 100
-                },
-                //{
-                //    dataField: "Size",
-                //    dataType: "string",
-                //    width: 150
-                //},
-                {
-                    caption: "Bán chạy",
-                    dataField: "IsBestSelling",
-                    dataType: "boolean",
-                    width: 70
-                },
-                {
-                    dataField: 'Id',
-                    width: 100,
-                    alignment: 'center',
-                    cellTemplate: function (container, options) {
-                        $('<a/>').addClass('dx-link')
-                            .text('Edit')
-                            .on('dxclick', function () {
-                                AddToCart(options.value);
-                            })
-                            .appendTo(container);
-                        //$('<a/>').addClass('dx-link')
-                        //    .text('Delete')
-                        //    .on('dxclick', function () {
-                        //        Delete(options.value);
-                        //    })
-                        //    .appendTo(container);
-                    }
-                }
-            ],
-            onRowRemoved: function (e) {
-                var productId = 2;
-                console.log(e.data);
-                //var editObj = {
-                //    editType: 2,
-                //    key: e.key,
-                //    data: e.data
-                //};
-                //$.ajax({
-                //    url: '/API/DeleteProduct',
-                //    type: "POST",
-                //    dataType: "JSON",
-                //    data: JSON.stringify(editObj),
-                //    contentType: 'application/json',
-                //    success: function (obj) {
-                //        DevExpress.ui.notify(obj.Msg, obj.StatusStr, 1200);
-                //    }
-                //});
-                //APIPost('/API/DeleteProduct', productId);
-            },
-            //onContentReady: function (e) {
-            //    if (!collapsed) {
-            //        collapsed = true;
-            //        e.component.expandRow(["EnviroCare"]);
-            //    }
-            //}
-        });
-    });
-    $("#btnSweel").click(function (e) {
-        Swal.fire({
-            title: 'Gõ delete và ấn Đồng ý để xóa sản phẩm này',
-            input: 'text',
-            inputAttributes: {
-                autocapitalize: 'off'
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Đồng ý',
-            showLoaderOnConfirm: true,
-            preConfirm: (param) => {
-                Delete(param);
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-        });
-    });
-    function AddToCart(param)
-    {
-        var url = '@Url.Action("Edit", "Detail", new { id = "__id__" })';
-        window.location.href = url.replace('__id__', param);
-        @*$.ajax({
-            url: "@Url.Action("Edit", "Detail")",
-            data: { id: id }
-        }).done(function() {
-            console.log('Edit');
-        });*@
-    }
-    
-    function Delete(id) {
-        var data = new FormData();
-        data.append('productId', 0);
-        Swal.fire({
-            title: 'Gõ delete và ấn Đồng ý để xóa sản phẩm này',
-            input: 'text',
-            inputAttributes: {
-                autocapitalize: 'off'
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Đồng ý',
-            showLoaderOnConfirm: true,
-            preConfirm: (param) => {
-                if (param == "delete") {
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("DeleteProduct", "Detail")",
-                        contentType: false,
-                        processData: false,
-                        data: data,
-                        success: function(message) {
-                            var url = '@Url.Action("Index", "Detail")';
-                            window.location.href = url;
+                    pager: {
+                        showPageSizeSelector: true,
+                        allowedPageSizes: [10, 25, 50, 100]
+                    },
+                    remoteOperations: false,
+                    searchPanel: {
+                        visible: true,
+                        highlightCaseSensitive: true
+                    },
+                    groupPanel: { visible: true },
+                    grouping: {
+                        autoExpandAll: true
+                    },
+                    //allowColumnReordering: true,
+                    //rowAlternationEnabled: true,
+                    showBorders: true,
+                    allowColumnResizing: true,
+                    editing: {
+                        mode: "popup",
+                        allowUpdating: false,
+                        allowDeleting: true,
+                        allowAdding: false,
+                        useIcons: true
+                    },
+                    columns: [
+                        {
+                            caption: "Loại sản phẩm",
+                            dataField: "TypeName",
+                            groupIndex: 0
                         },
-                        error: function(e) {
-                            alert(e);
+                        {
+                            caption: "Loại sản phẩm",
+                            dataField: "SubTypeName",
+                            groupIndex: 1
+                        },
+                        {
+                            caption: "Ảnh",
+                            dataField: "GImage",
+                            cellTemplate: function (element, info) {
+                                element.append("<div>  <img alt='Image' src='" + info.value.Path.substring(2, info.value.Path.length) + "' title=''></div>");
+                            },
+                            with: 70
+                        },
+                        {
+                            dataField: "Name",
+                            caption: "Tên sản phẩm",
+                            dataType: "string",
+                        },
+
+                        {
+                            dataField: "Price",
+                            caption: "Giá",
+                            format: "#,##0 đ",
+                            alignment: "right",
+                        },
+                        {
+                            dataField: "CRUDDate",
+                            caption: "Ngày tạo",
+                            dataType: "date",
+                            format: "d/M/yyyy",
+                            alignment: 'center'
+                        },
+                        {
+                            dataField: "Code",
+                            caption: "Mã",
+                            dataType: "string",
+                            width: 100
+                        },
+                        {
+                            caption: "Xuất xứ",
+                            dataField: "Origin",
+                            dataType: "string",
+                        },
+                        {
+                            caption: "Màu",
+                            dataField: "Color",
+                            dataType: "string",
+                            width: 100
+                        },
+                        {
+                            caption: "Chất liệu",
+                            dataField: "Stuff",
+                            dataType: "string",
+                            width: 100
+                        },
+                        //{
+                        //    dataField: "Size",
+                        //    dataType: "string",
+                        //    width: 150
+                        //},
+                        {
+                            caption: "Bán chạy",
+                            dataField: "IsBestSelling",
+                            dataType: "boolean",
+                            width: 70
+                        },
+                        {
+                            dataField: 'Id',
+                            width: 100,
+                            alignment: 'center',
+                            cellTemplate: function (container, options) {
+                                $('<a/>').addClass('dx-link')
+                                    .text('Edit')
+                                    .on('dxclick', function () {
+                                        AddToCart(options.value);
+                                    })
+                                    .appendTo(container);
+                                //$('<a/>').addClass('dx-link')
+                                //    .text('Delete')
+                                //    .on('dxclick', function () {
+                                //        Delete(options.value);
+                                //    })
+                                //    .appendTo(container);
+                            }
                         }
-                    });
-                } else {
-                    alert('Sai cú pháp');
-                }
-            },
-            allowOutsideClick: () => !Swal.isLoading()
+                    ],
+                    onRowRemoved: function (e) {
+                        console.log(e.data.Id);
+                        //var editObj = {
+                        //    editType: 2,
+                        //    key: e.key,
+                        //    data: e.data
+                        //};
+                        //$.ajax({
+                        //    url: '/API/DeleteProduct',
+                        //    type: "POST",
+                        //    dataType: "JSON",
+                        //    data: JSON.stringify(e.data.Id),
+                        //    contentType: 'application/json',
+                        //    success: function (obj) {
+                        //        DevExpress.ui.notify(obj.Msg, obj.StatusStr, 1200);
+                        //    }
+                        //});
+                        APIPost('/API/DeleteProduct', e.data.Id);
+                    },
+
+                });
+            }
+        });
+      
+    });
+
+    function APIPost(urlStr, e) {
+        $.ajax({
+            url: urlStr,
+            type: "POST",
+            dataType: "JSON",
+            data: JSON.stringify(e),
+            contentType: 'application/json',
+            success: function (obj) {
+                // Thông báo
+                DevExpress.ui.notify(obj.Msg, obj.StatusStr, 1200);
+            }
         });
     }
-    var collapsed = false;
+
 </script>

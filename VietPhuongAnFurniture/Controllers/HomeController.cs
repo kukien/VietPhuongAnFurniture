@@ -30,7 +30,7 @@ namespace VietPhuongAnFurniture.Controllers
             _roleManager = roleManager;
 
         }
-        public IActionResult Index(string stuff, string subType, string productType, string price)
+        public IActionResult Index(string stuff, string subType, string productType, string price, string search,string priceFrom, string priceTo)
         {
             var viewModel = new ViewModel();
             var lstAllProduct = _context.Products.OrderBy(n=>n.CRUDDate).ToList();
@@ -48,12 +48,21 @@ namespace VietPhuongAnFurniture.Controllers
                 item.GImage = imageObj;
 
             }
+            double priceFromNumb =  0;
+            double priceToNumb =  0;
+
+            var priceFromCheck = double.TryParse(priceFrom, out priceFromNumb);
+            var priceToCheck = double.TryParse(priceTo, out priceToNumb);
+
             var filter = new FilterObj
             {
                 Stuff = stuff,
                 Subtype = subType,
                 ProductType = productType,
                 Price = price,
+                Search = search,
+                PriceFrom = priceFromNumb,
+                PriceTo = priceToNumb,
             };
             viewModel.allProducts = GetLstProduct(filter, lstAllProduct);
             viewModel.allBanners = lstAllProduct.Where(n=>n.IsBestSelling == true).Take(10).ToList();
@@ -107,7 +116,13 @@ namespace VietPhuongAnFurniture.Controllers
 
             if (filter.ProductType != null)
                 lstProduct = lstDefault.Where(n => n.ProductTypeId == filter.ProductType).Take(100).ToList();
-          
+
+            if (filter.Search != null)
+                lstProduct = lstDefault.Where(n => n.Name.ToUpper().Contains(filter.Search.ToUpper()) || n.Code.ToUpper().Contains(filter.Search.ToUpper())).Take(100).ToList();
+
+            if (filter.PriceFrom > 0 && filter.PriceTo > 0)
+                lstProduct = lstDefault.Where(n => n.Price >= filter.PriceFrom && n.Price <=filter.PriceTo).Take(100).ToList();
+
             return lstProduct;
         } 
     }

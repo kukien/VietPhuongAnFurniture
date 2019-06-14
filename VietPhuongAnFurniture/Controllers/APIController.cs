@@ -53,10 +53,31 @@ namespace VietPhuongAnFurniture.Controllers
         [Authorize]
         [HttpPost]
         [Route("[controller]/[action]")]
-        public ActionResult DeleteProduct([FromBody]string productId)
+        public async Task<ApiResponseBase> DeleteProduct([FromBody]string productId)
         {
-            var abc = "Abc";
-            return Ok();
+            var apiResponse = new ApiResponseBase();
+
+            try
+            {
+                var checkObj = await _context.Products.FirstOrDefaultAsync(n=>n.Id == productId);
+                if (checkObj != null)
+                {
+                    _context.Remove(checkObj);
+                    _context.SaveChanges();
+                    apiResponse.MakeTrue("Delete Success");
+                }
+                else
+                {
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                apiResponse.MakeException(ex.Message);
+            }
+            return apiResponse;
+
         }
     }
 }
