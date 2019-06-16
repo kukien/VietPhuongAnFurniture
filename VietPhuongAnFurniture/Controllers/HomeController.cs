@@ -41,7 +41,6 @@ namespace VietPhuongAnFurniture.Controllers
                 {
                     imageObj = new ProductImage
                     {
-                        // path default.
                         Path = "img/content/product-04.jpg",
                     };
                 }
@@ -71,9 +70,10 @@ namespace VietPhuongAnFurniture.Controllers
             viewModel.allSpecial = lstAllProduct.Take(5).ToList();
             viewModel.allProductSubTypes = _context.ProductSubTypes.ToList();
             viewModel.allStuff = _context.Products.GroupBy(n => n.Stuff).Select(n => n.Key).ToList();
+            viewModel.Pagination = GetPagination(viewModel.allProducts);
             return View(viewModel);
         }
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
             return View();
         }
@@ -125,5 +125,20 @@ namespace VietPhuongAnFurniture.Controllers
 
             return lstProduct;
         } 
+
+        public Dictionary<int,double> GetPagination(List<Product> lstProduct)
+        {
+            var result = new Dictionary<int, double>();
+            for (int i = 0; i < lstProduct.Count/12; i++)
+            {
+                result.Add(i,10);
+            }
+
+            if (result.Count == 0)
+            {
+                result.Add(1,10);
+            }
+            return result;
+        }
     }
 }

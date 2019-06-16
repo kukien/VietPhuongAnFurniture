@@ -17,6 +17,7 @@ namespace VietPhuongAnFurniture.Models
         public List<string> allStuff { get; set; }
         public List<string> allPrice { get; set; }
         public ProductImage GImage { get; set; }
+        public Dictionary<int, double> Pagination { get;set; }
 
     }
 }

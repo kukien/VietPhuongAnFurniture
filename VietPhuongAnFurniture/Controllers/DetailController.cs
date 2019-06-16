@@ -123,6 +123,7 @@ namespace VietPhuongAnFurniture.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(string pName, string pCode, string pOrigin, string pColor, string pStuff, string pSize, string pPrice, string pDes, string pBes, List<IFormFile> files, string imgIndex)
         {
+
             int price = int.TryParse(pPrice, out price) ? price : 0;
             int b = int.TryParse(pBes, out b) ? b : 0;
             bool bestSell = Convert.ToBoolean(b);

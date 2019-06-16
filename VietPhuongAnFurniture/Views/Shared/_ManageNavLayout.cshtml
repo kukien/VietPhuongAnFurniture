@@ -19,16 +19,16 @@
                     <nav class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="parent">
-                                <a asp-area="" asp-controller="Home" asp-action="Index" >
+                                <a asp-area="" asp-controller="Home" asp-action="Index">
                                     Trang chủ
                                 </a>
-                                 @*<ul class="sub">
-                                <li><a href="index.html">Creative</a></li>
-                                    <li><a href="home-2.html">Paralax</a></li>
-                                    <li><a href="home-3.html">Simple</a></li>
-                                    <li><a href="home-4.html">Business</a></li>
-                                    <li><a href="home-5.html">Animation <span class="new">New</span></a></li>
-                                </ul>*@
+                                @*<ul class="sub">
+                                    <li><a href="index.html">Creative</a></li>
+                                        <li><a href="home-2.html">Paralax</a></li>
+                                        <li><a href="home-3.html">Simple</a></li>
+                                        <li><a href="home-4.html">Business</a></li>
+                                        <li><a href="home-5.html">Animation <span class="new">New</span></a></li>
+                                    </ul>*@
                             </li>
                             <li class="parent">
                                 <a href="shop.html">Giới thiệu</a>
@@ -42,68 +42,25 @@
                                         <li><a href="compare.html">Compare Products</a></li>
                                     </ul>*@
                             </li>
-                            <li class="parent megamenu">
+                            <li class="parent">
                                 <a href="#">Sản phẩm</a>
                                 <ul class="sub">
-                                    <li class="promo-block box">
-                                        <a href="#" class="big-image">
-                                            <img src="~/img/content/megamenu-big.png" width="240" height="434" alt="">
-                                        </a>
-                                    </li><!-- .box.promo-block -->
+                                    @try 
+                                    {
+                                        @for (int j = 0; j < Model.allProductSubTypes.Count; j++)
+                                        {
+                                            <li><a asp-area="" asp-controller="Home" asp-route-subType="@Model.allProductSubTypes[j].ProductTypeId">@Model.allProductSubTypes[j].Name</a></li>
+                                        }
+                                    }
+                                    catch
+                                    {
 
-                                    <li class="box first">
-                                        <h6 class="title">Savant Apple Integration</h6>
-                                        <ul>
-                                            <li><a href="#">iPad, iPod touch, iPhone &amp; Mac Control</a></li>
-                                            <li><a href="#">iPod touch Remote Control</a></li>
-                                            <li><a href="#">Savant Host (Mac Mini)</a></li>
-                                        </ul>
-                                    </li><!-- .box -->
-                                    <li class="box">
-                                        <h6 class="title">Savant Audio/Video Control</h6>
-                                        <ul>
-                                            <li><a href="#">Distributed Audio &amp; Video</a></li>
-                                            <li><a href="#">Matrix Switchers</a></li>
-                                            <li><a href="#">Audio/Video Processing</a></li>
-                                        </ul>
-                                    </li><!-- .box -->
-                                    <li class="box first">
-                                        <h6 class="title">Savant Display Solutions</h6>
-                                        <ul>
-                                            <li><a href="#">Video Tiling <span class="new">New</span></a></li>
-                                            <li><a href="#">On-Screen Display</a></li>
-                                            <li><a href="#">Digital Messaging</a></li>
-                                        </ul>
-                                    </li><!-- .box -->
-                                    <li class="box">
-                                        <h6 class="title">Savant Sound</h6>
-                                        <ul>
-                                            <li><a href="#">Distributed Audio Controller</a></li>
-                                            <li><a href="#">Multi-channel Amplifiers <span class="new">New</span></a></li>
-                                            <li><a href="#">Architectural Speakers</a></li>
-                                        </ul>
-                                    </li><!-- .box -->
-                                    <li class="box first">
-                                        <h6 class="title">Savant Display Solutions</h6>
-                                        <ul>
-                                            <li><a href="#">Video Tiling</a></li>
-                                            <li><a href="#">On-Screen Display</a></li>
-                                            <li><a href="#">Digital Messaging</a></li>
-                                        </ul>
-                                    </li><!-- .box -->
-                                    <li class="box">
-                                        <h6 class="title">Savant Sound</h6>
-                                        <ul>
-                                            <li><a href="#">Distributed Audio Controller</a></li>
-                                            <li><a href="#">Multi-channel Amplifiers</a></li>
-                                            <li><a href="#">Architectural Speakers <span class="new">New</span></a></li>
-                                        </ul>
-                                    </li><!-- .box -->
-                                </ul><!-- .sub -->
+                                    }
+
+                                </ul>
                             </li>
                             <li class="parent">
-                                <a href="shop.html">Liên hệ</a>
-                              
+                                <a asp-area="" asp-controller="Home" asp-action="Contact">Liên hệ</a>
                             </li>
                         </ul>
                     </nav>
@@ -135,12 +92,12 @@
 
             <div class="phone-active col-sm-9 col-md-9">
                 <a href="#" class="close"><span>close</span>×</a>
-                <span class="title">Hostline</span> <strong>098 388 8944</strong>
+                <span class="title">Hostline</span> <strong>097 528 8163</strong>
             </div>
             <div class="search-active col-sm-9 col-md-9">
                 <a href="#" class="close"><span>close</span>×</a>
                 <form name="search-form">
-                    <input class="search-string form-control" type="search" placeholder="Tìm kiếm" name="search-string">
+                    <input class="search-string form-control" type="search" placeholder="Tìm kiếm" name="search" id="txtSearch">
                     <button class="search-submit">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
                         <path fill="#231F20" d="M12.001,10l-0.5,0.5l-0.79-0.79c0.806-1.021,1.29-2.308,1.29-3.71c0-3.313-2.687-6-6-6C2.687,0,0,2.687,0,6

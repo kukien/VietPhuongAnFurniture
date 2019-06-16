@@ -41,7 +41,7 @@
                         </a>*@
                     </div>
 
-                    <div class="sort-catalog">
+                    @*<div class="sort-catalog">
                         <div class="btn-group sort-by btn-select">
                             <a class="btn dropdown-toggle btn-default" role="button" data-toggle="dropdown" href="#">Sort by: <span>Rating</span> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -51,9 +51,9 @@
                             </ul>
                         </div><!-- .sort-by -->
                         <button type="button" class="btn up-down btn-default" data-toggle="button"><span></span></button>
-                    </div><!-- .sort-catalog -->
+                    </div><!-- .sort-catalog -->*@
 
-                    <div class="sort-catalog">
+                    @*<div class="sort-catalog">
                         <div class="btn-group show-by btn-select">
                             <a class="btn dropdown-toggle btn-default" role="button" data-toggle="dropdown" href="#">Show: <span>12</span> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -72,7 +72,7 @@
                             </ul>
                         </div><!-- .show -->
                         <span class="per-page">per page</span>
-                    </div><!-- .sort-catalog -->
+                    </div><!-- .sort-catalog -->*@
 
                 </div>
 
@@ -93,7 +93,7 @@
 
                                 }
                                     <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image">
-                                        <img alt="Image" src="~/@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="270" height="270">
+                                        <img alt="Image" src="@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="270" height="270">
                                     </a>
 
                                 <div class="product-description">
@@ -114,7 +114,7 @@
                                 <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image">
                                     @*<img src="~/img/content/product-04.jpg" alt="" title="" width="70" height="70" class="image-sm-custom">*@
                                    
-                                    <img alt="Image" src="~/@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="70" height="70">
+                                    <img alt="Image" src="@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="70" height="70">
                                    
                                 </a>
                               
@@ -147,15 +147,32 @@
 
                 <div class="pagination-box">
                     <ul class="pagination">
-                        <li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                        @*<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                        
                         <li class="active"><span>1</span></li>
                         <li><a href="#">2</a></li>
                         <li><a href="#">3</a></li>
-                        <li class="disabled"><a href="#">...</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">6</a></li>
+                        <li><a href="#">7</a></li>
+                        <li><a href="#">8</a></li>
                         <li><a href="#">9</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                        <li><a href="#">10</a></li>
+
+                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>*@
+
+
                     </ul>
-                    <i class="pagination-text">Displaying 1 to 10 (of 100 posts)</i>
+                    @if (@Model.allProducts.Count >= 10)
+                    {
+                        <i class="pagination-text">HIển thị từ 1 đến 10 (của @Model.allProducts.Count sản phẩm)</i>
+                    }
+                    else
+                    {
+                        <i class="pagination-text">HIển thị từ 1 đến @Model.allProducts.Count (của @Model.allProducts.Count sản phẩm)</i>
+                    }
+
                 </div><!-- .pagination-box -->
             </div><!-- .content -->
             <div id="sidebar" class="sidebar col-sm-12 col-md-3">

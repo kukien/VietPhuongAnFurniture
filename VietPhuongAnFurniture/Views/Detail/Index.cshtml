@@ -28,15 +28,25 @@
 <section id="main">
     <header class="page-header">
         <div class="container">
-            <div class="row">
-                <div class="demo-container" style="margin-bottom:40px">
-                    <div id="gridContainer"></div>
-                </div>
-            </div>
-        </div>        
+            <h1 class="title ">Quản lý sản phẩm</h1>
+        </div>
     </header>
+
+    <div class="container">
+        <div class="row">
+            <a asp-area="" asp-controller="Detail" asp-action="Create">
+                <button class="btn btn-primary" id="btnSweel">Thêm sản phẩm mới</button>
+            </a>
+        </div>
+        <br />
+        <div class="row">
+            <div class="demo-container" style="margin-bottom:40px">
+                <div id="gridContainer"></div>
+            </div>
+        </div>
+
+    </div>
 </section>
-<button id="btnSweel">Click Me</button>
 <script type="text/javascript">
     $(function () {
 
@@ -149,6 +159,7 @@
                             width: 70
                         },
                         {
+                            caption: "Sửa",
                             dataField: 'Id',
                             width: 100,
                             alignment: 'center',
@@ -175,7 +186,7 @@
                 });
             }
         });
-      
+
     });
 
     function APIPost(urlStr, e) {
