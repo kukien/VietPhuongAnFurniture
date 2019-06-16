@@ -438,30 +438,21 @@ namespace VietPhuongAnFurniture.Controllers
         [HttpPost]
         public IActionResult DeleteProduct(string productId)
         {
-            //var product = _context.Products.FirstOrDefault(n => n.Id == productId);
-            //if (product != null)
-            //{
-            //    var imgLst = _context.ProductImages.Where(n => n.ProductId == productId).ToList();
-            //    if (imgLst.Count > 0)
-            //    {
-            //        _context.ProductImages.RemoveRange(imgLst);
-            //        _context.SaveChanges();
-            //    }
-            //    var path = _folderImages + "/" + product.Id;
-            //    DeleteFile(path, "folder");
-            //    _context.Products.Remove(product);
-            //    _context.SaveChanges();
-            //}
-            if (productId == "1")
+            var product = _context.Products.FirstOrDefault(n => n.Id == productId);
+            if (product != null)
             {
-                //  Error
-                return BadRequest("delete error");
+                var imgLst = _context.ProductImages.Where(n => n.ProductId == productId).ToList();
+                if (imgLst.Count > 0)
+                {
+                    _context.ProductImages.RemoveRange(imgLst);
+                    _context.SaveChanges();
+                }
+                var path = _folderImages + "/" + product.Id;
+                DeleteFile(path, "folder");
+                _context.Products.Remove(product);
+                _context.SaveChanges();
             }
-            else
-            {
-                //  Success
-                return Json("delete success");
-            }
+            return Json("delete success");
         }
 
         private bool ProductExists(string id)

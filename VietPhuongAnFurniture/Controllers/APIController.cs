@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VietPhuongAnFurniture.Data;
@@ -14,11 +16,13 @@ namespace VietPhuongAnFurniture.Controllers
     public class APIController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private static string _folderImages = "ProductImages";
 
-        public APIController(ApplicationDbContext context)
+        public APIController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
-
+            _hostingEnvironment = hostingEnvironment;
         }
         public IActionResult Index()
         {
@@ -56,19 +60,26 @@ namespace VietPhuongAnFurniture.Controllers
         public async Task<ApiResponseBase> DeleteProduct([FromBody]string productId)
         {
             var apiResponse = new ApiResponseBase();
-
             try
             {
-                var checkObj = await _context.Products.FirstOrDefaultAsync(n=>n.Id == productId);
-                if (checkObj != null)
+                var product = await _context.Products.FirstOrDefaultAsync(n=>n.Id == productId);
+                if (product != null)
                 {
-                    _context.Remove(checkObj);
+                    var path = _folderImages + "/" + product.Id;
+                    DeleteFile(path, "folder");
+                    var imgLst = _context.ProductImages.Where(n => n.ProductId == productId).ToList();
+                    if (imgLst.Count > 0)
+                    {
+                        _context.ProductImages.RemoveRange(imgLst);
+                        _context.SaveChanges();
+                    }
+                    _context.Products.Remove(product);
                     _context.SaveChanges();
-                    apiResponse.MakeTrue("Delete Success");
+                    apiResponse.MakeTrue("Xóa thành công");
                 }
                 else
                 {
-
+                    apiResponse.MakeTrue("Có lỗi xảy ra, không thể xóa sản phẩm!");
                 }
 
             }
@@ -78,6 +89,27 @@ namespace VietPhuongAnFurniture.Controllers
             }
             return apiResponse;
 
+        }
+
+        private void DeleteFile(string path, string type)
+        {
+            if (path.Contains("~/"))
+                path = path.Substring(2, path.Length - 2);
+            path = path.Replace('/', '\\');
+            try
+            {
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                string finalPath = Path.Combine(webRootPath, path);
+                bool exists = Directory.Exists(finalPath);
+                if (type == "img")
+                    System.IO.File.Delete(finalPath);
+                else if (type == "folder")
+                    if (Directory.Exists(finalPath)) Directory.Delete(finalPath, true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

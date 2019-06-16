@@ -154,7 +154,7 @@
                             alignment: 'center',
                             cellTemplate: function (container, options) {
                                 $('<a/>').addClass('dx-link')
-                                    .text('Edit')
+                                    .text('Sửa')
                                     .on('dxclick', function () {
                                         AddToCart(options.value);
                                     })
@@ -169,22 +169,6 @@
                         }
                     ],
                     onRowRemoved: function (e) {
-                        console.log(e.data.Id);
-                        //var editObj = {
-                        //    editType: 2,
-                        //    key: e.key,
-                        //    data: e.data
-                        //};
-                        //$.ajax({
-                        //    url: '/API/DeleteProduct',
-                        //    type: "POST",
-                        //    dataType: "JSON",
-                        //    data: JSON.stringify(e.data.Id),
-                        //    contentType: 'application/json',
-                        //    success: function (obj) {
-                        //        DevExpress.ui.notify(obj.Msg, obj.StatusStr, 1200);
-                        //    }
-                        //});
                         APIPost('/API/DeleteProduct', e.data.Id);
                     },
 
@@ -206,6 +190,18 @@
                 DevExpress.ui.notify(obj.Msg, obj.StatusStr, 1200);
             }
         });
+    }
+
+    function AddToCart(param)
+    {
+        var url = '@Url.Action("Edit", "Detail", new { id = "__id__" })';
+        window.location.href = url.replace('__id__', param);
+        @*$.ajax({
+            url: "@Url.Action("Edit", "Detail")",
+            data: { id: id }
+        }).done(function() {
+            console.log('Edit');
+        });*@
     }
 
 </script>
