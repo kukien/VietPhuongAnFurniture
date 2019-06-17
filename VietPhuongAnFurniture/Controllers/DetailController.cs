@@ -103,6 +103,15 @@ namespace VietPhuongAnFurniture.Controllers
         {
             return View();
         }
+        public IActionResult ProductType()
+        {
+            return View();
+        }
+
+        public IActionResult ProductSubType()
+        {
+            return View();
+        }
 
         // POST: Detail/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

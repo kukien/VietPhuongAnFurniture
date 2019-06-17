@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using VietPhuongAnFurniture.Data;
 using VietPhuongAnFurniture.Models;
 using VietPhuongAnFurniture.Models.Ulti;
+using VietPhuongAnFurniture.Util;
 
 namespace VietPhuongAnFurniture.Controllers
 {
@@ -110,6 +112,42 @@ namespace VietPhuongAnFurniture.Controllers
             {
                 throw ex;
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<List<ProductType>> LoadProductType()
+        {
+            var lstObj = new List<ProductType>();
+            lstObj = await _context.ProductTypes.Select(n => n).ToListAsync();            
+            return lstObj;
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<List<ProductSubType>> LoadProductSubType()
+        {
+            var lstObj = new List<ProductSubType>();
+            lstObj = await _context.ProductSubTypes.Select(n => n).ToListAsync();
+            return lstObj;
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("[controller]/[action]")]
+        public async Task<ApiResponseBase> SaveProductType([FromBody]DxGrvObj reqPath)
+        {
+            return await DxGridHelper.HandleEdit<ProductType>(_context, reqPath, true);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("[controller]/[action]")]
+        public async Task<ApiResponseBase> SaveProductSubType([FromBody]DxGrvObj reqPath)
+        {
+            return await DxGridHelper.HandleEdit<ProductSubType>(_context, reqPath, true);
         }
     }
 }

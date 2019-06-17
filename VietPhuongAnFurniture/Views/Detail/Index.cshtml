@@ -25,21 +25,15 @@
     </div>
 </div><!-- .breadcrumb-box -->
 
-<section id="main">
-    <header class="page-header">
-        <div class="container">
-            <h1 class="title ">Quản lý sản phẩm</h1>
-        </div>
-    </header>
-
+<section id="main"> 
     <div class="container">
         <div class="row">
             <article class="content pull-right col-sm-9 col-md-9">
-                @*<div class="row">
-                <a asp-area="" asp-controller="Detail" asp-action="Create">
-                    <button class="btn btn-primary" id="btnSweel">Thêm sản phẩm mới</button>
-                </a>
-            </div>*@
+                <header class="page-header">
+                    <div class="container">
+                        <h5 class="title ">Danh sách sản phẩm</h5>
+                    </div>
+                </header>
                 <br />
                 <div class="row">
                     <div class="demo-container" style="margin-bottom:40px">
@@ -53,7 +47,6 @@
 </section>
 <script type="text/javascript">
     $(function () {
-
         $.ajax({
             url: 'API/LoadProductData',
             type: "GET",
@@ -192,20 +185,6 @@
         });
 
     });
-
-    function APIPost(urlStr, e) {
-        $.ajax({
-            url: urlStr,
-            type: "POST",
-            dataType: "JSON",
-            data: JSON.stringify(e),
-            contentType: 'application/json',
-            success: function (obj) {
-                // Thông báo
-                DevExpress.ui.notify(obj.Msg, obj.StatusStr, 1200);
-            }
-        });
-    }
 
     function AddToCart(param)
     {

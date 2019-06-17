@@ -12,5 +12,16 @@ namespace VietPhuongAnFurniture.Models
     {
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
+
+
+    }
+
+    public class BaseModel2
+    {
+        [Key]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+
+        public DateTime CRUDDate { get; set; }
+
     }
 }

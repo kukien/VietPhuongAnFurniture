@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace VietPhuongAnFurniture.Models
 {
-    public class ProductType : BaseModel
+    public class ProductType : BaseModel2
     {
         [Required]
         [MaxLength(200)]
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime CRUDDate { get; set; }
+        //public DateTime CRUDDate { get; set; }
     }
 }
