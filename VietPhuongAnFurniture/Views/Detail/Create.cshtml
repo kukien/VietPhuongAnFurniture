@@ -55,6 +55,7 @@
     #selected-files {
         display: none;
     }
+
     .dx-gallery-item-content > img {
         width: 100%;
         height: 100%;
@@ -73,45 +74,46 @@
     <div class="container">
         <ul class="breadcrumb">
             <li><a href="index.html">Trang chủ</a> </li>
-            <li class="active">Tạo sản phẩm</li>
+            <li class="active">Quản lý sản phẩm</li>
         </ul>
     </div>
 </div><!-- .breadcrumb-box -->
 <section id="main">
-    <header class="page-header">
-        <div class="container">
-            <h1 class="title">Tạo sản phẩm mới</h1>
-        </div>
-    </header>
     <div class="container">
         <div class="row">
-            <div class="content login col-sm-12 col-md-12">
+            <article class=" pull-right col-sm-9 col-md-9">
+                <header class="page-header">
+                    <div class="container">
+                        <h5 class="title ">Tạo sản phẩm mới</h5>
+                    </div>
+                </header>
+                <br />
                 <div class="row">
-                    <div class="col-sm-12 col-md-12">
+                    <div class="  col-sm-12 col-md-12">
                         <div class="alert alert-error fade in alert-warning alert-dismissable" style="display: none">
                             <i class="fa fa-warning alert-icon"></i>
                             Không được để trống tên sản phẩm.
                         </div>
                         <label>Tên sản phẩm: <span class="required">*</span></label>
-                        <input class="form-control" type="text" id="pName"/>
+                        <input class="form-control" type="text" id="pName" />
 
                         <label>Mã sản phẩm:</label>
-                        <input class="form-control" type="text" id="pCode"/>
+                        <input class="form-control" type="text" id="pCode" />
 
                         <label>Xuất xứ:</label>
-                        <input class="form-control" type="text" id="pOrigin"/>
+                        <input class="form-control" type="text" id="pOrigin" />
 
                         <label>Màu sắc:</label>
-                        <input class="form-control" type="text" id="pColor"/>
+                        <input class="form-control" type="text" id="pColor" />
 
                         <label>Chất liệu:</label>
-                        <input class="form-control" type="text" id="pStuff"/>
+                        <input class="form-control" type="text" id="pStuff" />
 
                         <label>Kích thước:</label>
-                        <input class="form-control" type="text" id="pSize"/>
+                        <input class="form-control" type="text" id="pSize" />
 
                         <label>Giá: (VNĐ)</label>
-                        <input class="form-control" type="text" id="pPrice"/>
+                        <input class="form-control" type="text" id="pPrice" />
 
                         <label>Thông tin:</label>
                         <input class="form-control value-description" type="hidden" id="pDes">
@@ -127,14 +129,15 @@
                             </label>
                         </div>
                         <div class="buttons-box clearfix">
-                            <button class="btn pull-left btn-success" id="btnSubmit">Tạo sản phẩm</button>
+                            <button class="btn pull-left btn-primary" id="btnSubmit">Tạo sản phẩm</button>
                             <button id="btnCancel" class="btn pull-left btn-danger btn-margin-left-10">Hủy</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </article><!-- .content -->
+            <partial name="_LeftSidebar" />
         </div>
-    </div><!-- .container -->
+    </div>
 </section><!-- #main -->
 <script>
     $(document).ready(function() {
