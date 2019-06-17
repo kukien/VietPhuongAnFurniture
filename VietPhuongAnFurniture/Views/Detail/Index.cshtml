@@ -34,17 +34,21 @@
 
     <div class="container">
         <div class="row">
-            <a asp-area="" asp-controller="Detail" asp-action="Create">
-                <button class="btn btn-primary" id="btnSweel">Thêm sản phẩm mới</button>
-            </a>
+            <article class="content pull-right col-sm-9 col-md-9">
+                @*<div class="row">
+                <a asp-area="" asp-controller="Detail" asp-action="Create">
+                    <button class="btn btn-primary" id="btnSweel">Thêm sản phẩm mới</button>
+                </a>
+            </div>*@
+                <br />
+                <div class="row">
+                    <div class="demo-container" style="margin-bottom:40px">
+                        <div id="gridContainer"></div>
+                    </div>
+                </div>
+            </article><!-- .content -->
+            <partial name="_LeftSidebar" />
         </div>
-        <br />
-        <div class="row">
-            <div class="demo-container" style="margin-bottom:40px">
-                <div id="gridContainer"></div>
-            </div>
-        </div>
-
     </div>
 </section>
 <script type="text/javascript">
@@ -117,13 +121,13 @@
                             format: "#,##0 đ",
                             alignment: "right",
                         },
-                        {
-                            dataField: "CRUDDate",
-                            caption: "Ngày tạo",
-                            dataType: "date",
-                            format: "d/M/yyyy",
-                            alignment: 'center'
-                        },
+                        //{
+                        //    dataField: "CRUDDate",
+                        //    caption: "Ngày tạo",
+                        //    dataType: "date",
+                        //    format: "d/M/yyyy",
+                        //    alignment: 'center'
+                        //},
                         {
                             dataField: "Code",
                             caption: "Mã",
@@ -161,7 +165,7 @@
                         {
                             caption: "Sửa",
                             dataField: 'Id',
-                            width: 100,
+                            width: 50,
                             alignment: 'center',
                             cellTemplate: function (container, options) {
                                 $('<a/>').addClass('dx-link')

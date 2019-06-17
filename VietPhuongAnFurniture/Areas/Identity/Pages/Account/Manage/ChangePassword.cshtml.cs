@@ -33,20 +33,20 @@ namespace VietPhuongAnFurniture.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Vui lòng nhập mật khẩu hiện tại.")]
             [DataType(DataType.Password)]
             [Display(Name = "Current password")]
             public string OldPassword { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Vui lòng nhập mật khẩu mới.")]
+            [StringLength(100, ErrorMessage = "Mật khẩu mới phải có ít nhất {2} và nhiều nhất là {1} ký tự.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Compare("NewPassword", ErrorMessage = "Mật khẩu và mật khẩu xác nhận không giống nhau.")]
             public string ConfirmPassword { get; set; }
         }
 

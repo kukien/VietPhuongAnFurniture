@@ -10,9 +10,10 @@
             <li><a asp-area="" asp-controller="Detail" asp-action="index">Quản lý sản phẩm</a></li>
             <li><a asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Thay đổi mật khẩu</a></li>
             <li>
-                @*<a asp-area="Identity" asp-page="Pages/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"> Log out</a>*@
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <button type="submit" class=" btn btn-sm">
+              @*  <a  asp-area="Identity" asp-page="/Account/Logout" > Log out</a>*@
+                
+                <form class="form-inline"  asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="btn btn-sm" style="margin-top:2px">
                         Log out
                     </button>
                 </form>
