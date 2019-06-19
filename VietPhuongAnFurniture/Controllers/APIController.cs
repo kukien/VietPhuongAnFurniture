@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VietPhuongAnFurniture.Data;
@@ -148,6 +149,32 @@ namespace VietPhuongAnFurniture.Controllers
         public async Task<ApiResponseBase> SaveProductSubType([FromBody]DxGrvObj reqPath)
         {
             return await DxGridHelper.HandleEdit<ProductSubType>(_context, reqPath, true);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<Banner> GetBanner()
+        {
+            var bannerObj = new Banner();
+            bannerObj = await _context.Banners.FirstOrDefaultAsync();
+            if (bannerObj == null)
+            {
+                bannerObj.Content = "";
+                bannerObj.ImageUrl = "~/img/content/870x370.png";
+            }
+            return bannerObj;
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("[controller]/[action]")]
+        public async Task<ApiResponseBase> SaveBanner(string content, IFormFile file)
+        {
+            var result = new ApiResponseBase();
+
+            return result;
+            //return await DxGridHelper.HandleEdit<ProductType>(_context, reqPath, true);
         }
     }
 }

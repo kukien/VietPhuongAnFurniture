@@ -70,14 +70,18 @@ namespace VietPhuongAnFurniture.Controllers
             viewModel.allSpecial = lstAllProduct.Take(5).ToList();
             viewModel.allProductSubTypes = _context.ProductSubTypes.ToList();
             viewModel.allStuff = _context.Products.GroupBy(n => n.Stuff).Select(n => n.Key).ToList();
-            viewModel.Pagination = GetPagination(viewModel.allProducts);
+            viewModel.BannerObj = _context.Banners.FirstOrDefault();
+
             return View(viewModel);
         }
         public IActionResult Contact()
         {
             return View();
         }
-
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
         public void CreateRole()
         {
             //var apiResponse = new ApiResponseBase();
@@ -126,17 +130,17 @@ namespace VietPhuongAnFurniture.Controllers
             return lstProduct;
         } 
 
-        public Dictionary<int,double> GetPagination(List<Product> lstProduct)
+        public List<int> GetPagination(List<Product> lstProduct)
         {
-            var result = new Dictionary<int, double>();
-            for (int i = 0; i < lstProduct.Count/12; i++)
+            var result = new List<int>();
+            for (int i = 0; i < lstProduct.Count/24; i++)
             {
-                result.Add(i,10);
+                result.Add(i);
             }
 
             if (result.Count == 0)
             {
-                result.Add(1,10);
+                result.Add(1);
             }
             return result;
         }

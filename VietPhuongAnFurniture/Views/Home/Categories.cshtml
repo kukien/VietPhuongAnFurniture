@@ -63,7 +63,7 @@
         <ul>
             @for (int i = 0; i < Model.allStuff.Count; i++)
             {
-                <li><i class="fa fa-angle-right"></i><a asp-area="" asp-controller="Home" asp-action="Index" asp-route-stuff="@Model.allStuff[i]">@Model.allStuff[i]</a></li>
+                <li><i class="fa fa-angle-right"></i> <a asp-area="" asp-controller="Home" asp-action="Index" asp-route-stuff="@Model.allStuff[i]">@Model.allStuff[i]</a></li>
             }
 
         </ul>

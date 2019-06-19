@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewData["Title"] = "BannerEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumb-box">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="active">Quản lý sản phẩm</li>
+        </ul>
+    </div>
+</div><!-- .breadcrumb-box -->
+
+<section id="main">
+    <div class="container">
+        <div class="row">
+            <article class="content pull-right col-sm-9 col-md-9">
+                <header class="page-header">
+                    <div class="container">
+                        <h5 class="title ">Thay đổi thông tin chính</h5>
+                    </div>
+                </header>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div><label>Nội dung hiển thị:</label></div>
+                        <div id="textArea"></div>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div><label>Hình ảnh hiển thị:</label></div>
+                        <div id="fileUploader"></div>
+                        <div id="galleryContainer" style="width: 100%; height: 370px; display: none"></div>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 col-md-2 pull-right">
+                        <button id="btnCancel" class="btn pull-left btn-danger" style="width:100%">Hủy</button>
+                    </div>
+                    <div class="col-sm-4 col-md-3 pull-right">
+                        <button class="btn pull-left btn-primary" id="btnSubmit" style="width:100%" onclick="SaveBtn()">Lưu thông tin </button>
+                    </div>
+                </div>
+            </article><!-- .content -->
+            <partial name="_LeftSidebar" />
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    var contentTxt = [];
+    var imgSrcs = [];
+    var imgFilesUploaded = [];
+    $(function () {
+        $("#fileUploader").dxFileUploader({
+            accept: "image/*",
+            selectButtonText: "Chọn ảnh",
+            labelText: "hoặc thả ảnh vào đây",
+            onValueChanged: function (e) {               
+                var files = e.value;
+                imgFilesUploaded = files;
+                SetGalleryValue(files);
+            },
+        }).dxFileUploader("instance");
+    });
+
+    function SetGalleryValue(files) {
+        if (files.length > 0) {
+            console.log('files: ', files);
+            $("#galleryContainer").css("display", "block");
+            $.each(files,
+                function (i, file) {
+                    imgFilesUploaded.push(file);
+                    var fileURL = URL.createObjectURL(file);
+                    console.log(fileURL);
+                    imgSrcs.push({ imageSrc: fileURL, name: file.name });
+                });
+            $("#galleryContainer").dxGallery({
+                dataSource: imgSrcs
+            }).dxGallery("instance");
+        } else {
+            $("#galleryContainer").css("display", "none");
+            $("#galleryContainer").dxGallery({
+                dataSource: []
+            }).dxGallery("instance");
+        }
+    }
+
+    $(function () {
+        $.ajax({
+            url: '/API/GetBanner',
+            type: "GET",
+            dataType: "json",
+            success: function (d) {
+                var url = window.location.href;
+                var urlArr = url.split('/');
+                var imgPath = d.ImageUrl;
+                if ((d.ImageUrl).includes('~')) {
+                    imgPath = (d.ImageUrl).replace("~","");
+                }
+                $("#galleryContainer").css("display", "block");
+                $("#galleryContainer").dxGallery({
+                    dataSource: [urlArr[0] + "//" + urlArr[2] + imgPath,]
+                }).dxGallery("instance");
+
+                contentTxt = $("#textArea").dxTextArea({
+                    value: d.Content,
+                    maxLength: 200,
+                }).dxTextArea("instance");
+            },
+        });
+    });
+
+    function SaveBtn() {
+        var data = {
+            content : contentTxt.option('value'),
+            file : imgFilesUploaded,
+        }
+        var editObj = {
+            editType: 0,
+            key: 0,
+            data: data
+        }
+        $.ajax({
+            url: '/API/SaveBanner',
+            type: "POST",
+            dataType: "JSON",
+            data: data,
+            contentType: 'application/json',
+            success: function (obj) {
+                // Thông báo
+                DevExpress.ui.notify(obj.Msg, obj.StatusStr, 1200);
+            }
+        });
+    }
+</script>

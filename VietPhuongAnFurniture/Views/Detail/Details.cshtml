@@ -4,12 +4,26 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    /*.crop {
+        width: 200px;
+        height: 150px;
+        overflow: hidden;
+    }
 
+        .crop img {
+            width: 700px;
+            height: 00px;
+            margin: -75px 0 0 -100px;
+        }*/
+</style>
 <div class="breadcrumb-box">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> </li>
-            <li><a href="/catalog-grid.html">Category</a> </li>
+            <li>
+                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
+            </li>
             <li class="active">@Model.Product.Name - @Model.Product.Code</li>
         </ul>
     </div>
@@ -30,7 +44,7 @@
                         <div class="image-box">
                             <span class="sale top"></span>
                             <div class="general-img">
-                                <img alt="" src="@Url.Content(@Model.GImage.Path)"  data-zoom-image="@Url.Content(@Model.GImage.Path)" style="width: 100%; height: 100%; object-fit: contain;">
+                                <img alt="" src="@Url.Content(@Model.GImage.Path)" data-zoom-image="@Url.Content(@Model.GImage.Path)" style="width: 100%; height: 100%; object-fit: contain;">
                             </div>
                             <div class="thumblist-box load">
                                 <a href="#" class="prev">
@@ -44,9 +58,12 @@
                                 <div id="thumblist" class="thumblist">
                                     @for (int i = 0; i < Model.TImage.Count; i = i + 1)
                                     {
-                                        <a href="#" data-image="@Url.Content(Model.TImage[i].Path)" data-zoom-image="@Url.Content(Model.TImage[i].Path)">
-                                            <img alt="" src="@Url.Content(Model.TImage[i].Path)" width="700" height="700">
-                                        </a>
+                                        @*<div class="crop">*@
+                                            <a data-image="@Url.Content(Model.TImage[i].Path)" data-zoom-image="@Url.Content(Model.TImage[i].Path)" >
+                                                <img alt="" src="@Url.Content(Model.TImage[i].Path)" width="700" height="700">
+                                            </a>
+                                        @*</div>*@
+
                                     }
                                 </div>
                             </div>

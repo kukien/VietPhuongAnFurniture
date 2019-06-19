@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace VietPhuongAnFurniture.Models
 {
-    public class Banner : BaseModel
+    public class Banner : BaseModel2
     {
-        public string Text { get; set; }
+        public string Content { get; set; }
         public string ImageUrl { get; set; }
 
     }

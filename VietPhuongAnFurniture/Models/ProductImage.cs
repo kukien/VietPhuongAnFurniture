@@ -14,6 +14,5 @@ namespace VietPhuongAnFurniture.Models
         public DateTime CRUDDate { get; set; }
         public string ProductId { get; set; }
         public int Index { get; set; }
-        //public virtual Product Product { get; set; }
     }
 }

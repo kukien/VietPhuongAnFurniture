@@ -27,8 +27,17 @@
         <div class="row">
             <div id="catalog" class="content col-sm-12 col-md-9">
                 <div class="category-img">
-                    <img src="~/img/content/megamenu-big2.png" width="870" height="370" alt="">
-                    <div class="description">Sự pha trộn giữa chất liệu gỗ sang trọng cổ điển, cùng lớp da, nỉ bọc hiện đại là xu hướng không mới nhưng chẳng bao giờ lỗi mốt.</div>
+                    @if (Model.BannerObj != null)
+                    {
+                        <img src="@Url.Content(Model.BannerObj.ImageUrl)" width="870" height="370" alt="">
+                        <div class="description">@Model.BannerObj.Content</div>
+                    }
+                    else
+                    {
+                        <img src="~/img/content/megamenu-big2.png" width="870" height="370" alt="">
+                        <div class="description">Sự pha trộn giữa chất liệu gỗ sang trọng cổ điển, cùng lớp da, nỉ bọc hiện đại là xu hướng không mới nhưng chẳng bao giờ lỗi mốt.</div>
+                    }
+
                 </div>
 
                 <div class="toolbar clearfix">
@@ -81,7 +90,7 @@
                 <div class="products grid row">
                     @for (int i = 0; i < Model.allProducts.Count; i++)
                     {
-                        <div class="col-sm-4 col-md-3 col-sm-3 product rotation">
+                        <div class="col-sm-4 col-md-3 product rotation">
                             <div class="default">
                                 @if (Model.allProducts[i].IsBestSelling)
                                 {
@@ -92,9 +101,9 @@
                                     <span class="sale new"></span>
 
                                 }
-                                    <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image">
-                                        <img alt="Image" src="@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="270" height="270">
-                                    </a>
+                                <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image" style="min-height:225px">
+                                    <img alt="Image" src="@Url.Content(Model.allProducts[i].GImage.Path)" title="" width="270" height="270">
+                                </a>
 
                                 <div class="product-description">
                                     <div class="vertical">
@@ -161,8 +170,6 @@
                         <li><a href="#">10</a></li>
 
                         <li><a href="#"><i class="fa fa-angle-right"></i></a></li>*@
-
-
                     </ul>
                     @if (@Model.allProducts.Count >= 10)
                     {

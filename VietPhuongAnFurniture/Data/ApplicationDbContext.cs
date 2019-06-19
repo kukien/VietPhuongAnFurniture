@@ -22,6 +22,7 @@ namespace VietPhuongAnFurniture.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Telephone> Telephones { get; set; }
         public DbSet<Website> Websites { get; set; }
+        public DbSet<Banner> Banners { get; set; }
 
     }
 }
