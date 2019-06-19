@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -51,8 +52,8 @@ namespace VietPhuongAnFurniture.Controllers
                     };
                 }
                 item.GImage = imageObj;
-                item.SubTypeName = _context.ProductSubTypes.FirstOrDefault(n=>n.Id ==item.ProductSubTypeId)?.Name ??"";
-                item.TypeName = _context.ProductTypes.FirstOrDefault(n=>n.Id ==item.ProductTypeId)?.Name ??"";
+                item.SubTypeName = _context.ProductSubTypes.FirstOrDefault(n => n.Id == item.ProductSubTypeId)?.Name ?? "";
+                item.TypeName = _context.ProductTypes.FirstOrDefault(n => n.Id == item.ProductTypeId)?.Name ?? "";
             }
             return lstObj;
         }
@@ -65,7 +66,7 @@ namespace VietPhuongAnFurniture.Controllers
             var apiResponse = new ApiResponseBase();
             try
             {
-                var product = await _context.Products.FirstOrDefaultAsync(n=>n.Id == productId);
+                var product = await _context.Products.FirstOrDefaultAsync(n => n.Id == productId);
                 if (product != null)
                 {
                     var path = _folderImages + "/" + product.Id;
@@ -121,7 +122,7 @@ namespace VietPhuongAnFurniture.Controllers
         public async Task<List<ProductType>> LoadProductType()
         {
             var lstObj = new List<ProductType>();
-            lstObj = await _context.ProductTypes.Select(n => n).ToListAsync();            
+            lstObj = await _context.ProductTypes.Select(n => n).ToListAsync();
             return lstObj;
         }
 
@@ -156,10 +157,11 @@ namespace VietPhuongAnFurniture.Controllers
         [Route("[controller]/[action]")]
         public async Task<Banner> GetBanner()
         {
-            var bannerObj = new Banner();
-            bannerObj = await _context.Banners.FirstOrDefaultAsync();
+            var bannerObj = await _context.Banners.FirstOrDefaultAsync();
             if (bannerObj == null)
             {
+                bannerObj = new Banner();
+
                 bannerObj.Content = "";
                 bannerObj.ImageUrl = "~/img/content/870x370.png";
             }
@@ -172,7 +174,48 @@ namespace VietPhuongAnFurniture.Controllers
         public async Task<ApiResponseBase> SaveBanner(string content, IFormFile file)
         {
             var result = new ApiResponseBase();
+            try
+            {
+                var bannerObj = _context.Banners.FirstOrDefault();
+                var webRootPath = _hostingEnvironment.WebRootPath;
+                var tempPath = Path.Combine(webRootPath, "img\\content");
+                var imageURl = bannerObj?.ImageUrl??"";
+                if (file != null)
+                {
+                    var extension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')
+                       .Split('.');
+                    var fileExtension = extension[1];
+                    var fileName = Guid.NewGuid() + "." + fileExtension;
+                    var fullPath = Path.Combine(tempPath, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    imageURl = "~/img/content/" + fileName;
+                }
 
+                if (bannerObj == null)
+                {
+                    bannerObj = new Banner
+                    {
+                        Content = content,
+                        ImageUrl = imageURl,
+                    };
+                    _context.Banners.Add(bannerObj);
+                }
+                else
+                {
+                    bannerObj.Content = content;
+                    bannerObj.ImageUrl = imageURl;
+                }
+                _context.SaveChanges();
+                result.MakeTrue("Cập nhật thành công!");
+            }
+            catch (Exception ex)
+            {
+                result.MakeException("Đã có lỗi xảy ra vui lòng thử lại");
+
+            }
             return result;
             //return await DxGridHelper.HandleEdit<ProductType>(_context, reqPath, true);
         }

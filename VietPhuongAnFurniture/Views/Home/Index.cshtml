@@ -26,10 +26,11 @@
     <div class="container">
         <div class="row">
             <div id="catalog" class="content col-sm-12 col-md-9">
-                <div class="category-img">
+                <div class="category-img" >
                     @if (Model.BannerObj != null)
                     {
-                        <img src="@Url.Content(Model.BannerObj.ImageUrl)" width="870" height="370" alt="">
+
+                        <img src="@Url.Content(Model.BannerObj.ImageUrl)" width="870" height="370" alt=""  >
                         <div class="description">@Model.BannerObj.Content</div>
                     }
                     else
@@ -110,7 +111,7 @@
                                         <h3 class="product-name">
                                             <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id= "@Model.allProducts[i].Id">@Model.allProducts[i].Name - @Model.allProducts[i].Code</a>
                                         </h3>
-                                        <div class="price">@String.Format("{0:n0}", Model.allProducts[i].Price) - VND</div>
+                                        <div class="price">@String.Format("{0:n0}", Model.allProducts[i].Price) - @String.Format("{0:n0}", Model.allProducts[i].Price2) VND</div>
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +120,7 @@
                                 <h3 class="product-name">
                                     <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id">@Model.allProducts[i].Name - @Model.allProducts[i].Code</a>
                                 </h3>
-                                <div class="price">@String.Format("{0:n0}", Model.allProducts[i].Price) - VND</div>
+                                <div class="price">@String.Format("{0:n0}", Model.allProducts[i].Price) - @String.Format("{0:n0}", Model.allProducts[i].Price2) VND</div>
                                 <a asp-area="" asp-controller="Detail" asp-action="Details" asp-route-id="@Model.allProducts[i].Id" class="product-image">
                                     @*<img src="~/img/content/product-04.jpg" alt="" title="" width="70" height="70" class="image-sm-custom">*@
                                    
