@@ -33,7 +33,7 @@ namespace VietPhuongAnFurniture.Controllers
         public IActionResult Index(string stuff, string subType, string productType, string price, string search,string priceFrom, string priceTo)
         {
             var viewModel = new ViewModel();
-            var lstAllProduct = _context.Products.OrderBy(n=>n.CRUDDate).ToList();
+            var lstAllProduct = _context.Products.OrderByDescending(n=>n.CRUDDate).ToList();
             foreach (var item in lstAllProduct)
             {
                 var imageObj = _context.ProductImages.FirstOrDefault(i => i.ProductId == item.Id && i.Index == 1);
