@@ -16,6 +16,17 @@
             height: 00px;
             margin: -75px 0 0 -100px;
         }*/
+    .price-box_custom {
+        border-bottom-width: 1px;
+        font-size: 24px;
+        line-height: 1;
+        margin: 0 0 40px;
+        padding: 0 0 35px;
+    }
+
+    .product_info_custom {
+        font-size: 14px;
+    }
 </style>
 <div class="breadcrumb-box">
     <div class="container">
@@ -88,16 +99,31 @@
                         </div>
 
                         <div class="description">
-                            <p>Mã sản phẩm: @Model.Product.Code</p>
-                            <p>Xuất xứ: @Model.Product.Origin</p>
-                            <p>Màu sắc: @Model.Product.Color</p>
-                            <p>Chất liệu: @Model.Product.Stuff</p>
-                            <p>Kích thước: @Model.Product.Size</p>
+                            <p class="product_info_custom"><b>Mã sản phẩm:</b> @Model.Product.Code</p>
+                            <p class="product_info_custom"><b>Xuất xứ:</b> @Model.Product.Origin</p>
+                            <p class="product_info_custom"><b>Màu sắc:</b> @Model.Product.Color</p>
+                            <p class="product_info_custom"><b>Chất liệu:</b> @Model.Product.Stuff</p>
+                            <p class="product_info_custom"><b>Kích thước:</b> @Model.Product.Size</p>
+                            <p class="product_info_custom"><b>Loại sản phẩm:</b> @Model.Product.ProductTypeName - @Model.Product.ProductSubTypeName</p>
                         </div>
-
-                        <div class="price-box">
-                            <span class="price">Giá: @string.Format("{0:0,0}", Model.Product.Price) đồng</span>
-                        </div>
+                        @if (Model.Product.Price2 != 0)
+                        {
+                            <div class="price-box_custom">
+                                <span class="price">Giá: @string.Format("{0:0,0}", Model.Product.Price) - @string.Format("{0:0,0}", Model.Product.Price2) đ</span>
+                            </div>
+                        }
+                        else if (Model.Product.Price != 0)
+                        {
+                            <div class="price-box">
+                                <span class="price">Giá: @string.Format("{0:0,0}", Model.Product.Price) đ</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="price-box">
+                                <span class="price">Giá: @string.Format("{0:0,0}", Model.Product.Price2) đ</span>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="product-tab">

@@ -8,7 +8,7 @@ namespace VietPhuongAnFurniture.Models.Ulti
     {
         public ProductImage GImage { get; set; }
         public List<ProductImage> TImage { get; set; }
-        public Product Product { get; set; }
+        public ProductModel Product { get; set; }
         //public IEnumerable<ProductImageModel> ProductImage { get; set; }
         public IEnumerable<ProductImageModel> ProductImage { get; set; }
     }

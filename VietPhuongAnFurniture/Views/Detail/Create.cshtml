@@ -69,6 +69,17 @@
     .highlight {
         border: 1px solid red !important;
     }
+
+    .selectBox-options > li {
+    }
+
+    .form-control {
+        box-shadow: inset 0px 0px 0px 0px red;
+    }
+
+    .page-header .container:before {
+        background: none !important;
+    }
 </style>
 <div class="breadcrumb-box">
     <div class="container">
@@ -90,47 +101,87 @@
                 <br />
                 <div class="row">
                     <div class="  col-sm-12 col-md-12">
-                        <div class="alert alert-error fade in alert-warning alert-dismissable" style="display: none">
-                            <i class="fa fa-warning alert-icon"></i>
-                            Không được để trống tên sản phẩm.
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Tên sản phẩm: <span class="required">*</span></label>
+                                <input class="form-control" type="text" id="pName" placeholder="Tên sản phẩm" />
+                            </div>
                         </div>
-                        <label>Tên sản phẩm: <span class="required">*</span></label>
-                        <input class="form-control" type="text" id="pName" />
 
-                        <label>Mã sản phẩm:</label>
-                        <input class="form-control" type="text" id="pCode" />
-
-                        <label>Xuất xứ:</label>
-                        <input class="form-control" type="text" id="pOrigin" />
-
-                        <label>Màu sắc:</label>
-                        <input class="form-control" type="text" id="pColor" />
-
-                        <label>Chất liệu:</label>
-                        <input class="form-control" type="text" id="pStuff" />
-
-                        <label>Kích thước:</label>
-                        <input class="form-control" type="text" id="pSize" />
-
-                        <label>Giá: (VNĐ)</label>
-                        <input class="form-control" type="text" id="pPrice" />
-
-                        <label>Thông tin:</label>
-                        <input class="form-control value-description" type="hidden" id="pDes">
-                        <div class="value-content" hidden></div>
-                        <div class="html-editor">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Loại sản phẩm: </label>
+                                <div id="products-placeholder" class="form-control"></div>
+                            </div>
                         </div>
-                        <div id="file-uploader"></div>
-                        <div id="galleryContainer" style="width: 100%; height: 500px; display: none">
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Mã sản phẩm:</label>
+                                <input class="form-control" type="text" id="pCode" placeholder="Mã sản phẩm" />
+                            </div>
                         </div>
-                        <div class="checkbox">
-                            <label class="">
-                                <input type="checkbox" id="pBes"> Sản phẩm bán chạy?
-                            </label>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Xuất xứ:</label>
+                                <input class="form-control" type="text" id="pOrigin" placeholder="Xuất sứ" />
+                            </div>
                         </div>
-                        <div class="buttons-box clearfix">
-                            <button class="btn pull-left btn-primary" id="btnSubmit">Tạo sản phẩm</button>
-                            <button id="btnCancel" class="btn pull-left btn-danger btn-margin-left-10">Hủy</button>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Màu sắc:</label>
+                                <input class="form-control" type="text" id="pColor" placeholder="Màu sắc" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Chất liệu:</label>
+                                <input class="form-control" type="text" id="pStuff" placeholder="Chất liệu" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Kích thước:</label>
+                                <input class="form-control" type="text" id="pSize" placeholder="Kích thước" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label>Giá từ: (VNĐ)</label>
+                                <input class="form-control" type="text" id="pPriceFrom" style="width: 100%" placeholder="Từ" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Đến: (VNĐ)</label>
+                                <input class="form-control" type="text" id="pPriceTo" style="width: 100%" placeholder="Đến" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Thông tin:</label>
+                                <input class="form-control value-description" type="hidden" id="pDes">
+                                <div class="value-content" hidden></div>
+                                <div class="html-editor">
+                                </div>
+                                <div id="file-uploader"></div>
+                                <span class="note">Chỉ chấp nhận ảnh định dạng: <span>.jpg, .jpeg, .png</span>.</span>
+                                <div id="galleryContainer" style="width: 100%; height: 500px; display: none">
+                                </div>
+                                <div class="checkbox">
+                                    <label class="">
+                                        <input type="checkbox" id="pBes"> Sản phẩm bán chạy?
+                                    </label>
+                                </div>
+                                <div class="buttons-box clearfix">
+                                    <button class="btn pull-left btn-primary" id="btnSubmit">Tạo sản phẩm</button>
+                                    <button id="btnCancel" class="btn pull-left btn-danger btn-margin-left-10">Hủy</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -140,11 +191,54 @@
     </div>
 </section><!-- #main -->
 <script>
+    var productTypes = [];
     $(document).ready(function() {
-        $("#btnCancel").click(function() {
-            alert($(".value-content").text());
+        
+    });
+    // Combobox
+    var selectedProductType;
+    $(function(){
+        $("#products-placeholder").dxSelectBox({
+            dataSource: new DevExpress.data.DataSource({
+                store: getDataProductTypes(),
+                group: "ProductTypeName"
+            }),
+            grouped: true,
+            displayExpr: 'ProductSubTypeName',
+            valueExpr: 'ProductSubTypeId',
+            placeholder: "Chọn loại sản phẩm",
+            showClearButton: true,
+            searchEnabled: true,
+            searchExpr: ['ProductSubTypeName', 'ProductTypeName'],
+            onValueChanged: function(e) {
+                var item = e.component.option('selectedItem');
+                if (item) {
+                    selectedProductType = item.ProductTypeId + ";" + item.ProductSubTypeId;
+                } else {
+                    selectedProductType = "undefined";
+                }
+            }
         });
     });
+    function getDataProductTypes() {
+        var data = [];
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetProductTypes", "Detail")",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $.each(result,
+                    function (i, r) {
+                        data.push(r);
+                    });
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+        return data;
+    }
     // Html Code Editor
     $(function() {
         $(".html-editor").dxHtmlEditor({
@@ -196,6 +290,7 @@
             uploadMode: "useButtons",
             selectButtonText: "Chọn ảnh",
             labelText: "hoặc thả ảnh vào đây",
+            allowedFileExtensions: [".jpg", ".jpeg", ".png"],
             onValueChanged: function(e) {
                 var indexDefault = 1;
                 imgIndex = "";
@@ -203,7 +298,6 @@
                 imgFilesUploaded = [];
                 var files = e.value;
                 if (files.length > 0) {
-                    console.log('files: ', files);
                     $("#galleryContainer").css("display", "block");
                     $.each(files,
                         function (i, file) {
@@ -223,7 +317,6 @@
                         dataSource: []
                     });
                 }
-                console.log('imgIndex: ', imgIndex);
             },
             //onUploaded: function(e) {
             //    var file = e.file;
@@ -234,49 +327,104 @@
     // Submit
     $(function() {
         $("#btnSubmit").click(function(evt) {
-            evt.preventDefault();
-            var files = imgFilesUploaded;
-            var data = new FormData();
-            var name = $("#pName").val().trim();
-            if (name.length > 0) {
-                $(".alert").css("display", "none");
-                data.append('pName', name);
-                data.append('pCode', $("#pCode").val().trim().toUpperCase());
-                data.append('pOrigin', $("#pOrigin").val().trim());
-                data.append('pColor', $("#pColor").val().trim());
-                data.append('pStuff', $("#pStuff").val().trim());
-                data.append('pSize', $("#pSize").val().trim());
-                data.append('pPrice', $("#pPrice").val().trim().replace(/,/g, ""));
-                data.append('pDes', $("#pDes").val().trim());
-                var bestIsChecked = $('#pBes:checked');
-                data.append('pBes', bestIsChecked.length);
-                if (files.length > 0) {
-                    imgIndex = imgIndex.substring(0, imgIndex.length - 1);
-                    for (var i = 0; i < files.length; i++) {
-                        data.append('files', files[i]);
-                    }
+            //evt.preventDefault();
+            Swal.fire({
+                title: 'Bạn muốn tạo sản phẩm này?',
+                text: "Toàn bộ thông tin trên sẽ được lưu lại!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Có',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Không',
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                allowEscapeKey: false,
+                allowEnterKey: false
+            }).then((result) => {
+                if (result.value) {
+                    create();
                 }
-                data.append('imgIndex', imgIndex);
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("CreateProduct", "Detail")",
-                    contentType: false,
-                    processData: false,
-                    data: data,
-                    success: function(message) {
-                        alert(message);
-                    },
-                    error: function(e) {
-                        console.log(e);
-                    }
-                });
-            } else {
-                $(".alert").css("display", "block");
-            }
+            });
         });
     });
+    function create() {
+        var files = imgFilesUploaded;
+        var data = new FormData();
+        var name = $("#pName").val().trim();
+        if (name.length > 0) {
+            data.append('pName', name);
+            data.append('pCode', $("#pCode").val().trim().toUpperCase());
+            data.append('pOrigin', $("#pOrigin").val().trim());
+            data.append('pColor', $("#pColor").val().trim());
+            data.append('pStuff', $("#pStuff").val().trim());
+            data.append('pSize', $("#pSize").val().trim());
+            data.append('pPriceFrom', $("#pPriceFrom").val().trim().replace(/,/g, ""));
+            data.append('pPriceTo', $("#pPriceTo").val().trim().replace(/,/g, ""));
+            data.append('pDes', $("#pDes").val().trim());
+            var bestIsChecked = $('#pBes:checked');
+            data.append('pBes', bestIsChecked.length);
+            data.append('pType', selectedProductType);
+            if (files.length > 0) {
+                imgIndex = imgIndex.substring(0, imgIndex.length - 1);
+                for (var i = 0; i < files.length; i++) {
+                    if (files[i].name.includes('.')) {
+                        var extension = files[i].name.split(/[.]+/).pop().trim();
+                        if (extension == 'jpg' || extension == 'jpeg' || extension == 'png') {
+                            data.append('fileUploads', files[i]);
+                        }
+                    }
+                }
+            }
+            data.append('imgIndex', imgIndex);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CreateProduct", "Detail")",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function(message) {
+                    Swal.fire({
+                        title: 'Dữ liệu đã được lưu...',
+                        text: "Bạn muốn quay lại trang quản lý sản phẩm?",
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Có. Quay lại',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Không. Tiếp tục tạo sản phẩm',
+                        closeOnConfirm: false,
+                        showLoaderOnConfirm: true,
+                        allowEscapeKey: false,
+                        allowEnterKey: false
+                    }).then((result) => {
+                        if (result.value) {
+                            var host = window.location.origin + "/Detail";
+                            window.location = host;
+                        } else {
+                            window.location = window.location;
+                        }
+                    });
+                },
+                error: function(e) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Có lỗi xảy ra...',
+                        text: 'Không thể lưu dữ liệu. Vui lòng kiểm tra lại các trường.'
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                type: 'error',
+                title: 'Lỗi...',
+                text: 'Không được để trống tên sản phẩm!'
+            });
+        }
+    }
     // Format currency
-    $('#pPrice').simpleMoneyFormat();
+    $('#pPriceFrom').simpleMoneyFormat();
+    $('#pPriceTo').simpleMoneyFormat();
     // Validate ProductName
     $('#pName').on("focus", function () {
         if ($("#pName").val().length == 0) {
@@ -291,5 +439,27 @@
         } else {
             $('#pName').removeClass("highlight");
         }
+    });
+    $(function () {
+        $("#btnCancel").click(function () {
+            Swal.fire({
+                title: 'Bạn muốn hủy các thông tin đã thay đổi?',
+                text: "Tất cả thông tin bạn đã thay đổi ở trên sẽ trở lại như ban đầu!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Có',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Không',
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                allowEscapeKey: false,
+                allowEnterKey: false
+            }).then((result) => {
+                if (result.value) {
+                    window.location = window.location;
+                }
+            });
+        });
     });
 </script>

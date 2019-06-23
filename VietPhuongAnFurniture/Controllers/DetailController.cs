@@ -45,7 +45,23 @@ namespace VietPhuongAnFurniture.Controllers
         {
             var view = new ViewDetailModel();
             // Product Information
-            view.Product = _context.Products.FirstOrDefault(n => n.Id == id);
+            var product = _context.Products.FirstOrDefault(n => n.Id == id);
+            var productType = _context.ProductTypes.FirstOrDefault(n => n.Id == product.ProductTypeId);
+            var productSubType = _context.ProductSubTypes.FirstOrDefault(n => n.Id == product.ProductSubTypeId);
+            view.Product = new ProductModel()
+            {
+                Name = product.Name,
+                Code = product.Code,
+                Origin = product.Origin,
+                Color = product.Color,
+                Stuff = product.Stuff,
+                Size = product.Size,
+                Description = product.Description,
+                Price = product.Price,
+                Price2 = product.Price2,
+                ProductTypeName = productType?.Name ?? "",
+                ProductSubTypeName = productSubType?.Name ?? ""
+            };
             //if (view.Product != null)
             //{
             //    view.Product.View++;
@@ -133,10 +149,17 @@ namespace VietPhuongAnFurniture.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(string pName, string pCode, string pOrigin, string pColor, string pStuff, string pSize, string pPrice, string pDes, string pBes, List<IFormFile> files, string imgIndex)
+        public IActionResult CreateProduct(string pName, string pCode, string pOrigin, string pColor, string pStuff, string pSize, string pPriceFrom, string pPriceTo, string pDes, string pBes, string pType, List<IFormFile> fileUploads, string imgIndex)
         {
-
-            int price = int.TryParse(pPrice, out price) ? price : 0;
+            string productType = null;
+            string productSubType = null;
+            if (pType.Contains(';'))
+            {
+                productType = pType.Split(';')[0];
+                productSubType = pType.Split(';')[1];
+            }
+            double priceFrom = double.TryParse(pPriceFrom, out priceFrom) ? priceFrom : 0;
+            double priceTo = double.TryParse(pPriceTo, out priceTo) ? priceTo : 0;
             int b = int.TryParse(pBes, out b) ? b : 0;
             bool bestSell = Convert.ToBoolean(b);
             var product = new Product
@@ -147,223 +170,28 @@ namespace VietPhuongAnFurniture.Controllers
                 Color = pColor,
                 Stuff = pStuff,
                 Size = pSize,
-                Price = price,
+                Price = priceFrom,
+                Price2 = priceTo,
                 Description = pDes,
                 CRUDDate = DateTime.Now,
                 IsBestSelling = bestSell,
                 Status = true,
                 View = 1,
+                ProductTypeId = productType,
+                ProductSubTypeId = productSubType
             };
             try
             {
                 _context.Products.Add(product);
                 _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            var lstImg = new List<ProductImage>();
-            var folderName = product.Id;
-            var webRootPath = _hostingEnvironment.WebRootPath;
-            var tempPath = Path.Combine(webRootPath, _folderImages);
-            var finalPath = Path.Combine(tempPath, folderName);
-            Directory.CreateDirectory(finalPath);
-            if (files.Count > 0)
-            {
-                var indexArr = imgIndex.Split(',');
-                var lstPair = new List<CommonModel.KeyPairStr>();
-                foreach (var item in indexArr)
-                {
-                    var str = item.Split(';')[0];
-                    int num = int.TryParse(item.Split(';')[1] + "", out num) ? num : 0;
-                    if (num > 0)
-                    {
-                        if (lstPair.FirstOrDefault(n => n.Str == str) != null)
-                            str = str + num;
-                        lstPair.Add(new CommonModel.KeyPairStr() { Str = str, Num = num });
-                    }
-                }
-                var index = 1;
-                foreach (var file in files)
-                {
-                    var i = lstPair.FirstOrDefault(n => n.Str == file.FileName)?.Num ?? 0;
-                    var extension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')
-                        .Split('.');
-                    var fileExtension = extension[1];
-                    var fileName = extension[0] + "_" + Guid.NewGuid() + "." + fileExtension;
-                    var fullPath = Path.Combine(finalPath, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    lstImg.Add(new ProductImage
-                    {
-                        ImageName = fileName,
-                        Path = "~/" + _folderImages + "/" + folderName + "/" + fileName,
-                        Extension = fileExtension,
-                        ProductId = product.Id,
-                        CRUDDate = DateTime.Now,
-                        Index = i
-                    });
-                    index++;
-                }
-            }
-            if (lstImg.Count > 0)
-            {
-                try
-                {
-                    _context.ProductImages.AddRange(lstImg);
-                    _context.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-            }
-            return RedirectToAction("Files");
-        }
-
-        // GET: Detail/Edit/5
-        public IActionResult Edit(string id)
-        {
-            var view = new ViewDetailModel();
-            view.Product = _context.Products.FirstOrDefault(n => n.Id == id);
-            view.ProductImage = _context.ProductImages.Where(n => n.ProductId == id)
-                .Select(n => new ProductImageModel
-                {
-                    Id = n.Id,
-                    ImageName = n.ImageName,
-                    Extension = n.Extension,
-                    Path = n.Path,
-                    ProductId = n.ProductId,
-                    Index = n.Index,
-                    //Base64 = ConvertImageToBase64(n.Path)
-                }).OrderBy(o => o.Index).ToList();
-
-            return View(view);
-        }
-
-        private string ConvertImageToBase64(string path)
-        {
-            path = path.Replace('/', '\\');
-            var webRootPath = _hostingEnvironment.WebRootPath;
-            var imagePath = Path.Combine(webRootPath, path);
-            byte[] imageArray = System.IO.File.ReadAllBytes(imagePath);
-            return Convert.ToBase64String(imageArray);
-        }
-
-        // POST: Detail/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Code,Origin,Color,Stuff,Size,Price,Status,IsBestSelling,View,Description,CRUDDate,Id")] Product product)
-        {
-            if (id != product.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(product);
-        }
-
-        [HttpPost]
-        public IActionResult EditProduct(string productId, string pName, string pCode, string pOrigin, string pColor, string pStuff, string pSize, string pPrice, string pDes, string pBes, List<IFormFile> fileUploads, List<string> fileDeletes, string imgIndex, string imgOrders)
-        {
-            var product = _context.Products.FirstOrDefault(n => n.Id == productId);
-            var lstImg = new List<ProductImage>();
-            if (product != null)
-            {
-                int price = int.TryParse(pPrice, out price) ? price : 0;
-                int b = int.TryParse(pBes, out b) ? b : 0;
-                bool bestSell = Convert.ToBoolean(b);
-                // Update Product
-                product.Name = pName;
-                product.Code = pCode;
-                product.Origin = pOrigin;
-                product.Code = pCode;
-                product.Stuff = pStuff;
-                product.Size = pSize;
-                product.Price = price;
-                product.Description = pDes;
-                product.IsBestSelling = bestSell;
-                _context.SaveChanges();
-                // Update order image
-                var orderArr = imgOrders.Split(',');
-                var orderLst = new List<CommonModel.KeyPairStr>();
-                orderLst = orderArr.Select(n => new CommonModel.KeyPairStr
-                {
-                    Num = ParseInt32(n.Split(';')[0]),
-                    Str = n.Split(';')[1],
-                }).ToList();
-                var lstImgOrder = _context.ProductImages.Where(n => n.ProductId == product.Id).ToList();
-                lstImgOrder = lstImgOrder.Select(c =>
-                {
-                    var num = orderLst.FirstOrDefault(n => n.Str == c.Id)?.Num ?? 0;
-                    c.Index = num;
-                    return c;
-                }).ToList();
-                _context.SaveChanges();
-                // Delete image
-                if (fileDeletes.Count > 0)
-                {
-                    var lstImgRemove = new List<ProductImage>();
-                    foreach (var idImgDelete in fileDeletes)
-                    {
-                        var imgDeleteObj = _context.ProductImages.FirstOrDefault(n => n.Id == idImgDelete);
-                        if (imgDeleteObj != null)
-                        {
-                            DeleteFile(imgDeleteObj.Path, "img");
-                            lstImgRemove.Add(imgDeleteObj);
-
-                        }
-                    }
-                    _context.ProductImages.RemoveRange(lstImgRemove);
-                    _context.SaveChanges();
-                    // Order image
-                    var lstImgAvailable = _context.ProductImages.Where(p => p.ProductId == product.Id).OrderBy(o => o.Index).ToList();
-                    var indexUpdate = 1;
-                    lstImgAvailable = lstImgAvailable.Select(c =>
-                    {
-                        c.Index = indexUpdate;
-                        indexUpdate++;
-                        return c;
-                    }).ToList();
-                    _context.SaveChanges();
-                }
-                // Add image
-                //Directory.CreateDirectory(finalPath);
+                var lstImg = new List<ProductImage>();
+                var folderName = product.Id;
+                var webRootPath = _hostingEnvironment.WebRootPath;
+                var tempPath = Path.Combine(webRootPath, _folderImages);
+                var finalPath = Path.Combine(tempPath, folderName);
+                Directory.CreateDirectory(finalPath);
                 if (fileUploads.Count > 0)
                 {
-                    // Get root path
-                    var folderName = product.Id;
-                    var webRootPath = _hostingEnvironment.WebRootPath;
-                    var tempPath = Path.Combine(webRootPath, _folderImages);
-                    var finalPath = Path.Combine(tempPath, folderName);
-                    // Handle index image
                     var indexArr = imgIndex.Split(',');
                     var lstPair = new List<CommonModel.KeyPairStr>();
                     foreach (var item in indexArr)
@@ -377,11 +205,10 @@ namespace VietPhuongAnFurniture.Controllers
                             lstPair.Add(new CommonModel.KeyPairStr() { Str = str, Num = num });
                         }
                     }
-                    // Number image available in project
-                    var imgCount = lstImgOrder.Count();
+                    var index = 1;
                     foreach (var file in fileUploads)
                     {
-                        var i = (lstPair.FirstOrDefault(n => n.Str == file.FileName)?.Num ?? 0) + imgCount;
+                        var i = lstPair.FirstOrDefault(n => n.Str == file.FileName)?.Num ?? 0;
                         var extension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')
                             .Split('.');
                         var fileExtension = extension[1];
@@ -400,23 +227,242 @@ namespace VietPhuongAnFurniture.Controllers
                             CRUDDate = DateTime.Now,
                             Index = i
                         });
+                        index++;
+                    }
+                    if (lstImg.Count > 0)
+                    {
+                        try
+                        {
+                            _context.ProductImages.AddRange(lstImg);
+                            _context.SaveChanges();
+                            Response.StatusCode = (int)HttpStatusCode.OK;
+                            return Json("save_success");
+                        }
+                        catch (Exception)
+                        {
+                            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            return Json("save_error");
+                        }
                     }
                 }
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json("save_success");
             }
-            if (lstImg.Count > 0)
+            catch (Exception)
             {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json("save_error");
+            }
+        }
+
+        // GET: Detail/Edit/5
+        public IActionResult Edit(string id)
+        {
+            var view = new ViewDetailModel();
+            var product = _context.Products.FirstOrDefault(n => n.Id == id);
+            if (product != null)
+            {
+                var productType = _context.ProductTypes.FirstOrDefault(n => n.Id == 
+                    product.ProductTypeId)?.Name ?? "";
+                var productSubType = _context.ProductSubTypes.FirstOrDefault(n => n.Id ==
+                    product.ProductSubTypeId)?.Name ?? "";
+                view.Product = new ProductModel()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Code = product.Code,
+                    Origin = product.Origin,
+                    Color = product.Color,
+                    Stuff = product.Stuff,
+                    Size = product.Size,
+                    Price = product.Price,
+                    Price2 = product.Price2,
+                    IsBestSelling = product.IsBestSelling,
+                    Description = product.Description,
+                    ProductTypeId = product.ProductTypeId,
+                    ProductTypeName = productType,
+                    ProductSubTypeId = product.ProductSubTypeId,
+                    ProductSubTypeName = productSubType
+                };
+                view.ProductImage = _context.ProductImages.Where(n => n.ProductId == id)
+                    .Select(n => new ProductImageModel
+                    {
+                        Id = n.Id,
+                        ImageName = n.ImageName,
+                        Extension = n.Extension,
+                        Path = n.Path,
+                        ProductId = n.ProductId,
+                        Index = n.Index,
+                        //Base64 = ConvertImageToBase64(n.Path)
+                    }).OrderBy(o => o.Index).ToList();
+            }
+            return View(view);
+        }
+
+        private string ConvertImageToBase64(string path)
+        {
+            path = path.Replace('/', '\\');
+            var webRootPath = _hostingEnvironment.WebRootPath;
+            var imagePath = Path.Combine(webRootPath, path);
+            byte[] imageArray = System.IO.File.ReadAllBytes(imagePath);
+            return Convert.ToBase64String(imageArray);
+        }
+
+        // POST: Detail/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public IActionResult EditProduct(string productId, string pName, string pCode, string pOrigin, string pColor, string pStuff, string pSize, string pPriceFrom, string pPriceTo, string pDes, string pBes, string pType, List<IFormFile> fileUploads, List<string> fileDeletes, string imgIndex, string imgOrders)
+        {
+            var product = _context.Products.FirstOrDefault(n => n.Id == productId);
+            var lstImg = new List<ProductImage>();
+            if (product != null)
+            {
+                string productType = null;
+                string productSubType = null;
+                if (pType.Contains(';'))
+                {
+                    productType = pType.Split(';')[0];
+                    productSubType = pType.Split(';')[1];
+                }
+                double priceFrom = double.TryParse(pPriceFrom, out priceFrom) ? priceFrom : 0;
+                double priceTo = double.TryParse(pPriceTo, out priceTo) ? priceTo : 0;
+                int b = int.TryParse(pBes, out b) ? b : 0;
+                bool bestSell = Convert.ToBoolean(b);
                 try
                 {
-                    _context.ProductImages.AddRange(lstImg);
+                    // Update Product
+                    product.Name = pName;
+                    product.Code = pCode;
+                    product.Origin = pOrigin;
+                    product.Code = pCode;
+                    product.Stuff = pStuff;
+                    product.Size = pSize;
+                    product.Price = priceFrom;
+                    product.Price2 = priceTo;
+                    product.Description = pDes;
+                    product.IsBestSelling = bestSell;
+                    product.ProductTypeId = productType;
+                    product.ProductSubTypeId = productSubType;
+                    //_context.SaveChanges();
+                    // Update order image
+                    var orderArr = imgOrders.Split(',');
+                    var orderLst = new List<CommonModel.KeyPairStr>();
+                    orderLst = orderArr.Select(n => new CommonModel.KeyPairStr
+                    {
+                        Num = ParseInt32(n.Split(';')[0]),
+                        Str = n.Split(';')[1],
+                    }).ToList();
+                    var lstImgOrder = _context.ProductImages.Where(n => n.ProductId == product.Id).ToList();
+                    lstImgOrder = lstImgOrder.Select(c =>
+                    {
+                        var num = orderLst.FirstOrDefault(n => n.Str == c.Id)?.Num ?? 0;
+                        c.Index = num;
+                        return c;
+                    }).ToList();
                     _context.SaveChanges();
+                    // Delete image
+                    if (fileDeletes.Count > 0)
+                    {
+                        var lstImgRemove = new List<ProductImage>();
+                        foreach (var idImgDelete in fileDeletes)
+                        {
+                            var imgDeleteObj = _context.ProductImages.FirstOrDefault(n => n.Id == idImgDelete);
+                            if (imgDeleteObj != null)
+                            {
+                                DeleteFile(imgDeleteObj.Path, "img");
+                                lstImgRemove.Add(imgDeleteObj);
+
+                            }
+                        }
+                        _context.ProductImages.RemoveRange(lstImgRemove);
+                        _context.SaveChanges();
+                        // Order image
+                        var lstImgAvailable = _context.ProductImages.Where(p => p.ProductId == product.Id).OrderBy(o => o.Index).ToList();
+                        var indexUpdate = 1;
+                        lstImgAvailable = lstImgAvailable.Select(c =>
+                        {
+                            c.Index = indexUpdate;
+                            indexUpdate++;
+                            return c;
+                        }).ToList();
+                        _context.SaveChanges();
+                    }
+                    // Add image
+                    //Directory.CreateDirectory(finalPath);
+                    if (fileUploads.Count > 0)
+                    {
+                        // Get root path
+                        var folderName = product.Id;
+                        var webRootPath = _hostingEnvironment.WebRootPath;
+                        var tempPath = Path.Combine(webRootPath, _folderImages);
+                        var finalPath = Path.Combine(tempPath, folderName);
+                        // Handle index image
+                        var indexArr = imgIndex.Split(',');
+                        var lstPair = new List<CommonModel.KeyPairStr>();
+                        foreach (var item in indexArr)
+                        {
+                            var str = item.Split(';')[0];
+                            int num = int.TryParse(item.Split(';')[1] + "", out num) ? num : 0;
+                            if (num > 0)
+                            {
+                                if (lstPair.FirstOrDefault(n => n.Str == str) != null)
+                                    str = str + num;
+                                lstPair.Add(new CommonModel.KeyPairStr() { Str = str, Num = num });
+                            }
+                        }
+                        // Number image available in project
+                        var imgCount = lstImgOrder.Count();
+                        foreach (var file in fileUploads)
+                        {
+                            var i = (lstPair.FirstOrDefault(n => n.Str == file.FileName)?.Num ?? 0) + imgCount;
+                            var extension = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')
+                                .Split('.');
+                            var fileExtension = extension[1];
+                            var fileName = extension[0] + "_" + Guid.NewGuid() + "." + fileExtension;
+                            var fullPath = Path.Combine(finalPath, fileName);
+                            using (var stream = new FileStream(fullPath, FileMode.Create))
+                            {
+                                file.CopyTo(stream);
+                            }
+                            lstImg.Add(new ProductImage
+                            {
+                                ImageName = fileName,
+                                Path = "~/" + _folderImages + "/" + folderName + "/" + fileName,
+                                Extension = fileExtension,
+                                ProductId = product.Id,
+                                CRUDDate = DateTime.Now,
+                                Index = i
+                            });
+                        }
+                    }
+                    if (lstImg.Count > 0)
+                    {
+                        try
+                        {
+                            _context.ProductImages.AddRange(lstImg);
+                            _context.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            throw;
+                        }
+                    }
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json("save_success");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine(e);
-                    throw;
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return Json("save_error");
                 }
             }
-            return RedirectToAction("Success");
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return Json("product_not_found");
+            }
         }
 
         // GET: Detail/Delete/5
@@ -466,6 +512,29 @@ namespace VietPhuongAnFurniture.Controllers
                 _context.SaveChanges();
             }
             return Json("delete success");
+        }
+
+        public JsonResult GetProductSubType(string productSubTypeId)
+        {
+            var p = _context.ProductSubTypes.FirstOrDefault(n => n.Id == productSubTypeId)?.Name ?? "";
+            return Json(p);
+        }
+
+        public JsonResult GetProductTypes()
+        {
+            var productTypes = _context.ProductTypes;
+            var data = _context.ProductSubTypes.Select(n => new ProductTypeModel()
+            {
+                ProductTypeId = n.ProductTypeId,
+                ProductTypeName = "",
+                ProductSubTypeId = n.Id,
+                ProductSubTypeName = n.Name
+            }).ToList();
+            foreach (var item in data)
+            {
+                item.ProductTypeName = productTypes.FirstOrDefault(n => n.Id == item.ProductTypeId)?.Name ?? "";
+            }
+            return Json(data);
         }
 
         private bool ProductExists(string id)
