@@ -188,6 +188,22 @@ namespace VietPhuongAnFurniture.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("VietPhuongAnFurniture.Models.Banner", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CRUDDate");
+
+                    b.Property<string>("Content");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Banners");
+                });
+
             modelBuilder.Entity("VietPhuongAnFurniture.Models.Product", b =>
                 {
                     b.Property<string>("Id")
@@ -213,6 +229,8 @@ namespace VietPhuongAnFurniture.Migrations
                         .HasMaxLength(100);
 
                     b.Property<double>("Price");
+
+                    b.Property<double>("Price2");
 
                     b.Property<string>("ProductSubTypeId");
 
