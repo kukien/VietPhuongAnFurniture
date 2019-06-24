@@ -27,6 +27,12 @@
     .product_info_custom {
         font-size: 14px;
     }
+    #gallery-1 {
+        width: 100%;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
 </style>
 <div class="breadcrumb-box">
     <div class="container">
@@ -51,35 +57,18 @@
         <div class="row">
             <article class="content product-page col-sm-12 col-md-12">
                 <div class="row">
-                    <dmainiv class="col-sm-5 col-md-5">
-                        <div class="image-box">
-                            <span class="sale top"></span>
-                            <div class="general-img">
-                                <img alt="" src="@Url.Content(@Model.GImage.Path)" data-zoom-image="@Url.Content(@Model.GImage.Path)" style="width: 100%; height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="thumblist-box load">
-                                <a href="#" class="prev">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="9px" height="16px" viewBox="0 0 9 16" enable-background="new 0 0 9 16" xml:space="preserve">
-                                    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fcfcfc" points="8,15.999 9,14.999 2,8 9,1.001 8,0.001 0,8 "></polygon></svg>
-                                </a>
-                                <a href="#" class="next">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="9px" height="16px" viewBox="0 0 9 16" enable-background="new 0 0 9 16" xml:space="preserve">
-                                    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fcfcfc" points="1,0.001 0,1.001 7,8 0,14.999 1,15.999 9,8 "></polygon></svg>
-                                </a>
-                                <div id="thumblist" class="thumblist">
-                                    @for (int i = 0; i < Model.TImage.Count; i = i + 1)
-                                    {
-                                        @*<div class="crop">*@
-                                            <a data-image="@Url.Content(Model.TImage[i].Path)" data-zoom-image="@Url.Content(Model.TImage[i].Path)" >
-                                                <img alt="" src="@Url.Content(Model.TImage[i].Path)" width="700" height="700">
-                                            </a>
-                                        @*</div>*@
+                    <div class="col-sm-5 col-md-5">
+                        <div id="gallery-1" class="royalSlider rsDefault">
+                            @for (int i = 0; i < Model.TImage.Count; i = i + 1)
+                            {
+                                @*<a data-rsbigimg="@Url.Content(Model.TImage[i].Path)">
+            </a>*@
 
-                                    }
-                                </div>
-                            </div>
+                                @*<a class="rsImg bugaga" data-rsw="400" data-rsh="500" data-rsbigimg="@Url.Content(Model.TImage[i].Path)"><img width="96" height="72" class="rsTmb" src="@Url.Content(Model.TImage[i].Path)"></a>*@
+                                <a class="rsImg bugaga" data-rsbigimg="@Url.Content(Model.TImage[i].Path)" href="@Url.Content(Model.TImage[i].Path)">Vincent van Gogh - Still Life: Vase with Twelve Sunflowers<img width="96" height="72" class="rsTmb" src="@Url.Content(Model.TImage[i].Path)"></a>
+                            }
                         </div>
-                    </dmainiv>
+                    </div>
                     <div class="col-sm-7 col-md-7">
                         <div class="reviews-box">
                             <div class="rating-box">
@@ -150,4 +139,33 @@
 
     // Append the parsed HTML
     $log.append(html);
+
+    jQuery(document).ready(function ($) {
+        $('#gallery-1').royalSlider({
+            fullscreen: {
+                enabled: true,
+                nativeFS: true
+            },
+            controlNavigation: 'thumbnails',
+            autoScaleSlider: true,
+            autoScaleSliderWidth: 960,
+            autoScaleSliderHeight: 850,
+            loop: false,
+            imageScaleMode: 'fit-if-smaller',
+            navigateByClick: true,
+            numImagesToPreload: 2,
+            arrowsNav: true,
+            arrowsNavAutoHide: true,
+            arrowsNavHideOnTouch: true,
+            keyboardNavEnabled: true,
+            fadeinLoadedSlide: true,
+            globalCaption: false,
+            globalCaptionInside: false,
+            thumbs: {
+                appendSpan: true,
+                firstMargin: true,
+                paddingBottom: 4
+            }
+        });
+    });
 </script>

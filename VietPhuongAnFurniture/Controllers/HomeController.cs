@@ -33,46 +33,55 @@ namespace VietPhuongAnFurniture.Controllers
         public IActionResult Index(string stuff, string subType, string productType, string price, string search,string priceFrom, string priceTo)
         {
             var viewModel = new ViewModel();
-            var lstAllProduct = _context.Products.OrderByDescending(n=>n.CRUDDate).ToList();
-            foreach (var item in lstAllProduct)
+
+            try
             {
-                var imageObj = _context.ProductImages.FirstOrDefault(i => i.ProductId == item.Id && i.Index == 1);
-                if (imageObj == null)
+                var lstAllProduct = _context.Products.OrderByDescending(n => n.CRUDDate).ToList();
+                foreach (var item in lstAllProduct)
                 {
-                    imageObj = new ProductImage
+                    var imageObj = _context.ProductImages.FirstOrDefault(i => i.ProductId == item.Id && i.Index == 1);
+                    if (imageObj == null)
                     {
-                        Path = "img/content/product-04.jpg",
-                    };
+                        imageObj = new ProductImage
+                        {
+                            Path = "img/content/product-04.jpg",
+                        };
+                    }
+                    item.GImage = imageObj;
+
                 }
-                item.GImage = imageObj;
+                double priceFromNumb = 0;
+                double priceToNumb = 0;
 
+                var priceFromCheck = double.TryParse(priceFrom, out priceFromNumb);
+                var priceToCheck = double.TryParse(priceTo, out priceToNumb);
+
+                var filter = new FilterObj
+                {
+                    Stuff = stuff,
+                    Subtype = subType,
+                    ProductType = productType,
+                    Price = price,
+                    Search = search,
+                    PriceFrom = priceFromNumb,
+                    PriceTo = priceToNumb,
+                };
+                viewModel.allProducts = GetLstProduct(filter, lstAllProduct);
+                viewModel.allBanners = lstAllProduct.Where(n => n.IsBestSelling == true).Take(10).ToList();
+                viewModel.allProductTypes = _context.ProductTypes.ToList();
+                viewModel.allProductTypes = _context.ProductTypes.ToList();
+                viewModel.allSpecial = lstAllProduct.Take(5).ToList();
+                viewModel.allProductSubTypes = _context.ProductSubTypes.ToList();
+                viewModel.allStuff = _context.Products.GroupBy(n => n.Stuff).Select(n => n.Key).ToList();
+                viewModel.BannerObj = _context.Banners.FirstOrDefault();
+
+                return View(viewModel);
             }
-            double priceFromNumb =  0;
-            double priceToNumb =  0;
-
-            var priceFromCheck = double.TryParse(priceFrom, out priceFromNumb);
-            var priceToCheck = double.TryParse(priceTo, out priceToNumb);
-
-            var filter = new FilterObj
+            catch(Exception ex)
             {
-                Stuff = stuff,
-                Subtype = subType,
-                ProductType = productType,
-                Price = price,
-                Search = search,
-                PriceFrom = priceFromNumb,
-                PriceTo = priceToNumb,
-            };
-            viewModel.allProducts = GetLstProduct(filter, lstAllProduct);
-            viewModel.allBanners = lstAllProduct.Where(n=>n.IsBestSelling == true).Take(10).ToList();
-            viewModel.allProductTypes = _context.ProductTypes.ToList();
-            viewModel.allProductTypes = _context.ProductTypes.ToList();
-            viewModel.allSpecial = lstAllProduct.Take(5).ToList();
-            viewModel.allProductSubTypes = _context.ProductSubTypes.ToList();
-            viewModel.allStuff = _context.Products.GroupBy(n => n.Stuff).Select(n => n.Key).ToList();
-            viewModel.BannerObj = _context.Banners.FirstOrDefault();
-
-            return View(viewModel);
+                throw ex;
+            }
+            
         }
         public IActionResult Contact()
         {
