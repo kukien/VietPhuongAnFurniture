@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using VietPhuongAnFurniture.Data;
 using VietPhuongAnFurniture.Models;
 using VietPhuongAnFurniture.Models.Ulti;
+using VietPhuongAnFurniture.Util;
 
 namespace VietPhuongAnFurniture.Controllers
 {
@@ -481,6 +482,45 @@ namespace VietPhuongAnFurniture.Controllers
             }
 
             return View(product);
+        }
+
+        public IActionResult About()
+        {
+            var aboutObj = _context.Abouts.FirstOrDefault();
+            if (aboutObj == null)
+            {
+                aboutObj = new About();
+                aboutObj.Content = "Thử cái";
+            }
+            return View(aboutObj);
+        }
+
+        public ApiResponseBase AboutEdit([FromBody]string content)
+        {
+            var respone = new ApiResponseBase();
+            try
+            {
+                var aboutObj = _context.Abouts.FirstOrDefault();
+                if (aboutObj == null)
+                {
+                    aboutObj = new About();
+                    aboutObj.Content = content;
+                    _context.Abouts.Add(aboutObj);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    aboutObj.Content = content;
+                    _context.SaveChanges();
+                }
+                respone.MakeTrue("Cập nhật thành công");
+
+            }
+            catch (Exception ex)
+            {
+                respone.MakeException(ex);
+            }
+            return respone;
         }
 
         // POST: Detail/Delete/5

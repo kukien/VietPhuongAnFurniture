@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "Admin - Giới thiệu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumb-box">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="active">Chỉnh sửa bài giới thiệu</li>
+        </ul>
+    </div>
+</div><!-- .breadcrumb-box -->
+
+<section id="main">
+    <div class="container">
+        <div class="row">
+            <article class="content pull-right col-sm-9 col-md-9">
+                <header class="page-header">
+                    <div class="container">
+                        <h5 class="title ">Giới thiệu</h5>
+                    </div>
+                </header>
+                <br />
+                <div class="row">
+                    <div class="demo-container" style="margin-bottom:10px">
+                        <input class="form-control value-description" type="hidden" id="pDes">
+                        <div class="html-editor">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 col-md-2 pull-right">
+                        <button id="btnCancel" class="btn pull-left btn-danger" style="width:100%">Hủy</button>
+                    </div>
+                    <div class="col-sm-4 col-md-3 pull-right">
+                        <button class="btn pull-left btn-primary" id="btnSubmit" style="width:100%" onclick="SaveBtn()">Lưu thông tin </button>
+                    </div>
+                </div>
+            </article><!-- .content -->
+            <partial name="_LeftSidebar" />
+        </div>
+    </div>
+    <p id="desHide" style="display: none">@Model.Content</p>
+    <script type="text/javascript">
+        var editorInstance;
+        $(function () {
+            var popupInstance;
+            editorInstance = $(".html-editor").dxHtmlEditor({
+                height: 600,
+                toolbar: {
+                    items: [
+                        "undo", "redo", "separator",
+                        {
+                            formatName: "size",
+                            formatValues: ["8pt", "10pt", "12pt", "14pt", "18pt", "24pt", "36pt"]
+                        },
+                        {
+                            formatName: "font",
+                            formatValues: [
+                                "Arial", "Courier New", "Georgia", "Impact", "Lucida Console", "Tahoma", "Times New Roman",
+                                "Verdana"
+                            ]
+                        },
+                        "separator", "bold", "italic", "strike", "underline", "separator",
+                        "alignLeft", "alignCenter", "alignRight", "alignJustify", "separator",
+                        {
+                            formatName: "header",
+                            formatValues: [false, 1, 2, 3, 4, 5]
+                        }, "separator",
+                        "orderedList", "bulletList", "separator",
+                        "color", "background", "separator",
+                        "link", "image", "separator",
+                        "clear", "codeBlock", "blockquote",
+                        {
+                            widget: "dxButton",
+                            options: {
+                                text: "Show markup",
+                                stylingMode: "text",
+                                onClick: function () {
+                                    popupInstance.show();
+                                }
+                            }
+                        }
+                    ]
+                },
+                mediaResizing: {
+                    enabled: true
+                },
+                onValueChanged: function (e) {
+                    $(".value-content").text(e.component.option("value"));
+                    $(".value-description").val($(".value-content").text());
+                }
+            }).dxHtmlEditor("instance");
+            //popupInstance = $("#popup").dxPopup({
+            //    showTitle: true,
+            //    title: "Markup",
+            //    onShowing: function () {
+            //        $(".value-content").text(editorInstance.option("value"));
+            //    }
+            //}).dxPopup("instance");
+        });
+        $(".html-editor").html($("#desHide").text());
+
+        $(function () {
+            $("#btnSubmit").click(function () {
+                Swal.fire({
+                    title: 'Bạn muốn cập nhật sản phẩm này?',
+                    text: "Toàn bộ thông tin trên sẽ được lưu lại!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Có',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Không',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    allowEscapeKey: false,
+                    allowEnterKey: false
+                }).then((result) => {
+                    if (result.value) {
+                        SaveData();
+                    }
+                });
+            });
+
+            $("#btnCancel").click(function () {
+                Swal.fire({
+                    title: 'Bạn muốn hủy các thông tin đã thay đổi?',
+                    text: "Tất cả thông tin bạn đã thay đổi ở trên sẽ trở lại như ban đầu!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Có',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Không',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    allowEscapeKey: false,
+                    allowEnterKey: false
+                }).then((result) => {
+                    if (result.value) {
+                        window.location = window.location;
+                    }
+                });
+            });
+        });
+
+        function SaveData() {
+            var content = editorInstance.option("value");
+            console.log(content);
+            //var editObj = {
+            //    content: content,
+            //}
+            APIPost('/Detail/AboutEdit', content);
+            
+        }
+    </script>
+</section>

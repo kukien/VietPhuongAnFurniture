@@ -178,7 +178,7 @@ namespace VietPhuongAnFurniture.Controllers
             {
                 var bannerObj = _context.Banners.FirstOrDefault();
                 var webRootPath = _hostingEnvironment.WebRootPath;
-                var tempPath = Path.Combine(webRootPath, "img\\content");
+                var tempPath = Path.Combine(webRootPath, @"img/content");
                 var imageURl = bannerObj?.ImageUrl??"";
                 if (file != null)
                 {
@@ -213,8 +213,7 @@ namespace VietPhuongAnFurniture.Controllers
             }
             catch (Exception ex)
             {
-                result.MakeException("Đã có lỗi xảy ra vui lòng thử lại");
-
+                result.MakeException("Đã có lỗi xảy ra vui lòng thử lại" + ex.Message);
             }
             return result;
             //return await DxGridHelper.HandleEdit<ProductType>(_context, reqPath, true);

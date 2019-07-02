@@ -89,7 +89,13 @@ namespace VietPhuongAnFurniture.Controllers
         }
         public IActionResult AboutUs()
         {
-            return View();
+            var aboutObj = _context.Abouts.FirstOrDefault();
+            if (aboutObj== null)
+            {
+                aboutObj = new About();
+                aboutObj.Content = "Thử phát";
+            }
+            return View(aboutObj);
         }
         public void CreateRole()
         {
