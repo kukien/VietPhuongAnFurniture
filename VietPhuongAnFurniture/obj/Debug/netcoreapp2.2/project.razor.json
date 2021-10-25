@@ -1,0 +1,215 @@
+{
+  "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\VietPhuongAnFurniture.csproj",
+  "Configuration": {
+    "ConfigurationName": "MVC-2.1",
+    "LanguageVersion": "2.1",
+    "Extensions": [
+      {
+        "ExtensionName": "MVC-2.1"
+      }
+    ]
+  },
+  "ProjectWorkspaceState": {
+    "TagHelpers": [],
+    "CSharpLanguageVersion": 703
+  },
+  "RootNamespace": "VietPhuongAnFurniture",
+  "Documents": [
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\_ViewImports.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Home\\Banner.cshtml",
+      "TargetPath": "Views\\Home\\Banner.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\Manage\\_ViewImports.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\Manage\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\_ViewImports.cshtml",
+      "TargetPath": "Views\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\_ValidationScriptsPartial.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\_ValidationScriptsPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\Login.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\BannerEdit.cshtml",
+      "TargetPath": "Views\\Detail\\BannerEdit.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Home\\Categories.cshtml",
+      "TargetPath": "Views\\Home\\Categories.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\Logout.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\Logout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Home\\AboutUs.cshtml",
+      "TargetPath": "Views\\Home\\AboutUs.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\Index.cshtml",
+      "TargetPath": "Views\\Detail\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\Delete.cshtml",
+      "TargetPath": "Views\\Detail\\Delete.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\ProductType.cshtml",
+      "TargetPath": "Views\\Detail\\ProductType.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\ForgotPassword.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\ForgotPassword.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Shared\\_ManagerMenu.cshtml",
+      "TargetPath": "Views\\Shared\\_ManagerMenu.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\Register.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Home\\Special.cshtml",
+      "TargetPath": "Views\\Home\\Special.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\_ViewImports.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Shared\\_ManageNavLayout.cshtml",
+      "TargetPath": "Views\\Shared\\_ManageNavLayout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Shared\\_LoginPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_LoginPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\Manage\\_ManageNav.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\Manage\\_ManageNav.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\ResetPasswordConfirmation.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\ResetPasswordConfirmation.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\ProductSubType.cshtml",
+      "TargetPath": "Views\\Detail\\ProductSubType.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Areas\\Identity\\Pages\\Account\\ResetPassword.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\ResetPassword.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Home\\Index.cshtml",
+      "TargetPath": "Views\\Home\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Home\\Contact.cshtml",
+      "TargetPath": "Views\\Home\\Contact.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Shared\\Error.cshtml",
+      "TargetPath": "Views\\Shared\\Error.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\_ViewStart.cshtml",
+      "TargetPath": "Views\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Shared\\_CookieConsentPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_CookieConsentPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\Details.cshtml",
+      "TargetPath": "Views\\Detail\\Details.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\About.cshtml",
+      "TargetPath": "Views\\Detail\\About.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Shared\\_LeftSidebar.cshtml",
+      "TargetPath": "Views\\Shared\\_LeftSidebar.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Shared\\_Layout.cshtml",
+      "TargetPath": "Views\\Shared\\_Layout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Home\\Privacy.cshtml",
+      "TargetPath": "Views\\Home\\Privacy.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\Edit.cshtml",
+      "TargetPath": "Views\\Detail\\Edit.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\Free\\VietPhuongAn\\clone\\VietPhuongAnFurniture\\VietPhuongAnFurniture\\Views\\Detail\\Create.cshtml",
+      "TargetPath": "Views\\Detail\\Create.cshtml",
+      "FileKind": "mvc"
+    }
+  ],
+  "SerializationFormat": "0.2"
+}
